@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html lang="de">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>MovieSwipe</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      :root {
+        --netflix-red: #ff4d4d;
+        --netflix-black: #141414;
+        --netflix-dark-gray: #181818;
+        --netflix-light-gray: #b3b3b3;
+        --netflix-white: #f5f5f1;
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Roboto", sans-serif;
+      }
+
+      body {
+        background-color: var(--netflix-black);
+        color: var(--netflix-white);
+        overflow: hidden;
+        height: 100vh;
+        width: 100vw;
+        position: relative;
+      }
+
+      .app-container {
+        display: flex;
+        flex-direction: column;
+        height: 100vh;
+        width: 100vw;
+        position: relative;
+      }
+
+      header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 15px;
+        background-color: rgba(0, 0, 0, 0.8);
+        position: fixed;
+        top: 0;
+        width: 100%;
+        z-index: 100;
+      }
+
+      .logo {
+        color: var(--netflix-red);
+        font-size: 24px;
+        font-weight: bold;
+      }
+
+      .nav-tabs {
+        display: flex;
+        justify-content: space-around;
+        background-color: var(--netflix-dark-gray);
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        padding: 10px 0;
+        z-index: 100;
+      }
+
+      .nav-tab {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        color: var(--netflix-light-gray);
+        text-decoration: none;
+        font-size: 12px;
+      }
+
+      .nav-tab i {
+        font-size: 20px;
+        margin-bottom: 5px;
+      }
+
+      .nav-tab.active {
+        color: var(--netflix-red);
+      }
+
+      .swipe-container {
+        flex: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 70px 15px 70px 15px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .card {
+        position: absolute;
+        width: 90%;
+        max-width: 400px;
+        height: 80vh;
+        max-height: 600px;
+        background-color: var(--netflix-dark-gray);
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        touch-action: none;
+        transform-origin: center;
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-image {
+        width: 100%;
+        height: 45%;
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        flex-shrink: 0;
+      }
+
+      .card-gradient {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        height: 50%;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--netflix-dark-gray)
+        );
+      }
+
+      .card-content {
+        padding: 15px;
+        flex: 1;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .card-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 5px;
+      }
+
+      .card-year {
+        color: var(--netflix-light-gray);
+        margin-bottom: 10px;
+      }
+
+      .card-description {
+        font-size: 14px;
+        margin-bottom: 15px;
+        line-height: 1.4;
+        flex: 1;
+        overflow: hidden;
+        display: -webkit-box;
+        -webkit-line-clamp: 4;
+        -webkit-box-orient: vertical;
+      }
+
+      .card-platforms {
+        display: none;
+      }
+
+      .card-genres {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+      }
+
+      .genre-tag {
+        background-color: rgba(229, 9, 20, 0.2);
+        color: var(--netflix-red);
+        padding: 5px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+      }
+
+      .swipe-actions {
+        display: none;
+      }
+
+      .swipe-hint {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        font-size: 100px;
+        font-weight: bold;
+        opacity: 0;
+        z-index: 10;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+      }
+
+      .hint-like {
+        color: #26de81;
+        right: 10%;
+        left: auto;
+      }
+
+      .hint-dislike {
+        color: #fd5068;
+        left: 10%;
+        right: auto;
+      }
+
+      .hint-maybe {
+        color: #1e90ff;
+        top: 10%;
+      }
+
+      .lists-container {
+        flex: 1;
+        padding: 70px 15px 70px 15px;
+        overflow-y: auto;
+        display: none;
+      }
+
+      .list-section {
+        margin-bottom: 30px;
+      }
+
+      .list-title {
+        font-size: 20px;
+        margin-bottom: 15px;
+        color: var(--netflix-white);
+      }
+
+      .list-items {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 15px;
+      }
+
+      .list-item {
+        position: relative;
+        border-radius: 5px;
+        overflow: hidden;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+
+      .list-item-image {
+        width: 100%;
+        aspect-ratio: 2/3;
+        background-size: cover;
+        background-position: center;
+      }
+
+      .list-item-title {
+        position: absolute;
+        bottom: 0;
+        width: 100%;
+        padding: 10px;
+        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        font-size: 14px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+      .empty-list {
+        color: var(--netflix-light-gray);
+        text-align: center;
+        padding: 20px;
+      }
+
+      .no-more-cards {
+        display: none;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .no-more-cards i {
+        font-size: 50px;
+        color: var(--netflix-red);
+        margin-bottom: 20px;
+      }
+
+      .no-more-cards h2 {
+        margin-bottom: 10px;
+      }
+
+      .no-more-cards p {
+        color: var(--netflix-light-gray);
+        margin-bottom: 20px;
+      }
+
+      .reset-button {
+        background-color: var(--netflix-red);
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app-container">
+      <header>
+        <div class="logo">MovieSwipe</div>
+        <div id="counter">1/30</div>
+      </header>
+
+      <div class="swipe-container" id="swipeContainer">
+        <div class="swipe-hint hint-like">LIKE</div>
+        <div class="swipe-hint hint-dislike">NOPE</div>
+        <div class="swipe-hint hint-maybe">MAYBE</div>
+
+        <div class="no-more-cards">
+          <i class="fas fa-film"></i>
+          <h2>Keine weiteren Filme</h2>
+          <p>Du hast alle verfügbaren Filme und Serien bewertet!</p>
+          <button class="reset-button" id="resetButton">
+            Von vorne beginnen
+          </button>
+        </div>
+
+        <!-- Cards will be added here dynamically -->
+      </div>
+
+      <div class="lists-container" id="listsContainer">
+        <div class="list-section">
+          <h2 class="list-title">Mag ich 👍</h2>
+          <div class="list-items" id="likedList">
+            <div class="empty-list">Noch keine Filme in dieser Liste</div>
+          </div>
+        </div>
+
+        <div class="list-section">
+          <h2 class="list-title">Vielleicht später 🤔</h2>
+          <div class="list-items" id="maybeList">
+            <div class="empty-list">Noch keine Filme in dieser Liste</div>
+          </div>
+        </div>
+
+        <div class="list-section">
+          <h2 class="list-title">Will ich nicht 👎</h2>
+          <div class="list-items" id="dislikedList">
+            <div class="empty-list">Noch keine Filme in dieser Liste</div>
+          </div>
+        </div>
+      </div>
+
+      <nav class="nav-tabs">
+        <a href="#" class="nav-tab active" id="swipeTab">
+          <i class="fas fa-film"></i>
+          <span>Entdecken</span>
+        </a>
+        <a href="#" class="nav-tab" id="listsTab">
+          <i class="fas fa-list"></i>
+          <span>Meine Listen</span>
+        </a>
+      </nav>
+    </div>
+
+    <script>
+      // Sample data for movies and shows
+      const mediaData = [
+        {
+          id: 1,
+          title: "Stranger Things",
+          type: "Serie",
+          year: "2016",
+          description:
+            "In einer Kleinstadt verschwinden plötzlich Kinder, während ein mysteriöses Mädchen mit übernatürlichen Kräften auftaucht. Eine Gruppe von Freunden macht sich auf die Suche nach Antworten.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BMDZkYmVhNjMtNWU4MC00MDQxLWE3MjYtZGMzZWI1ZjhlOWJmXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Sci-Fi", "Horror", "Drama"],
+        },
+        {
+          id: 2,
+          title: "Breaking Bad",
+          type: "Serie",
+          year: "2008",
+          description:
+            "Ein Chemielehrer, der an Krebs erkrankt ist, beginnt Methamphetamin herzustellen, um die finanzielle Zukunft seiner Familie zu sichern.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BYmQ4YWMxYjUtNjZmYi00MDQ1LWFjMjMtNjA5ZDdiYjdiODU5XkEyXkFqcGdeQXVyMTMzNDExODE5._V1_.jpg",
+          platforms: ["Netflix", "Amazon Prime"],
+          genres: ["Drama", "Krimi", "Thriller"],
+        },
+        {
+          id: 3,
+          title: "Inception",
+          type: "Film",
+          year: "2010",
+          description:
+            "Ein Dieb, der die Fähigkeit besitzt, in die Träume anderer einzudringen, bekommt die Aufgabe, eine Idee in jemandes Unterbewusstsein zu pflanzen.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_.jpg",
+          platforms: ["Netflix", "Sky"],
+          genres: ["Sci-Fi", "Action", "Thriller"],
+        },
+        {
+          id: 4,
+          title: "The Queen's Gambit",
+          type: "Miniserie",
+          year: "2020",
+          description:
+            "In den 1950er Jahren verfolgt ein Waisenmädchen das Ziel, die größte Schachspielerin der Welt zu werden, während sie mit Suchtproblemen kämpft.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BM2EwMmRhMmUtMzBmMS00ZDQ3LTg4OGEtNjlkODk3ZTMxMmJlXkEyXkFqcGdeQXVyMjM5ODk1NDU@._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Drama"],
+        },
+        {
+          id: 5,
+          title: "The Mandalorian",
+          type: "Serie",
+          year: "2019",
+          description:
+            "Die Abenteuer eines einsamen Kopfgeldjägers im Outer Rim der Galaxis, weit weg von der Autorität der Neuen Republik.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BZDhlMzY0ZGItZTcyNS00ZTAxLWIyMmYtZGQ2ODg5OWZiYmJkXkEyXkFqcGdeQXVyODkzNTgxMDg@._V1_.jpg",
+          platforms: ["Disney+"],
+          genres: ["Sci-Fi", "Action", "Abenteuer"],
+        },
+        {
+          id: 6,
+          title: "Parasite",
+          type: "Film",
+          year: "2019",
+          description:
+            "Eine arme Familie schleicht sich in den Haushalt einer reichen Familie ein, was zu unerwarteten Ereignissen führt.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_.jpg",
+          platforms: ["Amazon Prime", "Netflix"],
+          genres: ["Thriller", "Drama", "Komödie"],
+        },
+        {
+          id: 7,
+          title: "Dark",
+          type: "Serie",
+          year: "2017",
+          description:
+            "In einer deutschen Kleinstadt verschwinden Kinder unter mysteriösen Umständen, was Geheimnisse und Verbindungen zwischen vier Familien über mehrere Generationen hinweg aufdeckt.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BOTk2NzUyOTctZDdlMS00MDJlLTgzNTEtNzQzYjFhNjA0YjBjXkEyXkFqcGdeQXVyMjg1NDcxNDE@._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Sci-Fi", "Mystery", "Thriller"],
+        },
+        {
+          id: 8,
+          title: "The Witcher",
+          type: "Serie",
+          year: "2019",
+          description:
+            "Geralt von Riva, ein mutierter Monsterjäger, kämpft darum, seinen Platz in einer Welt zu finden, in der Menschen oft böser sind als Monster.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BN2FiOWU4YzYtMzZiOS00MzcyLTlkOGEtOTgwZmEwMzAxMzA3XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Fantasy", "Action", "Abenteuer"],
+        },
+        {
+          id: 9,
+          title: "Joker",
+          type: "Film",
+          year: "2019",
+          description:
+            "In Gotham City wird ein erfolgloser Comedian langsam wahnsinnig und verwandelt sich in einen psychopathischen Verbrecher.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BNGVjNWI4ZGUtNzE0MS00YTJmLWE0ZDctN2ZiYTk2YmI3NTYyXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
+          platforms: ["Sky", "Amazon Prime"],
+          genres: ["Thriller", "Drama", "Krimi"],
+        },
+        {
+          id: 10,
+          title: "Money Heist",
+          type: "Serie",
+          year: "2017",
+          description:
+            "Ein kriminelles Mastermind plant den größten Überfall in der Geschichte Spaniens, indem er die königliche Münzprägeanstalt von Spanien überfällt.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BODI0ZTljYTMtODQ1NC00NmI0LTk1YWUtN2FlNDM1MDExMDlhXkEyXkFqcGdeQXVyMTM0NTUzNDIy._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Krimi", "Thriller", "Drama"],
+        },
+        {
+          id: 11,
+          title: "The Crown",
+          type: "Serie",
+          year: "2016",
+          description:
+            "Die politischen Rivalitäten und Romanzen während der Regentschaft von Königin Elizabeth II. und die Ereignisse, die die zweite Hälfte des 20. Jahrhunderts geprägt haben.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BZmY0MzBlNjctNTRmNy00Njk3LWFjMzctMWQwZDAwMGJmY2MyXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Drama", "Historie"],
+        },
+        {
+          id: 12,
+          title: "Interstellar",
+          type: "Film",
+          year: "2014",
+          description:
+            "Ein Team von Entdeckern reist durch ein Wurmloch im Weltraum, um das Überleben der Menschheit zu sichern.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
+          platforms: ["Netflix", "Amazon Prime"],
+          genres: ["Sci-Fi", "Drama", "Abenteuer"],
+        },
+        {
+          id: 13,
+          title: "Squid Game",
+          type: "Serie",
+          year: "2021",
+          description:
+            "Hunderte von in Geldnot geratenen Spielern nehmen eine mysteriöse Einladung an, um an Kinderspielen teilzunehmen. Es lockt ein verlockender Preis, aber es steht viel auf dem Spiel.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BYWE3MDVkN2EtNjQ5MS00ZDQ4LTliNzYtMjc2YWMzMDEwMTA3XkEyXkFqcGdeQXVyMTEzMTI1Mjk3._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Thriller", "Drama", "Mystery"],
+        },
+        {
+          id: 14,
+          title: "The Shawshank Redemption",
+          type: "Film",
+          year: "1994",
+          description:
+            "Zwei inhaftierte Männer knüpfen über mehrere Jahre eine ungewöhnliche Freundschaft und finden Trost und Erlösung durch Akte des Anstands.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BNDE3ODcxYzMtY2YzZC00NmNlLWJiNDMtZDViZWM2MzIxZDYwXkEyXkFqcGdeQXVyNjAwNDUxODI@._V1_.jpg",
+          platforms: ["Netflix", "Amazon Prime"],
+          genres: ["Drama"],
+        },
+        {
+          id: 15,
+          title: "Game of Thrones",
+          type: "Serie",
+          year: "2011",
+          description:
+            "Neun noble Familien kämpfen um die Kontrolle über die Länder von Westeros, während ein uralter Feind zurückkehrt.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BYTRiNDQwYzAtMzVlZS00NTI5LWJjYjUtMzkwNTUzMWMxZTllXkEyXkFqcGdeQXVyNDIzMzcwNjc@._V1_.jpg",
+          platforms: ["Sky", "Amazon Prime"],
+          genres: ["Action", "Abenteuer", "Drama"],
+        },
+        {
+          id: 16,
+          title: "The Social Network",
+          type: "Film",
+          year: "2010",
+          description:
+            "Harvard-Student Mark Zuckerberg gründet das Social-Media-Website Facebook, wird aber später von zwei Brüdern verklagt, die behaupten, er habe ihre Idee gestohlen.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BOGUyZDUxZjEtMmIzMC00MzlmLTg4MGItZWJmMzBhZjE0Mjc1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_.jpg",
+          platforms: ["Netflix", "Amazon Prime"],
+          genres: ["Biografie", "Drama"],
+        },
+        {
+          id: 17,
+          title: "Chernobyl",
+          type: "Miniserie",
+          year: "2019",
+          description:
+            "Im April 1986 explodiert ein Reaktor im Kernkraftwerk Tschernobyl in der UdSSR, was zu einer der schlimmsten von Menschen verursachten Katastrophen der Geschichte führt.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BZGQ2YmMxZmEtYjI5OS00NzlkLTlkNTEtYWMyMzkyMzc2MDU5XkEyXkFqcGdeQXVyMzQ2MDI5NjU@._V1_.jpg",
+          platforms: ["Sky"],
+          genres: ["Drama", "Historie", "Thriller"],
+        },
+        {
+          id: 18,
+          title: "Black Mirror",
+          type: "Serie",
+          year: "2011",
+          description:
+            "Eine Anthologie-Serie, die die dunkle Seite der Technologie und ihre Auswirkungen auf die moderne Gesellschaft untersucht.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BYTM3YWVhMDMtNjczMy00NGEyLWJhZDctYjNhMTRkNDE0ZTI1XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Sci-Fi", "Thriller", "Drama"],
+        },
+        {
+          id: 19,
+          title: "The Dark Knight",
+          type: "Film",
+          year: "2008",
+          description:
+            "Batman, Lieutenant Gordon und Staatsanwalt Harvey Dent konfrontieren einen neuen psychotischen Kriminellen namens Joker.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_.jpg",
+          platforms: ["Netflix", "Amazon Prime"],
+          genres: ["Action", "Krimi", "Drama"],
+        },
+        {
+          id: 20,
+          title: "Peaky Blinders",
+          type: "Serie",
+          year: "2013",
+          description:
+            "Eine Gangsterfamilie epischen Ausmaßes operiert in Birmingham, England, im Jahr 1919, kurz nach dem Ersten Weltkrieg.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BZjYzZDgzMmYtYjY5Zi00YTk1LThhMDYtNjFlNzM4MTZhYzgyXkEyXkFqcGdeQXVyMTE5NDQ1MzQ3._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Krimi", "Drama"],
+        },
+        {
+          id: 21,
+          title: "Dune",
+          type: "Film",
+          year: "2021",
+          description:
+            "Ein begabter junger Mann muss auf den gefährlichsten Planeten des Universums reisen, um die Zukunft seiner Familie und seines Volkes zu sichern.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BN2FjNmEyNWMtYzM0ZS00NjIyLTg5YzYtYThlMGVjNzE1OGViXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_FMjpg_UX1000_.jpg",
+          platforms: ["Sky", "Amazon Prime"],
+          genres: ["Sci-Fi", "Abenteuer"],
+        },
+        {
+          id: 22,
+          title: "Mindhunter",
+          type: "Serie",
+          year: "2017",
+          description:
+            "In den späten 1970er Jahren interviewen zwei FBI-Agenten inhaftierte Serienmörder, um Verbrechen zu lösen.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BNWNmYzQ1ZWUtYTQ3ZS00Y2UwLTlkMDctZThlOTJkMGJiNzBiXkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Krimi", "Drama", "Thriller"],
+        },
+        {
+          id: 23,
+          title: "The Office",
+          type: "Serie",
+          year: "2005",
+          description:
+            "Eine Mockumentary über eine Gruppe typischer Büroangestellter, wo die Arbeitstage aus Telefonkonferenzen, Büroklatsch und einem Chef bestehen, der glaubt, er sei witzig.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BMDNkOTE4NDQtMTNmYi00MWE0LWE4ZTktYTc0NzhhNWIzNzJiXkEyXkFqcGdeQXVyMzQ2MDI5NjU@._V1_.jpg",
+          platforms: ["Amazon Prime", "Netflix"],
+          genres: ["Komödie"],
+        },
+        {
+          id: 24,
+          title: "Blade Runner 2049",
+          type: "Film",
+          year: "2017",
+          description:
+            "Ein junger Blade Runner entdeckt ein lange verborgenes Geheimnis, das die Gesellschaft ins Chaos stürzen könnte, und macht sich auf die Suche nach Rick Deckard, der seit 30 Jahren verschwunden ist.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_.jpg",
+          platforms: ["Netflix", "Amazon Prime"],
+          genres: ["Sci-Fi", "Thriller", "Drama"],
+        },
+        {
+          id: 25,
+          title: "Westworld",
+          type: "Serie",
+          year: "2016",
+          description:
+            "In einem futuristischen Western-Themenpark können wohlhabende Besucher ihre dunkelsten Fantasien ohne Angst vor Vergeltung durch die Roboter-Hosts ausleben, bis die Hosts beginnen, sich zu wehren.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BZDg1OWRiMTktZDdiNy00NTZlLTg2Y2EtNWRiMTcxMGE5YTUxXkEyXkFqcGdeQXVyMTM2MDY0MjYz._V1_.jpg",
+          platforms: ["Sky"],
+          genres: ["Sci-Fi", "Western", "Drama"],
+        },
+        {
+          id: 26,
+          title: "Oppenheimer",
+          type: "Film",
+          year: "2023",
+          description:
+            "Die Geschichte des amerikanischen Wissenschaftlers J. Robert Oppenheimer und seiner Rolle bei der Entwicklung der Atombombe.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_.jpg",
+          platforms: ["Amazon Prime"],
+          genres: ["Biografie", "Drama", "Historie"],
+        },
+        {
+          id: 27,
+          title: "Succession",
+          type: "Serie",
+          year: "2018",
+          description:
+            "Die Geschichte der dysfunktionalen Roy-Familie, die ein globales Medienimperium kontrolliert und um die Macht kämpft, während der Patriarch sich zurückzieht.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BZTY0YjU0NTUtMGRmNS00NDMyLWI2MzYtNjM2MmM2Y2VmODhmXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
+          platforms: ["Sky"],
+          genres: ["Drama", "Komödie"],
+        },
+        {
+          id: 28,
+          title: "The Last of Us",
+          type: "Serie",
+          year: "2023",
+          description:
+            "Nach einer globalen Pandemie muss ein abgehärteter Überlebender ein junges Mädchen quer durch die USA begleiten, während sie von gefährlichen Infizierten und Banditen verfolgt werden.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BZGUzYTI3M2EtZmM0Yy00NGUyLWI4ODEtN2Q3ZGJlYzhhZjU3XkEyXkFqcGdeQXVyNTM0OTY1OQ@@._V1_.jpg",
+          platforms: ["Sky"],
+          genres: ["Action", "Abenteuer", "Drama"],
+        },
+        {
+          id: 29,
+          title: "Everything Everywhere All at Once",
+          type: "Film",
+          year: "2022",
+          description:
+            "Eine alternde chinesische Einwanderin wird in ein verrücktes Abenteuer verwickelt, bei dem nur sie die Welt retten kann, indem sie andere Universen erkundet und mit den Leben verbindet, die sie hätte führen können.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BYTdiOTIyZTQtNmQ1OS00NjZlLWIyMTgtYzk5Y2M3ZDVmMDk1XkEyXkFqcGdeQXVyMTAzMDg4NzU0._V1_.jpg",
+          platforms: ["Amazon Prime"],
+          genres: ["Action", "Abenteuer", "Komödie"],
+        },
+        {
+          id: 30,
+          title: "Better Call Saul",
+          type: "Serie",
+          year: "2015",
+          description:
+            "Die Geschichte des Anwalts Jimmy McGill und seine Transformation zum skrupellosen Strafverteidiger Saul Goodman vor seiner Begegnung mit Walter White.",
+          image:
+            "https://m.media-amazon.com/images/M/MV5BZDA4YmE0OTYtMmRmNS00Mzk2LTlhM2MtNjk4NzBjZGE1MmIyXkEyXkFqcGdeQXVyMTMzNDExODE5._V1_.jpg",
+          platforms: ["Netflix"],
+          genres: ["Krimi", "Drama"],
+        },
+      ];
+
+      // Lists to store user choices
+      let likedMedia = [];
+      let maybeMedia = [];
+      let dislikedMedia = [];
+      let currentIndex = 0;
+      let activeCards = [];
+
+      // DOM Elements
+      const swipeContainer = document.getElementById("swipeContainer");
+      const listsContainer = document.getElementById("listsContainer");
+      const swipeTab = document.getElementById("swipeTab");
+      const listsTab = document.getElementById("listsTab");
+      const likedList = document.getElementById("likedList");
+      const maybeList = document.getElementById("maybeList");
+      const dislikedList = document.getElementById("dislikedList");
+      const resetButton = document.getElementById("resetButton");
+      const counter = document.getElementById("counter");
+      const noMoreCards = document.querySelector(".no-more-cards");
+      const hintLike = document.querySelector(".hint-like");
+      const hintDislike = document.querySelector(".hint-dislike");
+      const hintMaybe = document.querySelector(".hint-maybe");
+
+      // Initialize the app
+      function initApp() {
+        // Create initial cards
+        createCards();
+
+        // Add event listeners
+        swipeTab.addEventListener("click", showSwipeView);
+        listsTab.addEventListener("click", showListsView);
+        resetButton.addEventListener("click", resetApp);
+
+        // Update counter
+        updateCounter();
+      }
+
+      // Create cards for swiping
+      function createCards() {
+        // Create 3 cards (or fewer if we're near the end of the data)
+        const numCards = Math.min(3, mediaData.length - currentIndex);
+
+        for (let i = 0; i < numCards; i++) {
+          const mediaIndex = currentIndex + i;
+          if (mediaIndex < mediaData.length) {
+            const card = createCard(mediaData[mediaIndex], mediaIndex);
+            swipeContainer.appendChild(card);
+            activeCards.push(card);
+
+            // Only make the top card draggable
+            if (i === 0) {
+              makeCardDraggable(card);
+            }
+          }
+        }
+
+        // Position cards in a stack
+        positionCards();
+      }
+
+      // Create a single card element
+      function createCard(media, index) {
+        const card = document.createElement("div");
+        card.className = "card";
+        card.dataset.index = index;
+
+        // Entferne die Plattform-Tags aus dem HTML
+        const genresHTML = media.genres
+          .map((genre) => `<div class="genre-tag">${genre}</div>`)
+          .join("");
+
+        card.innerHTML = `
+            <div class="card-image" style="background-image: url('${media.image}')">
+                <div class="card-gradient"></div>
+            </div>
+            <div class="card-content">
+                <div class="card-title">${media.title}</div>
+                <div class="card-year">${media.type} • ${media.year}</div>
+                <div class="card-description">${media.description}</div>
+                <div class="card-genres">${genresHTML}</div>
+            </div>
+        `;
+
+        return card;
+      }
+
+      // Position cards in a stack
+      function positionCards() {
+        activeCards.forEach((card, index) => {
+          card.style.zIndex = 10 - index;
+          card.style.transform = `scale(${1 - index * 0.05}) translateY(${
+            index * 10
+          }px)`;
+          card.style.opacity = index === 0 ? "1" : "0.8";
+        });
+      }
+
+      // Make a card draggable
+      function makeCardDraggable(card) {
+        let startX, startY, initialX, initialY;
+        let isDragging = false;
+
+        // Touch events
+        card.addEventListener("touchstart", dragStart, { passive: false });
+        card.addEventListener("touchmove", drag, { passive: false });
+        card.addEventListener("touchend", dragEnd, { passive: false });
+
+        // Mouse events
+        card.addEventListener("mousedown", dragStart);
+        card.addEventListener("mousemove", drag);
+        card.addEventListener("mouseup", dragEnd);
+        card.addEventListener("mouseleave", dragEnd);
+
+        function dragStart(e) {
+          e.preventDefault();
+
+          if (e.type === "touchstart") {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+          } else {
+            startX = e.clientX;
+            startY = e.clientY;
+          }
+
+          initialX = card.getBoundingClientRect().left;
+          initialY = card.getBoundingClientRect().top;
+          isDragging = true;
+        }
+
+        function drag(e) {
+          if (!isDragging) return;
+          e.preventDefault();
+
+          let currentX, currentY;
+
+          if (e.type === "touchmove") {
+            currentX = e.touches[0].clientX;
+            currentY = e.touches[0].clientY;
+          } else {
+            currentX = e.clientX;
+            currentY = e.clientY;
+          }
+
+          const diffX = currentX - startX;
+          const diffY = currentY - startY;
+
+          card.style.transform = `translate(${diffX}px, ${diffY}px) rotate(${
+            diffX * 0.1
+          }deg)`;
+
+          // Show hint based on drag direction
+          if (diffX > 80) {
+            hintLike.style.opacity = Math.min(diffX / 100, 1);
+            hintDislike.style.opacity = 0;
+            hintMaybe.style.opacity = 0;
+          } else if (diffX < -80) {
+            hintDislike.style.opacity = Math.min(Math.abs(diffX) / 100, 1);
+            hintLike.style.opacity = 0;
+            hintMaybe.style.opacity = 0;
+          } else if (diffY < -80) {
+            hintMaybe.style.opacity = Math.min(Math.abs(diffY) / 100, 1);
+            hintLike.style.opacity = 0;
+            hintDislike.style.opacity = 0;
+          } else {
+            hintLike.style.opacity = 0;
+            hintDislike.style.opacity = 0;
+            hintMaybe.style.opacity = 0;
+          }
+        }
+
+        function dragEnd(e) {
+          if (!isDragging) return;
+          isDragging = false;
+
+          let currentX, currentY;
+
+          if (e.type === "touchend") {
+            currentX = e.changedTouches[0].clientX;
+            currentY = e.changedTouches[0].clientY;
+          } else {
+            currentX = e.clientX;
+            currentY = e.clientY;
+          }
+
+          const diffX = currentX - startX;
+          const diffY = currentY - startY;
+
+          // Reset hints
+          hintLike.style.opacity = 0;
+          hintDislike.style.opacity = 0;
+          hintMaybe.style.opacity = 0;
+
+          // Determine swipe direction based on distance
+          if (diffX > 100) {
+            // Swipe right (like)
+            card.style.transform = `translate(${window.innerWidth}px, ${diffY}px) rotate(30deg)`;
+            setTimeout(() => {
+              handleSwipe("like");
+            }, 200);
+          } else if (diffX < -100) {
+            // Swipe left (dislike)
+            card.style.transform = `translate(-${window.innerWidth}px, ${diffY}px) rotate(-30deg)`;
+            setTimeout(() => {
+              handleSwipe("dislike");
+            }, 200);
+          } else if (diffY < -100) {
+            // Swipe up (maybe)
+            card.style.transform = `translate(${diffX}px, -${
+              window.innerHeight
+            }px) rotate(${diffX * 0.1}deg)`;
+            setTimeout(() => {
+              handleSwipe("maybe");
+            }, 200);
+          } else {
+            // Reset position if not swiped far enough
+            card.style.transform = "translate(0, 0) rotate(0)";
+          }
+        }
+      }
+
+      // Handle swipe action
+      function handleSwipe(action) {
+        if (activeCards.length === 0) return;
+
+        const card = activeCards[0];
+        const mediaIndex = parseInt(card.dataset.index);
+        const media = mediaData[mediaIndex];
+
+        // Add to appropriate list
+        if (action === "like") {
+          likedMedia.push(media);
+          card.style.transform = "translate(100vw, 0) rotate(30deg)";
+        } else if (action === "dislike") {
+          dislikedMedia.push(media);
+          card.style.transform = "translate(-100vw, 0) rotate(-30deg)";
+        } else if (action === "maybe") {
+          maybeMedia.push(media);
+          card.style.transform = "translate(0, -100vh)";
+        }
+
+        // Remove card after animation
+        setTimeout(() => {
+          card.remove();
+          activeCards.shift();
+
+          // Move to next card
+          currentIndex++;
+          updateCounter();
+
+          // Check if we need to add more cards
+          if (
+            activeCards.length < 3 &&
+            currentIndex + activeCards.length < mediaData.length
+          ) {
+            const newCardIndex = currentIndex + activeCards.length;
+            const newCard = createCard(mediaData[newCardIndex], newCardIndex);
+            swipeContainer.appendChild(newCard);
+            activeCards.push(newCard);
+          }
+
+          // Reposition remaining cards
+          positionCards();
+
+          // Make the top card draggable
+          if (activeCards.length > 0) {
+            makeCardDraggable(activeCards[0]);
+          }
+
+          // Check if we've reached the end
+          if (currentIndex >= mediaData.length) {
+            noMoreCards.style.display = "flex";
+          }
+
+          // Update lists view
+          updateLists();
+        }, 300);
+      }
+
+      // Update the counter
+      function updateCounter() {
+        counter.textContent = `${currentIndex + 1}/${mediaData.length}`;
+      }
+
+      // Update the lists view
+      function updateLists() {
+        // Update liked list
+        if (likedMedia.length > 0) {
+          likedList.innerHTML = likedMedia
+            .map((media) => createListItem(media))
+            .join("");
+        } else {
+          likedList.innerHTML =
+            '<div class="empty-list">Noch keine Filme in dieser Liste</div>';
+        }
+
+        // Update maybe list
+        if (maybeMedia.length > 0) {
+          maybeList.innerHTML = maybeMedia
+            .map((media) => createListItem(media))
+            .join("");
+        } else {
+          maybeList.innerHTML =
+            '<div class="empty-list">Noch keine Filme in dieser Liste</div>';
+        }
+
+        // Update disliked list
+        if (dislikedMedia.length > 0) {
+          dislikedList.innerHTML = dislikedMedia
+            .map((media) => createListItem(media))
+            .join("");
+        } else {
+          dislikedList.innerHTML =
+            '<div class="empty-list">Noch keine Filme in dieser Liste</div>';
+        }
+      }
+
+      // Create a list item for the lists view
+      function createListItem(media) {
+        return `
+                <div class="list-item">
+                    <div class="list-item-image" style="background-image: url('${media.image}')"></div>
+                    <div class="list-item-title">${media.title}</div>
+                </div>
+            `;
+      }
+
+      // Show the swipe view
+      function showSwipeView(e) {
+        e.preventDefault();
+        swipeContainer.style.display = "flex";
+        listsContainer.style.display = "none";
+        swipeTab.classList.add("active");
+        listsTab.classList.remove("active");
+      }
+
+      // Show the lists view
+      function showListsView(e) {
+        e.preventDefault();
+        swipeContainer.style.display = "none";
+        listsContainer.style.display = "block";
+        swipeTab.classList.remove("active");
+        listsTab.classList.add("active");
+      }
+
+      // Reset the app
+      function resetApp() {
+        // Clear all cards
+        swipeContainer.innerHTML = `
+                <div class="swipe-hint hint-like">LIKE</div>
+                <div class="swipe-hint hint-dislike">NOPE</div>
+                <div class="swipe-hint hint-maybe">MAYBE</div>
+                
+                <div class="no-more-cards">
+                    <i class="fas fa-film"></i>
+                    <h2>Keine weiteren Filme</h2>
+                    <p>Du hast alle verfügbaren Filme und Serien bewertet!</p>
+                    <button class="reset-button" id="resetButton">Von vorne beginnen</button>
+                </div>
+            `;
+
+        // Reset variables
+        likedMedia = [];
+        maybeMedia = [];
+        dislikedMedia = [];
+        currentIndex = 0;
+        activeCards = [];
+
+        // Hide no more cards message
+        noMoreCards.style.display = "none";
+
+        // Create new cards
+        createCards();
+
+        // Update counter
+        updateCounter();
+
+        // Update lists
+        updateLists();
+
+        // Add event listener to new reset button
+        document
+          .getElementById("resetButton")
+          .addEventListener("click", resetApp);
+
+        // Switch to swipe view
+        swipeTab.click();
+      }
+
+      // Initialize the app when the page loads
+      window.addEventListener("DOMContentLoaded", initApp);
+    </script>
+  </body>
+</html>

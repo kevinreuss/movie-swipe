@@ -1423,21 +1423,17 @@
         );
         const languageToggle = document.getElementById("languageToggle");
 
-        // Initialize language
-        initLanguage();
-
         // Initialize theme
         initTheme();
+
+        // Initialize language (but don't create cards yet)
+        initLanguage();
 
         // Add language toggle event listener
         languageToggle.addEventListener("click", toggleLanguage);
 
         // Check if onboarding should be shown
         checkOnboarding();
-
-        // Initialize Firebase authentication first
-        // This will trigger the auth state change listener which will load the appropriate data
-        initAuth();
 
         // Setup login reminder banner
         setupLoginReminderBanner();
@@ -1467,6 +1463,10 @@
 
         // Setup legal modal
         setupLegalModal();
+
+        // Initialize Firebase authentication last
+        // This will trigger the auth state change listener which will load the appropriate data
+        initAuth();
       }
 
       // Initialize language
@@ -1483,29 +1483,14 @@
         }
 
         // Set the initial media data based on language
-        changeLanguage(currentLanguage);
+        changeLanguage(currentLanguage, false); // Pass false to not refresh cards yet
 
         // Update the flag icon
         updateLanguageIcon(currentLanguage);
       }
 
-      // Toggle between English and German
-      function toggleLanguage() {
-        // Toggle the language
-        const newLanguage = currentLanguage === "en" ? "de" : "en";
-
-        // Change the language
-        changeLanguage(newLanguage);
-
-        // Save the preference
-        localStorage.setItem("movieMatch_language", newLanguage);
-
-        // Update the flag icon
-        updateLanguageIcon(newLanguage);
-      }
-
       // Change the language and update media data
-      function changeLanguage(language) {
+      function changeLanguage(language, refreshCards = true) {
         // Store the current queue IDs to preserve order
         const currentQueueIds = currentQueue.map((item) => item.id);
 
@@ -1519,8 +1504,8 @@
           mediaData = mediaData_en;
         }
 
-        // If we're on the explore page, we need to update the cards
-        if (swipeContainer.style.display !== "none") {
+        // If we're on the explore page and refreshCards is true, we need to update the cards
+        if (refreshCards && swipeContainer.style.display !== "none") {
           // Preserve the order of the queue by mapping the IDs to the new language data
           if (currentQueueIds.length > 0) {
             // First, create a map of all media items by ID for quick lookup
@@ -1543,21 +1528,25 @@
           }
         }
 
-        // Update the lists view with the new language data
-        updateLists();
+        // Update the lists view with the new language data if refreshCards is true
+        if (refreshCards) {
+          updateLists();
+        }
       }
 
-      // Update the language toggle icon
-      function updateLanguageIcon(language) {
-        const languageToggle = document.getElementById("languageToggle");
+      // Toggle between English and German
+      function toggleLanguage() {
+        // Toggle the language
+        const newLanguage = currentLanguage === "en" ? "de" : "en";
 
-        if (language === "de") {
-          languageToggle.innerHTML =
-            '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png" alt="Deutsch" class="flag-icon">';
-        } else {
-          languageToggle.innerHTML =
-            '<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1200px-Flag_of_the_United_Kingdom_%283-5%29.svg.png" alt="English" class="flag-icon">';
-        }
+        // Change the language with refreshCards=true
+        changeLanguage(newLanguage, true);
+
+        // Save the preference
+        localStorage.setItem("movieMatch_language", newLanguage);
+
+        // Update the flag icon
+        updateLanguageIcon(newLanguage);
       }
 
       // Refresh cards after language change
@@ -1827,7 +1816,7 @@
               localStorage.removeItem("movieMatch_likedMediaIds");
               localStorage.removeItem("movieMatch_dislikedMediaIds");
 
-              // Refresh the queue and update UI
+              // Refresh the queue and update UI - only do this once after data is loaded
               refreshQueue();
 
               // Create initial cards with a slight delay to ensure DOM is ready
@@ -2508,6 +2497,20 @@
       function openLegalModal() {
         const legalModal = document.getElementById("legalModal");
         legalModal.style.display = "block";
+      }
+
+      // Function to update the language toggle icon
+      function updateLanguageIcon(language) {
+        const flagSrc =
+          language === "en"
+            ? "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1200px-Flag_of_the_United_Kingdom_%283-5%29.svg.png"
+            : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png";
+
+        const flagAlt = language === "en" ? "English" : "Deutsch";
+
+        const flagIcon = document.querySelector(".flag-icon");
+        flagIcon.src = flagSrc;
+        flagIcon.alt = flagAlt;
       }
 
       // Initialize the app

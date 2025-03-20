@@ -354,6 +354,38 @@
         align-items: center;
         justify-content: center;
       }
+
+      /* Add these styles for the reaction animation */
+      .reaction-animation {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%) scale(0);
+        font-size: 100px;
+        z-index: 1000;
+        pointer-events: none;
+        opacity: 0;
+        transition: transform 0.3s ease, opacity 0.3s ease;
+      }
+
+      .reaction-animation.active {
+        animation: pop-reaction 0.7s ease forwards;
+      }
+
+      @keyframes pop-reaction {
+        0% {
+          transform: translate(-50%, -50%) scale(0);
+          opacity: 0;
+        }
+        50% {
+          transform: translate(-50%, -50%) scale(1.2);
+          opacity: 1;
+        }
+        100% {
+          transform: translate(-50%, -50%) scale(1);
+          opacity: 0;
+        }
+      }
     </style>
   </head>
   <body>
@@ -369,10 +401,10 @@
       </header>
 
       <div class="swipe-container" id="swipeContainer">
-        <!-- Remove or comment out these lines -->
-        <!-- <div class="swipe-hint hint-like">LIKE</div>
-        <div class="swipe-hint hint-dislike">NOPE</div>
-        <div class="swipe-hint hint-maybe">MAYBE</div> -->
+        <!-- Add reaction animation elements -->
+        <div class="reaction-animation" id="likeReaction">👍</div>
+        <div class="reaction-animation" id="dislikeReaction">👎</div>
+        <div class="reaction-animation" id="maybeReaction">🤔</div>
 
         <div class="no-more-cards">
           <i class="fas fa-film"></i>
@@ -806,6 +838,11 @@
       const noMoreCards = document.querySelector(".no-more-cards");
       const themeToggle = document.getElementById("themeToggle");
 
+      // Add references to reaction elements
+      const likeReaction = document.getElementById("likeReaction");
+      const dislikeReaction = document.getElementById("dislikeReaction");
+      const maybeReaction = document.getElementById("maybeReaction");
+
       // Theme handling
       function initTheme() {
         // Check if user has previously set a theme preference
@@ -1011,14 +1048,6 @@
           const diffX = currentX - startX;
           const diffY = currentY - startY;
 
-          // Remove or comment out this hint reset code
-          /*
-          // Reset hints
-          hintLike.style.opacity = 0;
-          hintDislike.style.opacity = 0;
-          hintMaybe.style.opacity = 0;
-          */
-
           // Determine swipe direction based on distance
           if (diffX > 100) {
             // Swipe right (like)
@@ -1055,16 +1084,19 @@
         const mediaIndex = parseInt(card.dataset.index);
         const media = mediaData[mediaIndex];
 
-        // Add to appropriate list
+        // Show appropriate reaction animation
         if (action === "like") {
           likedMedia.push(media);
           card.style.transform = "translate(100vw, 0) rotate(30deg)";
+          showReaction(likeReaction);
         } else if (action === "dislike") {
           dislikedMedia.push(media);
           card.style.transform = "translate(-100vw, 0) rotate(-30deg)";
+          showReaction(dislikeReaction);
         } else if (action === "maybe") {
           maybeMedia.push(media);
           card.style.transform = "translate(0, -100vh)";
+          showReaction(maybeReaction);
         }
 
         // Remove card after animation
@@ -1103,6 +1135,16 @@
           // Update lists view
           updateLists();
         }, 300);
+      }
+
+      // Function to show reaction animation
+      function showReaction(reactionElement) {
+        reactionElement.classList.add("active");
+
+        // Remove the active class after animation completes
+        setTimeout(() => {
+          reactionElement.classList.remove("active");
+        }, 700);
       }
 
       // Update the counter

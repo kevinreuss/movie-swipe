@@ -1232,7 +1232,7 @@
       const likedList = document.getElementById("likedList");
       const dislikedList = document.getElementById("dislikedList");
       const resetButton = document.getElementById("resetButton");
-      const noMoreCards = document.querySelector(".no-more-cards");
+      let noMoreCards = document.querySelector(".no-more-cards");
       const themeToggle = document.getElementById("themeToggle");
       const onboardingOverlay = document.getElementById("onboardingOverlay");
       const onboardingOkBtn = document.getElementById("onboardingOk");
@@ -1335,6 +1335,58 @@
         }
       }
 
+      // Initialize the app
+      function initApp() {
+        // Get DOM elements
+        const accountTab = document.getElementById("accountTab");
+        const accountContainer = document.getElementById("accountContainer");
+        const loginTabBtn = document.getElementById("loginTabBtn");
+        const registerTabBtn = document.getElementById("registerTabBtn");
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+        const loginReminderBanner = document.getElementById("loginReminderBanner");
+        
+        // Initialize theme
+        initTheme();
+
+        // Check if onboarding should be shown
+        checkOnboarding();
+
+        // Initialize Firebase authentication first
+        // This will trigger the auth state change listener which will load the appropriate data
+        initAuth();
+        
+        // Setup login reminder banner
+        setupLoginReminderBanner();
+
+        // Add event listeners for main navigation
+        swipeTab.addEventListener("click", showSwipeView);
+        listsTab.addEventListener("click", showListsView);
+        accountTab.addEventListener("click", showAccountView);
+        resetButton.addEventListener("click", resetApp);
+
+        // Add event listeners for account tabs
+        loginTabBtn.addEventListener("click", function() {
+          loginTabBtn.classList.add("active");
+          registerTabBtn.classList.remove("active");
+          loginForm.style.display = "block";
+          registerForm.style.display = "none";
+        });
+        
+        registerTabBtn.addEventListener("click", function() {
+          registerTabBtn.classList.add("active");
+          loginTabBtn.classList.remove("active");
+          registerForm.style.display = "block";
+          loginForm.style.display = "none";
+        });
+
+        // Initialize list handlers
+        initListHandlers();
+
+        // Setup legal modal
+        setupLegalModal();
+      }
+
       // Add Firebase auth functionality
       function initAuth() {
         const loginButton = document.getElementById("loginButton");
@@ -1371,7 +1423,21 @@
             loginForm.style.display = "block";
             document.querySelector(".account-tabs").style.display = "flex";
             
-              showBanner();
+            showBanner();
+            
+            // Load saved lists from localStorage
+            loadSavedLists();
+            
+            // Initialize the queue and create cards
+            refreshQueue();
+            
+            // Create initial cards with a slight delay to ensure DOM is ready
+            setTimeout(() => {
+              createCards();
+            }, 100);
+            
+            // Update lists view with loaded data
+            updateLists();
           }
         });
         
@@ -1542,10 +1608,9 @@
               
               // Refresh the queue and update UI
               refreshQueue();
-              updateLists();
               
-              // If in swipe view, recreate cards
-              if (swipeContainer.style.display !== 'none') {
+              // Create initial cards with a slight delay to ensure DOM is ready
+              setTimeout(() => {
                 // Clear existing cards
                 swipeContainer.innerHTML = `
                   <div class="reaction-animation" id="likeReaction">👍</div>
@@ -1570,82 +1635,43 @@
                 
                 // Re-add event listener to reset button
                 document.getElementById("resetButton").addEventListener("click", resetApp);
-              }
+              }, 100);
+              
+              // Update lists view
+              updateLists();
               
               showAuthMessage("Lists loaded from your account", "success");
             } else {
               console.log("No user data found in Firestore");
+              
+              // If no data in Firebase, initialize with empty lists
+              movieMatch_likedMediaIds = [];
+              movieMatch_dislikedMediaIds = [];
+              
+              // Refresh the queue and update UI
+              refreshQueue();
+              
+              // Create initial cards
+              setTimeout(() => {
+                createCards();
+              }, 100);
+              
+              // Update lists view
+              updateLists();
             }
           })
           .catch((error) => {
             console.error("Error loading user data:", error);
             showAuthMessage("Error loading your lists", "error");
+            
+            // Fallback to localStorage on error
+            loadSavedLists();
+            refreshQueue();
+            setTimeout(() => {
+              createCards();
+            }, 100);
+            updateLists();
           });
-      }
-
-      // Initialize the app
-      function initApp() {
-        // Get DOM elements
-        const accountTab = document.getElementById("accountTab");
-        const accountContainer = document.getElementById("accountContainer");
-        const loginTabBtn = document.getElementById("loginTabBtn");
-        const registerTabBtn = document.getElementById("registerTabBtn");
-        const loginForm = document.getElementById("loginForm");
-        const registerForm = document.getElementById("registerForm");
-        const loginReminderBanner = document.getElementById("loginReminderBanner");
-        
-        // Load saved lists from localStorage
-        loadSavedLists();
-
-        // Initialize theme
-        initTheme();
-
-        // Check if onboarding should be shown
-        checkOnboarding();
-
-        // Initialize the queue of media to show
-        refreshQueue();
-
-        // Create initial cards with a slight delay to ensure DOM is ready
-        setTimeout(() => {
-          createCards();
-        }, 100);
-
-        // Add event listeners for main navigation
-        swipeTab.addEventListener("click", showSwipeView);
-        listsTab.addEventListener("click", showListsView);
-        accountTab.addEventListener("click", showAccountView);
-        resetButton.addEventListener("click", resetApp);
-
-        // Add event listeners for account tabs
-        loginTabBtn.addEventListener("click", function() {
-          loginTabBtn.classList.add("active");
-          registerTabBtn.classList.remove("active");
-          loginForm.style.display = "block";
-          registerForm.style.display = "none";
-        });
-        
-        registerTabBtn.addEventListener("click", function() {
-          registerTabBtn.classList.add("active");
-          loginTabBtn.classList.remove("active");
-          registerForm.style.display = "block";
-          loginForm.style.display = "none";
-        });
-
-        // Initialize list handlers
-        initListHandlers();
-
-        // Update lists view with loaded data
-        updateLists();
-
-        // Initialize Firebase authentication
-        initAuth();
-        
-        // Setup login reminder banner
-        setupLoginReminderBanner();
-
-        // Setup legal modal
-        setupLegalModal();
       }
 
       // Refresh the queue of media to show

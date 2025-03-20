@@ -19,6 +19,20 @@
         --netflix-dark-gray: #181818;
         --netflix-light-gray: #b3b3b3;
         --netflix-white: #f5f5f1;
+
+        /* Default dark theme variables */
+        --background-color: var(--netflix-black);
+        --card-background: var(--netflix-dark-gray);
+        --text-color: var(--netflix-white);
+        --secondary-text-color: var(--netflix-light-gray);
+      }
+
+      /* Light theme variables */
+      [data-theme="light"] {
+        --background-color: #f5f5f5;
+        --card-background: #ffffff;
+        --text-color: #333333;
+        --secondary-text-color: #666666;
       }
 
       * {
@@ -29,8 +43,8 @@
       }
 
       body {
-        background-color: var(--netflix-black);
-        color: var(--netflix-white);
+        background-color: var(--background-color);
+        color: var(--text-color);
         overflow: hidden;
         height: 100vh;
         width: 100vw;
@@ -57,10 +71,22 @@
         z-index: 100;
       }
 
+      /* Add this to make header respond to theme */
+      [data-theme="light"] header {
+        background-color: rgba(245, 245, 245, 0.9);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
       .logo {
         color: var(--netflix-red);
         font-size: 24px;
         font-weight: bold;
+      }
+
+      .header-controls {
+        display: flex;
+        align-items: center;
+        gap: 15px;
       }
 
       .nav-tabs {
@@ -72,6 +98,12 @@
         width: 100%;
         padding: 10px 0;
         z-index: 100;
+      }
+
+      /* Add this to make nav tabs respond to theme */
+      [data-theme="light"] .nav-tabs {
+        background-color: #ffffff;
+        box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
       }
 
       .nav-tab {
@@ -108,7 +140,7 @@
         max-width: 400px;
         height: 80vh;
         max-height: 600px;
-        background-color: var(--netflix-dark-gray);
+        background-color: var(--card-background);
         border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
@@ -136,7 +168,7 @@
         background: linear-gradient(
           to bottom,
           transparent,
-          var(--netflix-dark-gray)
+          var(--card-background)
         );
       }
 
@@ -155,7 +187,7 @@
       }
 
       .card-year {
-        color: var(--netflix-light-gray);
+        color: var(--secondary-text-color);
         margin-bottom: 10px;
       }
 
@@ -310,19 +342,37 @@
         font-weight: bold;
         cursor: pointer;
       }
+
+      .theme-toggle {
+        background: none;
+        border: none;
+        color: var(--text-color);
+        font-size: 20px;
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
     </style>
   </head>
   <body>
     <div class="app-container">
       <header>
         <div class="logo">MovieSwipe</div>
-        <div id="counter">1/30</div>
+        <div class="header-controls">
+          <div id="counter">1/30</div>
+          <button id="themeToggle" class="theme-toggle">
+            <i class="fas fa-moon"></i>
+          </button>
+        </div>
       </header>
 
       <div class="swipe-container" id="swipeContainer">
-        <div class="swipe-hint hint-like">LIKE</div>
+        <!-- Remove or comment out these lines -->
+        <!-- <div class="swipe-hint hint-like">LIKE</div>
         <div class="swipe-hint hint-dislike">NOPE</div>
-        <div class="swipe-hint hint-maybe">MAYBE</div>
+        <div class="swipe-hint hint-maybe">MAYBE</div> -->
 
         <div class="no-more-cards">
           <i class="fas fa-film"></i>
@@ -634,7 +684,7 @@
           description:
             "In den späten 1970er Jahren interviewen zwei FBI-Agenten inhaftierte Serienmörder, um Verbrechen zu lösen.",
           image:
-            "https://m.media-amazon.com/images/M/MV5BNWNmYzQ1ZWUtYTQ3ZS00Y2UwLTlkMDctZThlOTJkMGJiNzBiXkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg",
+            "https://m.media-amazon.com/images/M/MV5BNWNmYzQ1ZWUtYTQ3ZS00NjZlLWI2MzYtNjM2MmM2Y2VmODhmXkEyXkFqcGdeQXVyNjg2NjQwMDQ@._V1_.jpg",
           platforms: ["Netflix"],
           genres: ["Krimi", "Drama", "Thriller"],
         },
@@ -754,12 +804,70 @@
       const resetButton = document.getElementById("resetButton");
       const counter = document.getElementById("counter");
       const noMoreCards = document.querySelector(".no-more-cards");
-      const hintLike = document.querySelector(".hint-like");
-      const hintDislike = document.querySelector(".hint-dislike");
-      const hintMaybe = document.querySelector(".hint-maybe");
+      const themeToggle = document.getElementById("themeToggle");
+
+      // Theme handling
+      function initTheme() {
+        // Check if user has previously set a theme preference
+        const savedTheme = localStorage.getItem("theme");
+
+        if (savedTheme) {
+          // Apply saved theme
+          document.documentElement.setAttribute("data-theme", savedTheme);
+          updateThemeIcon(savedTheme);
+        } else {
+          // Check system preference
+          if (
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: light)").matches
+          ) {
+            document.documentElement.setAttribute("data-theme", "light");
+            updateThemeIcon("light");
+          } else {
+            document.documentElement.setAttribute("data-theme", "dark");
+            updateThemeIcon("dark");
+          }
+        }
+
+        // Add event listener for theme toggle
+        themeToggle.addEventListener("click", toggleTheme);
+
+        // Listen for system theme changes
+        window
+          .matchMedia("(prefers-color-scheme: light)")
+          .addEventListener("change", (e) => {
+            // Only apply system changes if user hasn't set a preference
+            if (!localStorage.getItem("theme")) {
+              const newTheme = e.matches ? "light" : "dark";
+              document.documentElement.setAttribute("data-theme", newTheme);
+              updateThemeIcon(newTheme);
+            }
+          });
+      }
+
+      function toggleTheme() {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme") || "dark";
+        const newTheme = currentTheme === "dark" ? "light" : "dark";
+
+        document.documentElement.setAttribute("data-theme", newTheme);
+        localStorage.setItem("theme", newTheme);
+        updateThemeIcon(newTheme);
+      }
+
+      function updateThemeIcon(theme) {
+        if (theme === "dark") {
+          themeToggle.innerHTML = '<i class="fas fa-sun"></i>';
+        } else {
+          themeToggle.innerHTML = '<i class="fas fa-moon"></i>';
+        }
+      }
 
       // Initialize the app
       function initApp() {
+        // Initialize theme
+        initTheme();
+
         // Create initial cards
         createCards();
 
@@ -884,25 +992,6 @@
           card.style.transform = `translate(${diffX}px, ${diffY}px) rotate(${
             diffX * 0.1
           }deg)`;
-
-          // Show hint based on drag direction
-          if (diffX > 80) {
-            hintLike.style.opacity = Math.min(diffX / 100, 1);
-            hintDislike.style.opacity = 0;
-            hintMaybe.style.opacity = 0;
-          } else if (diffX < -80) {
-            hintDislike.style.opacity = Math.min(Math.abs(diffX) / 100, 1);
-            hintLike.style.opacity = 0;
-            hintMaybe.style.opacity = 0;
-          } else if (diffY < -80) {
-            hintMaybe.style.opacity = Math.min(Math.abs(diffY) / 100, 1);
-            hintLike.style.opacity = 0;
-            hintDislike.style.opacity = 0;
-          } else {
-            hintLike.style.opacity = 0;
-            hintDislike.style.opacity = 0;
-            hintMaybe.style.opacity = 0;
-          }
         }
 
         function dragEnd(e) {
@@ -922,10 +1011,13 @@
           const diffX = currentX - startX;
           const diffY = currentY - startY;
 
+          // Remove or comment out this hint reset code
+          /*
           // Reset hints
           hintLike.style.opacity = 0;
           hintDislike.style.opacity = 0;
           hintMaybe.style.opacity = 0;
+          */
 
           // Determine swipe direction based on distance
           if (diffX > 100) {
@@ -1083,10 +1175,6 @@
       function resetApp() {
         // Clear all cards
         swipeContainer.innerHTML = `
-                <div class="swipe-hint hint-like">LIKE</div>
-                <div class="swipe-hint hint-dislike">NOPE</div>
-                <div class="swipe-hint hint-maybe">MAYBE</div>
-                
                 <div class="no-more-cards">
                     <i class="fas fa-film"></i>
                     <h2>Keine weiteren Filme</h2>

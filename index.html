@@ -1984,8 +1984,8 @@
             makeCardDraggable(activeCards[0]);
           }
 
-          // Check if we've reached the end
-          if (currentQueue.length === 0) {
+          // Check if we've reached the end - both when queue is empty AND when there are no active cards
+          if (currentQueue.length === 0 || activeCards.length === 0) {
             noMoreCards.style.display = "flex";
           }
 
@@ -2136,11 +2136,19 @@
         likeReaction = document.getElementById("likeReaction");
         dislikeReaction = document.getElementById("dislikeReaction");
         maybeReaction = document.getElementById("maybeReaction");
+        noMoreCards = document.querySelector(".no-more-cards");
 
         activeCards = [];
 
         // Create new cards
         createCards();
+
+        // Check if we need to show "no more cards" message
+        if (currentQueue.length === 0) {
+          noMoreCards.style.display = "flex";
+        } else {
+          noMoreCards.style.display = "none";
+        }
 
         // Update UI
         swipeContainer.style.display = "flex";

@@ -1507,8 +1507,10 @@
         // Initialize the queue of media to show
         refreshQueue();
 
-        // Create initial cards
-        createCards();
+        // Create initial cards with a slight delay to ensure DOM is ready
+        setTimeout(() => {
+          createCards();
+        }, 100);
 
         // Add event listeners for main navigation
         swipeTab.addEventListener("click", showSwipeView);

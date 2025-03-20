@@ -1299,6 +1299,10 @@
           firebase.firestore().collection('users').doc(userId).set(userData)
             .then(() => {
               console.log("Local lists saved to Firebase successfully");
+              
+              // Clear local storage after successful save to Firebase
+              localStorage.removeItem("movieMatch_likedMediaIds");
+              localStorage.removeItem("movieMatch_dislikedMediaIds");
             })
             .catch((error) => {
               console.error("Error saving lists to Firebase: ", error);
@@ -1308,6 +1312,46 @@
         // Logout functionality
         logoutButton.addEventListener("click", function() {
           firebase.auth().signOut().then(() => {
+            // Clear localStorage
+            localStorage.removeItem("movieMatch_likedMediaIds");
+            localStorage.removeItem("movieMatch_dislikedMediaIds");
+            
+            // Reset in-memory lists
+            movieMatch_likedMediaIds = [];
+            movieMatch_dislikedMediaIds = [];
+            
+            // Refresh UI
+            refreshQueue();
+            updateLists();
+            
+            // If in swipe view, recreate cards
+            if (swipeContainer.style.display !== 'none') {
+              // Clear existing cards and recreate
+              swipeContainer.innerHTML = `
+                <div class="reaction-animation" id="likeReaction">👍</div>
+                <div class="reaction-animation" id="dislikeReaction">👎</div>
+                <div class="reaction-animation" id="maybeReaction">🤔</div>
+                <div class="no-more-cards">
+                  <i class="fas fa-film"></i>
+                  <h2>Keine weiteren Filme</h2>
+                  <p>Du hast alle verfügbaren Filme und Serien bewertet!</p>
+                  <button class="reset-button" id="resetButton">Von vorne beginnen</button>
+                </div>
+              `;
+              
+              // Update reaction element references
+              likeReaction = document.getElementById("likeReaction");
+              dislikeReaction = document.getElementById("dislikeReaction");
+              maybeReaction = document.getElementById("maybeReaction");
+              noMoreCards = document.querySelector(".no-more-cards");
+              
+              activeCards = [];
+              createCards();
+              
+              // Re-add event listener to reset button
+              document.getElementById("resetButton").addEventListener("click", resetApp);
+            }
+            
             showAuthMessage("Logged out successfully", "success");
           }).catch((error) => {
             showAuthMessage("Error signing out: " + error.message, "error");
@@ -1343,8 +1387,9 @@
                 movieMatch_dislikedMediaIds = userData.dislikedMediaIds;
               }
               
-              // Save to localStorage
-              saveLists();
+              // Clear localStorage since we're now using Firebase data
+              localStorage.removeItem("movieMatch_likedMediaIds");
+              localStorage.removeItem("movieMatch_dislikedMediaIds");
               
               // Refresh the queue and update UI
               refreshQueue();

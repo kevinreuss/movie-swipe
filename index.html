@@ -634,6 +634,83 @@
         color: white;
         border: none;
       }
+
+      /* Feedback section styles */
+      .feedback-section {
+        margin-top: 30px;
+        background-color: var(--card-background);
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+      }
+      
+      .feedback-section h3 {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: var(--text-color);
+        text-align: center;
+      }
+      
+      .feedback-links {
+        display: flex;
+        justify-content: space-around;
+        gap: 10px;
+      }
+      
+      .feedback-link {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-decoration: none;
+        color: var(--text-color);
+        padding: 10px;
+        border-radius: 8px;
+        transition: background-color 0.2s;
+        flex: 1;
+      }
+      
+      .feedback-link:hover {
+        background-color: rgba(255, 77, 77, 0.1);
+      }
+      
+      .feedback-link i {
+        font-size: 24px;
+        margin-bottom: 8px;
+        color: var(--netflix-red);
+      }
+      
+      .feedback-link span {
+        font-size: 14px;
+      }
+
+      /* Compact feedback link style */
+      .feedback-compact {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        margin-top: 100px;
+        background-color: var(--card-background);
+        border-radius: 10px;
+        padding: 15px;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        text-decoration: none;
+        color: var(--text-color);
+        transition: background-color 0.2s;
+      }
+      
+      .feedback-compact:hover {
+        background-color: rgba(255, 77, 77, 0.1);
+      }
+      
+      .feedback-compact i {
+        font-size: 20px;
+        color: var(--netflix-red);
+      }
+      
+      .feedback-compact span {
+        font-size: 14px;
+      }
     </style>
   </head>
   <body>
@@ -741,6 +818,12 @@
             </div>
             <div class="category-count" id="dislikedCount">0</div>
           </div>
+          
+          <!-- Add compact feedback section -->
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSd0r3n39BChksWl3TOT2Ingzz1Xns0hNZwuLBA0jPVOEJhXNw/viewform" target="_blank" class="feedback-compact">
+            <i class="fas fa-comment-dots"></i>
+            <span>Send feedback or report bugs</span>
+          </a>
         </div>
 
         <div class="list-detail" id="likedDetail">

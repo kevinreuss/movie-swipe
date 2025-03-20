@@ -49,6 +49,32 @@ def fetch_tmdb_data(endpoint, count):
     
     return results[:count]  # Limit to requested count
 
+# Function to fetch genre lists
+def fetch_genres(media_type):
+    url = f"{BASE_URL}/genre/{media_type}/list?language={language}"
+    
+    headers = {
+        "Authorization": f"Bearer {API_KEY}",
+        "Content-Type": "application/json;charset=utf-8"
+    }
+    
+    try:
+        response = requests.get(url, headers=headers)
+        response.raise_for_status()
+        data = response.json()
+        
+        # Create a dictionary mapping genre IDs to genre names
+        return {genre["id"]: genre["name"] for genre in data.get("genres", [])}
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching genre data: {e}")
+        return {}
+
+# Fetch genre mappings
+print("Fetching genre data...")
+movie_genres = fetch_genres("movie")
+tv_genres = fetch_genres("tv")
+print(f"Retrieved {len(movie_genres)} movie genres and {len(tv_genres)} TV genres")
+
 # Fetch data
 print("Fetching movie data...")
 movies = fetch_tmdb_data("movie/top_rated", MOVIE_COUNT)
@@ -71,7 +97,8 @@ output = {
             "overview": movie["overview"],
             "rating": movie["vote_average"],
             "release_date": movie["release_date"],
-            "poster_url": f"https://image.tmdb.org/t/p/w500{movie['poster_path']}" if movie.get('poster_path') else ""
+            "poster_url": f"https://image.tmdb.org/t/p/w500{movie['poster_path']}" if movie.get('poster_path') else "",
+            "genres": [movie_genres.get(genre_id, "Unknown") for genre_id in movie.get("genre_ids", [])]
         }
         for movie in movies
     ],
@@ -81,7 +108,8 @@ output = {
             "overview": show["overview"],
             "rating": show["vote_average"],
             "first_air_date": show.get("first_air_date", "Unknown"),
-            "poster_url": f"https://image.tmdb.org/t/p/w500{show['poster_path']}" if show.get('poster_path') else ""
+            "poster_url": f"https://image.tmdb.org/t/p/w500{show['poster_path']}" if show.get('poster_path') else "",
+            "genres": [tv_genres.get(genre_id, "Unknown") for genre_id in show.get("genre_ids", [])]
         }
         for show in tv_shows
     ]
@@ -93,8 +121,8 @@ print(json.dumps(output, indent=2)[:500] + "..." if len(json.dumps(output)) > 50
 
 # Save data to JSON file
 try:
-    with open("top_movies_tv.json", "w", encoding="utf-8") as f:
+    with open(f"movie-data-{language}.json", "w", encoding="utf-8") as f:
         json.dump(output, f, indent=4, ensure_ascii=False)
-    print("\n✅ Data successfully saved to top_movies_tv.json")
+    print("\n✅ Data successfully saved to movie-data-{language}.json")
 except Exception as e:
     print(f"\nError saving data: {e}")

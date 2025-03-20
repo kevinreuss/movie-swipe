@@ -1,6 +1,6 @@
 import json
 
-language = "en"
+language = "de"
 
 # Datei einlesen
 with open(f'originalFetchedData/movie-data-{language}.json', 'r', encoding='utf-8') as file:
@@ -21,7 +21,7 @@ for movie in data.get('movies', []):
         "year": year,
         "description": movie['overview'],
         "image": movie['poster_url'],
-        "genres": []
+        "genres": movie['genres']
     }
     
     media_data.append(media_entry)
@@ -38,7 +38,7 @@ for tv_show in data.get('tv_shows', []):
         "year": year,
         "description": tv_show['overview'],
         "image": tv_show['poster_url'],
-        "genres": []
+        "genres": tv_show['genres']
     }
     
     media_data.append(media_entry)

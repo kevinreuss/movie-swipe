@@ -1,6 +1,6 @@
 const mediaData = [
   {
-    id: 0,
+    id: "0",
     title: "Stranger Things",
     type: "Series",
     year: "2016",
@@ -11,7 +11,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Horror", "Drama"],
   },
   {
-    id: 1,
+    id: "1",
     title: "Breaking Bad",
     type: "Series",
     year: "2008",
@@ -22,7 +22,7 @@ const mediaData = [
     genres: ["Drama", "Crime", "Thriller"],
   },
   {
-    id: 2,
+    id: "2",
     title: "Inception",
     type: "Movie",
     year: "2010",
@@ -33,7 +33,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Action", "Thriller"],
   },
   {
-    id: 3,
+    id: "3",
     title: "The Queen's Gambit",
     type: "Miniseries",
     year: "2020",
@@ -44,7 +44,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 4,
+    id: "4",
     title: "The Mandalorian",
     type: "Series",
     year: "2019",
@@ -55,7 +55,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Action", "Adventure"],
   },
   {
-    id: 5,
+    id: "5",
     title: "Parasite",
     type: "Movie",
     year: "2019",
@@ -66,7 +66,7 @@ const mediaData = [
     genres: ["Thriller", "Drama", "Comedy"],
   },
   {
-    id: 6,
+    id: "6",
     title: "Dark",
     type: "Series",
     year: "2017",
@@ -77,7 +77,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Mystery", "Thriller"],
   },
   {
-    id: 7,
+    id: "7",
     title: "The Witcher",
     type: "Series",
     year: "2019",
@@ -88,7 +88,7 @@ const mediaData = [
     genres: ["Fantasy", "Action", "Adventure"],
   },
   {
-    id: 8,
+    id: "8",
     title: "Joker",
     type: "Movie",
     year: "2019",
@@ -99,7 +99,7 @@ const mediaData = [
     genres: ["Thriller", "Drama", "Crime"],
   },
   {
-    id: 9,
+    id: "9",
     title: "Money Heist",
     type: "Series",
     year: "2017",
@@ -110,7 +110,7 @@ const mediaData = [
     genres: ["Crime", "Thriller", "Drama"],
   },
   {
-    id: 10,
+    id: "10",
     title: "The Crown",
     type: "Series",
     year: "2016",
@@ -121,7 +121,7 @@ const mediaData = [
     genres: ["Drama", "History"],
   },
   {
-    id: 11,
+    id: "11",
     title: "Interstellar",
     type: "Movie",
     year: "2014",
@@ -132,7 +132,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Drama", "Adventure"],
   },
   {
-    id: 12,
+    id: "12",
     title: "Squid Game",
     type: "Series",
     year: "2021",
@@ -143,7 +143,7 @@ const mediaData = [
     genres: ["Thriller", "Drama", "Mystery"],
   },
   {
-    id: 13,
+    id: "13",
     title: "The Shawshank Redemption",
     type: "Movie",
     year: "1994",
@@ -154,7 +154,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 14,
+    id: "14",
     title: "Game of Thrones",
     type: "Series",
     year: "2011",
@@ -165,7 +165,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Drama"],
   },
   {
-    id: 15,
+    id: "15",
     title: "The Social Network",
     type: "Movie",
     year: "2010",
@@ -176,7 +176,7 @@ const mediaData = [
     genres: ["Biography", "Drama"],
   },
   {
-    id: 16,
+    id: "16",
     title: "Black Mirror",
     type: "Series",
     year: "2011",
@@ -187,7 +187,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Thriller", "Drama"],
   },
   {
-    id: 17,
+    id: "17",
     title: "The Dark Knight",
     type: "Movie",
     year: "2008",
@@ -198,7 +198,7 @@ const mediaData = [
     genres: ["Action", "Crime", "Drama"],
   },
   {
-    id: 18,
+    id: "18",
     title: "Peaky Blinders",
     type: "Series",
     year: "2013",
@@ -209,7 +209,7 @@ const mediaData = [
     genres: ["Crime", "Drama"],
   },
   {
-    id: 19,
+    id: "19",
     title: "Dune",
     type: "Movie",
     year: "2021",
@@ -220,7 +220,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Adventure"],
   },
   {
-    id: 20,
+    id: "20",
     title: "Mindhunter",
     type: "Series",
     year: "2017",
@@ -231,7 +231,7 @@ const mediaData = [
     genres: ["Crime", "Drama", "Thriller"],
   },
   {
-    id: 21,
+    id: "21",
     title: "The Office",
     type: "Series",
     year: "2005",
@@ -242,7 +242,7 @@ const mediaData = [
     genres: ["Comedy"],
   },
   {
-    id: 22,
+    id: "22",
     title: "Blade Runner 2049",
     type: "Movie",
     year: "2017",
@@ -253,7 +253,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Thriller", "Drama"],
   },
   {
-    id: 23,
+    id: "23",
     title: "Oppenheimer",
     type: "Movie",
     year: "2023",
@@ -264,7 +264,7 @@ const mediaData = [
     genres: ["Biography", "Drama", "History"],
   },
   {
-    id: 24,
+    id: "24",
     title: "Better Call Saul",
     type: "Series",
     year: "2015",
@@ -275,7 +275,7 @@ const mediaData = [
     genres: ["Crime", "Drama"],
   },
   {
-    id: 25,
+    id: "25",
     title: "Barbie",
     type: "Movie",
     year: "2023",
@@ -286,7 +286,7 @@ const mediaData = [
     genres: ["Comedy", "Adventure", "Fantasy"],
   },
   {
-    id: 26,
+    id: "26",
     title: "The Boys",
     type: "Series",
     year: "2019",
@@ -297,7 +297,7 @@ const mediaData = [
     genres: ["Action", "Comedy", "Crime"],
   },
   {
-    id: 27,
+    id: "27",
     title: "Killers of the Flower Moon",
     type: "Movie",
     year: "2023",
@@ -308,7 +308,7 @@ const mediaData = [
     genres: ["Crime", "Drama", "History"],
   },
   {
-    id: 28,
+    id: "28",
     title: "Ted Lasso",
     type: "Series",
     year: "2020",
@@ -319,7 +319,7 @@ const mediaData = [
     genres: ["Comedy", "Drama", "Sport"],
   },
   {
-    id: 29,
+    id: "29",
     title: "Poor Things",
     type: "Movie",
     year: "2023",
@@ -330,7 +330,7 @@ const mediaData = [
     genres: ["Comedy", "Drama", "Romance"],
   },
   {
-    id: 30,
+    id: "30",
     title: "The Whale",
     type: "Movie",
     year: "2022",
@@ -341,7 +341,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 31,
+    id: "31",
     title: "Andor",
     type: "Series",
     year: "2022",
@@ -352,7 +352,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Drama"],
   },
   {
-    id: 32,
+    id: "32",
     title: "The Banshees of Inisherin",
     type: "Movie",
     year: "2022",
@@ -363,7 +363,7 @@ const mediaData = [
     genres: ["Comedy", "Drama"],
   },
   {
-    id: 33,
+    id: "33",
     title: "Saltburn",
     type: "Movie",
     year: "2023",
@@ -374,7 +374,7 @@ const mediaData = [
     genres: ["Comedy", "Drama", "Thriller"],
   },
   {
-    id: 34,
+    id: "34",
     title: "The White Lotus",
     type: "Series",
     year: "2021",
@@ -385,7 +385,7 @@ const mediaData = [
     genres: ["Comedy", "Drama"],
   },
   {
-    id: 35,
+    id: "35",
     title: "Fleabag",
     type: "Series",
     year: "2016",
@@ -396,7 +396,7 @@ const mediaData = [
     genres: ["Comedy", "Drama"],
   },
   {
-    id: 36,
+    id: "36",
     title: "Euphoria",
     type: "Series",
     year: "2019",
@@ -407,7 +407,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 37,
+    id: "37",
     title: "The Green Knight",
     type: "Movie",
     year: "2021",
@@ -418,7 +418,7 @@ const mediaData = [
     genres: ["Adventure", "Drama", "Fantasy"],
   },
   {
-    id: 38,
+    id: "38",
     title: "Nomadland",
     type: "Movie",
     year: "2020",
@@ -429,7 +429,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 39,
+    id: "39",
     title: "Midsommar",
     type: "Movie",
     year: "2019",
@@ -440,7 +440,7 @@ const mediaData = [
     genres: ["Horror", "Drama", "Mystery"],
   },
   {
-    id: 40,
+    id: "40",
     title: "The Northman",
     type: "Movie",
     year: "2022",
@@ -451,7 +451,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Drama"],
   },
   {
-    id: 41,
+    id: "41",
     title: "Nope",
     type: "Movie",
     year: "2022",
@@ -462,7 +462,7 @@ const mediaData = [
     genres: ["Horror", "Mystery", "Sci-Fi"],
   },
   {
-    id: 42,
+    id: "42",
     title: "Top Gun: Maverick",
     type: "Movie",
     year: "2022",
@@ -473,7 +473,7 @@ const mediaData = [
     genres: ["Action", "Drama"],
   },
   {
-    id: 43,
+    id: "43",
     title: "Babylon",
     type: "Movie",
     year: "2022",
@@ -484,7 +484,7 @@ const mediaData = [
     genres: ["Comedy", "Drama", "History"],
   },
   {
-    id: 44,
+    id: "44",
     title: "The Menu",
     type: "Movie",
     year: "2022",
@@ -495,7 +495,7 @@ const mediaData = [
     genres: ["Comedy", "Horror", "Thriller"],
   },
   {
-    id: 45,
+    id: "45",
     title: "Triangle of Sadness",
     type: "Movie",
     year: "2022",
@@ -506,7 +506,7 @@ const mediaData = [
     genres: ["Comedy", "Drama"],
   },
   {
-    id: 46,
+    id: "46",
     title: "Aftersun",
     type: "Movie",
     year: "2022",
@@ -517,7 +517,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 47,
+    id: "47",
     title: "Bridgerton",
     type: "Series",
     year: "2020",
@@ -528,7 +528,7 @@ const mediaData = [
     genres: ["Drama", "Romance"],
   },
   {
-    id: 48,
+    id: "48",
     title: "Past Lives",
     type: "Movie",
     year: "2023",
@@ -539,7 +539,7 @@ const mediaData = [
     genres: ["Drama", "Romance"],
   },
   {
-    id: 49,
+    id: "49",
     title: "Fargo",
     type: "Series",
     year: "2014",
@@ -550,7 +550,7 @@ const mediaData = [
     genres: ["Crime", "Drama", "Thriller"],
   },
   {
-    id: 50,
+    id: "50",
     title: "The Last of Us",
     type: "Series",
     year: "2023",
@@ -561,7 +561,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Drama"],
   },
   {
-    id: 51,
+    id: "51",
     title: "House of the Dragon",
     type: "Series",
     year: "2022",
@@ -572,7 +572,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Drama"],
   },
   {
-    id: 52,
+    id: "52",
     title: "Everything Everywhere All at Once",
     type: "Movie",
     year: "2022",
@@ -583,7 +583,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Comedy"],
   },
   {
-    id: 53,
+    id: "53",
     title: "The Batman",
     type: "Movie",
     year: "2022",
@@ -594,7 +594,7 @@ const mediaData = [
     genres: ["Action", "Crime", "Drama"],
   },
   {
-    id: 54,
+    id: "54",
     title: "Joker",
     type: "Movie",
     year: "2019",
@@ -605,7 +605,7 @@ const mediaData = [
     genres: ["Crime", "Drama", "Thriller"],
   },
   {
-    id: 55,
+    id: "55",
     title: "1917",
     type: "Movie",
     year: "2019",
@@ -616,7 +616,7 @@ const mediaData = [
     genres: ["Action", "Drama", "War"],
   },
   {
-    id: 56,
+    id: "56",
     title: "Knives Out",
     type: "Movie",
     year: "2019",
@@ -627,7 +627,7 @@ const mediaData = [
     genres: ["Comedy", "Crime", "Drama"],
   },
   {
-    id: 57,
+    id: "57",
     title: "The Irishman",
     type: "Movie",
     year: "2019",

@@ -946,6 +946,24 @@
         display: inline-block;
         margin-top: 15px;
       }
+
+      /* Language toggle styles */
+      .language-toggle {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 10px;
+      }
+
+      .flag-icon {
+        width: 24px;
+        height: 16px;
+        border-radius: 2px;
+      }
     </style>
   </head>
   <body>
@@ -979,6 +997,9 @@
       <header>
         <div class="logo">MovieMatch</div>
         <div class="header-controls">
+          <button id="languageToggle" class="language-toggle">
+            <img src="img/flag-uk.png" alt="English" class="flag-icon" />
+          </button>
           <button id="themeToggle" class="theme-toggle">
             <i class="fas fa-moon"></i>
           </button>
@@ -1269,6 +1290,10 @@
       let currentQueue = []; // Queue of media to show
       let activeCards = [];
 
+      // Global variable for media data
+      let mediaData = [];
+      let currentLanguage = "en";
+
       // DOM Elements
       const swipeContainer = document.getElementById("swipeContainer");
       const listsContainer = document.getElementById("listsContainer");
@@ -1288,6 +1313,7 @@
       const registerTabBtn = document.getElementById("registerTabBtn");
       const loginForm = document.getElementById("loginForm");
       const registerForm = document.getElementById("registerForm");
+      const languageToggle = document.getElementById("languageToggle");
 
       // Add references to reaction elements
       let likeReaction = document.getElementById("likeReaction");
@@ -1391,9 +1417,16 @@
         const loginReminderBanner = document.getElementById(
           "loginReminderBanner"
         );
+        const languageToggle = document.getElementById("languageToggle");
+
+        // Initialize language
+        initLanguage();
 
         // Initialize theme
         initTheme();
+
+        // Add language toggle event listener
+        languageToggle.addEventListener("click", toggleLanguage);
 
         // Check if onboarding should be shown
         checkOnboarding();
@@ -1430,6 +1463,124 @@
 
         // Setup legal modal
         setupLegalModal();
+      }
+
+      // Initialize language
+      function initLanguage() {
+        // Check if user has previously set a language preference
+        const savedLanguage = localStorage.getItem("movieMatch_language");
+
+        if (savedLanguage) {
+          // Apply saved language
+          currentLanguage = savedLanguage;
+        } else {
+          // Default to English
+          currentLanguage = "en";
+        }
+
+        // Set the initial media data based on language
+        changeLanguage(currentLanguage);
+
+        // Update the flag icon
+        updateLanguageIcon(currentLanguage);
+      }
+
+      // Toggle between English and German
+      function toggleLanguage() {
+        // Toggle the language
+        const newLanguage = currentLanguage === "en" ? "de" : "en";
+
+        // Change the language
+        changeLanguage(newLanguage);
+
+        // Save the preference
+        localStorage.setItem("movieMatch_language", newLanguage);
+
+        // Update the flag icon
+        updateLanguageIcon(newLanguage);
+      }
+
+      // Change the language and update media data
+      function changeLanguage(language) {
+        // Store the current queue IDs to preserve order
+        const currentQueueIds = currentQueue.map((item) => item.id);
+
+        // Set the current language
+        currentLanguage = language;
+
+        // Assign the appropriate media data
+        if (language === "de") {
+          mediaData = mediaData_de;
+        } else {
+          mediaData = mediaData_en;
+        }
+
+        // If we're on the explore page, we need to update the cards
+        if (swipeContainer.style.display !== "none") {
+          // Preserve the order of the queue by mapping the IDs to the new language data
+          if (currentQueueIds.length > 0) {
+            // First, create a map of all media items by ID for quick lookup
+            const mediaMap = {};
+            mediaData.forEach((item) => {
+              mediaMap[item.id] = item;
+            });
+
+            // Recreate the queue with the same order but with new language data
+            currentQueue = currentQueueIds
+              .map((id) => mediaMap[id])
+              .filter((item) => item !== undefined); // Filter out any IDs that don't exist in the new data
+
+            // Refresh the cards
+            refreshCardsAfterLanguageChange();
+          } else {
+            // If the queue is empty, just refresh it
+            refreshQueue();
+            createCards();
+          }
+        }
+
+        // Update the lists view with the new language data
+        updateLists();
+      }
+
+      // Update the language toggle icon
+      function updateLanguageIcon(language) {
+        const languageToggle = document.getElementById("languageToggle");
+
+        if (language === "de") {
+          languageToggle.innerHTML =
+            '<img src="img/flag-de.png" alt="Deutsch" class="flag-icon">';
+        } else {
+          languageToggle.innerHTML =
+            '<img src="img/flag-uk.png" alt="English" class="flag-icon">';
+        }
+      }
+
+      // Refresh cards after language change
+      function refreshCardsAfterLanguageChange() {
+        // Clear existing cards
+        swipeContainer.innerHTML = `
+          <div class="reaction-animation" id="likeReaction">👍</div>
+          <div class="reaction-animation" id="dislikeReaction">👎</div>
+          <div class="reaction-animation" id="maybeReaction">🤔</div>
+          <div class="no-more-cards">
+            <i class="fas fa-film"></i>
+            <h2>No more movies</h2>
+            <p>You've rated all available movies and series!</p>
+          </div>
+        `;
+
+        // Update reaction element references after rebuilding DOM
+        likeReaction = document.getElementById("likeReaction");
+        dislikeReaction = document.getElementById("dislikeReaction");
+        maybeReaction = document.getElementById("maybeReaction");
+        noMoreCards = document.querySelector(".no-more-cards");
+
+        // Reset active cards array
+        activeCards = [];
+
+        // Create new cards
+        createCards();
       }
 
       // Add Firebase auth functionality

@@ -332,35 +332,80 @@
       }
 
       .list-items {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        display: flex;
+        flex-direction: column;
         gap: 15px;
       }
 
       .list-item {
         position: relative;
-        border-radius: 5px;
+        border-radius: 10px;
         overflow: hidden;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        background-color: var(--card-background);
+        display: flex;
+        flex-direction: column;
+        height: auto;
       }
 
       .list-item-image {
         width: 100%;
-        aspect-ratio: 2/3;
+        height: 180px;
         background-size: cover;
         background-position: center;
+        position: relative;
       }
 
-      .list-item-title {
+      .list-item-gradient {
         position: absolute;
         bottom: 0;
         width: 100%;
-        padding: 10px;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.9), transparent);
+        height: 50%;
+        background: linear-gradient(
+          to bottom,
+          transparent,
+          var(--card-background)
+        );
+      }
+
+      .list-item-content {
+        padding: 15px;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .list-item-title {
+        font-size: 18px;
+        font-weight: bold;
+        margin-bottom: 5px;
+        white-space: normal;
+        position: relative;
+      }
+
+      .list-item-year {
+        color: var(--secondary-text-color);
+        margin-bottom: 5px;
         font-size: 14px;
-        white-space: nowrap;
-        overflow: hidden;
-        text-overflow: ellipsis;
+      }
+
+      .list-item-description {
+        font-size: 14px;
+        margin-bottom: 10px;
+        line-height: 1.4;
+      }
+
+      .list-item-genres {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .list-item-genre {
+        background-color: rgba(229, 9, 20, 0.2);
+        color: var(--netflix-red);
+        padding: 3px 8px;
+        border-radius: 15px;
+        font-size: 10px;
       }
 
       .remove-item {
@@ -939,10 +984,21 @@
 
       // Create a list item for the lists view
       function createListItem(media, listType, index) {
+        const genresHTML = media.genres
+          .map((genre) => `<div class="list-item-genre">${genre}</div>`)
+          .join("");
+
         return `
           <div class="list-item">
-            <div class="list-item-image" style="background-image: url('${media.image}')"></div>
-            <div class="list-item-title">${media.title}</div>
+            <div class="list-item-image" style="background-image: url('${media.image}')">
+              <div class="list-item-gradient"></div>
+            </div>
+            <div class="list-item-content">
+              <div class="list-item-title">${media.title}</div>
+              <div class="list-item-year">${media.type} • ${media.year}</div>
+              <div class="list-item-description">${media.description}</div>
+              <div class="list-item-genres">${genresHTML}</div>
+            </div>
             <button class="remove-item" data-list="${listType}" data-index="${index}">
               <i class="fas fa-times"></i>
             </button>

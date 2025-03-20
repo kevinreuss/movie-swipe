@@ -393,7 +393,6 @@
       <header>
         <div class="logo">MovieSwipe</div>
         <div class="header-controls">
-          <div id="counter">1/30</div>
           <button id="themeToggle" class="theme-toggle">
             <i class="fas fa-moon"></i>
           </button>
@@ -444,11 +443,11 @@
       <nav class="nav-tabs">
         <a href="#" class="nav-tab active" id="swipeTab">
           <i class="fas fa-film"></i>
-          <span>Entdecken</span>
+          <span>Explore</span>
         </a>
         <a href="#" class="nav-tab" id="listsTab">
           <i class="fas fa-list"></i>
-          <span>Meine Listen</span>
+          <span>My Lists</span>
         </a>
       </nav>
     </div>
@@ -472,7 +471,6 @@
       const maybeList = document.getElementById("maybeList");
       const dislikedList = document.getElementById("dislikedList");
       const resetButton = document.getElementById("resetButton");
-      const counter = document.getElementById("counter");
       const noMoreCards = document.querySelector(".no-more-cards");
       const themeToggle = document.getElementById("themeToggle");
 
@@ -550,9 +548,6 @@
         swipeTab.addEventListener("click", showSwipeView);
         listsTab.addEventListener("click", showListsView);
         resetButton.addEventListener("click", resetApp);
-
-        // Update counter
-        updateCounter();
       }
 
       // Create cards for swiping
@@ -744,7 +739,6 @@
 
           // Move to next card
           currentIndex++;
-          updateCounter();
 
           // Check if we need to add more cards
           if (
@@ -785,11 +779,6 @@
         }, 700);
       }
 
-      // Update the counter
-      function updateCounter() {
-        counter.textContent = `${currentIndex + 1}/${mediaData.length}`;
-      }
-
       // Update the lists view
       function updateLists() {
         // Update liked list
@@ -826,29 +815,11 @@
       // Create a list item for the lists view
       function createListItem(media) {
         return `
-                <div class="list-item">
-                    <div class="list-item-image" style="background-image: url('${media.image}')"></div>
-                    <div class="list-item-title">${media.title}</div>
-                </div>
-            `;
-      }
-
-      // Show the swipe view
-      function showSwipeView(e) {
-        e.preventDefault();
-        swipeContainer.style.display = "flex";
-        listsContainer.style.display = "none";
-        swipeTab.classList.add("active");
-        listsTab.classList.remove("active");
-      }
-
-      // Show the lists view
-      function showListsView(e) {
-        e.preventDefault();
-        swipeContainer.style.display = "none";
-        listsContainer.style.display = "block";
-        swipeTab.classList.remove("active");
-        listsTab.classList.add("active");
+          <div class="list-item">
+            <div class="list-item-image" style="background-image: url('${media.image}')"></div>
+            <div class="list-item-title">${media.title}</div>
+          </div>
+        `;
       }
 
       // Reset the app
@@ -876,9 +847,6 @@
         // Create new cards
         createCards();
 
-        // Update counter
-        updateCounter();
-
         // Update lists
         updateLists();
 
@@ -891,8 +859,24 @@
         swipeTab.click();
       }
 
-      // Initialize the app when the page loads
-      window.addEventListener("DOMContentLoaded", initApp);
+      // Show swipe view
+      function showSwipeView() {
+        swipeContainer.style.display = "flex";
+        listsContainer.style.display = "none";
+        swipeTab.classList.add("active");
+        listsTab.classList.remove("active");
+      }
+
+      // Show lists view
+      function showListsView() {
+        swipeContainer.style.display = "none";
+        listsContainer.style.display = "flex";
+        swipeTab.classList.remove("active");
+        listsTab.classList.add("active");
+      }
+
+      // Initialize the app
+      initApp();
     </script>
   </body>
 </html>

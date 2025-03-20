@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="de">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -997,13 +997,13 @@
       <header>
         <div class="logo">MovieMatch</div>
         <div class="header-controls">
-          <button id="languageToggle" class="language-toggle">
+          <!-- <button id="languageToggle" class="language-toggle">
             <img
               src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1200px-Flag_of_the_United_Kingdom_%283-5%29.svg.png"
               alt="English"
               class="flag-icon"
             />
-          </button>
+          </button> -->
           <button id="themeToggle" class="theme-toggle">
             <i class="fas fa-moon"></i>
           </button>
@@ -1317,7 +1317,7 @@
       const registerTabBtn = document.getElementById("registerTabBtn");
       const loginForm = document.getElementById("loginForm");
       const registerForm = document.getElementById("registerForm");
-      const languageToggle = document.getElementById("languageToggle");
+      // const languageToggle = document.getElementById("languageToggle");
 
       // Add references to reaction elements
       let likeReaction = document.getElementById("likeReaction");
@@ -1421,7 +1421,7 @@
         const loginReminderBanner = document.getElementById(
           "loginReminderBanner"
         );
-        const languageToggle = document.getElementById("languageToggle");
+        // const languageToggle = document.getElementById("languageToggle");
 
         // Initialize theme
         initTheme();
@@ -1430,7 +1430,7 @@
         initLanguage();
 
         // Add language toggle event listener
-        languageToggle.addEventListener("click", toggleLanguage);
+        // languageToggle.addEventListener("click", toggleLanguage);
 
         // Check if onboarding should be shown
         checkOnboarding();
@@ -1472,7 +1472,7 @@
       // Initialize language
       function initLanguage() {
         // Check if user has previously set a language preference
-        const savedLanguage = localStorage.getItem("movieMatch_language");
+        const savedLanguage = "en"; //localStorage.getItem("movieMatch_language");
 
         if (savedLanguage) {
           // Apply saved language
@@ -1486,7 +1486,7 @@
         changeLanguage(currentLanguage, false); // Pass false to not refresh cards yet
 
         // Update the flag icon
-        updateLanguageIcon(currentLanguage);
+        // updateLanguageIcon(currentLanguage);
       }
 
       // Change the language and update media data
@@ -1535,19 +1535,19 @@
       }
 
       // Toggle between English and German
-      function toggleLanguage() {
-        // Toggle the language
-        const newLanguage = currentLanguage === "en" ? "de" : "en";
+      // function toggleLanguage() {
+      //   // Toggle the language
+      //   const newLanguage = currentLanguage === "en" ? "de" : "en";
 
-        // Change the language with refreshCards=true
-        changeLanguage(newLanguage, true);
+      //   // Change the language with refreshCards=true
+      //   changeLanguage(newLanguage, true);
 
-        // Save the preference
-        localStorage.setItem("movieMatch_language", newLanguage);
+      //   // Save the preference
+      //   localStorage.setItem("movieMatch_language", newLanguage);
 
-        // Update the flag icon
-        updateLanguageIcon(newLanguage);
-      }
+      //   // Update the flag icon
+      //   updateLanguageIcon(newLanguage);
+      // }
 
       // Refresh cards after language change
       function refreshCardsAfterLanguageChange() {
@@ -2500,18 +2500,18 @@
       }
 
       // Function to update the language toggle icon
-      function updateLanguageIcon(language) {
-        const flagSrc =
-          language === "en"
-            ? "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1200px-Flag_of_the_United_Kingdom_%283-5%29.svg.png"
-            : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png";
+      // function updateLanguageIcon(language) {
+      //   const flagSrc =
+      //     language === "en"
+      //       ? "https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Flag_of_the_United_Kingdom_%283-5%29.svg/1200px-Flag_of_the_United_Kingdom_%283-5%29.svg.png"
+      //       : "https://upload.wikimedia.org/wikipedia/commons/thumb/b/ba/Flag_of_Germany.svg/1200px-Flag_of_Germany.svg.png";
 
-        const flagAlt = language === "en" ? "English" : "Deutsch";
+      //   const flagAlt = language === "en" ? "English" : "Deutsch";
 
-        const flagIcon = document.querySelector(".flag-icon");
-        flagIcon.src = flagSrc;
-        flagIcon.alt = flagAlt;
-      }
+      //   const flagIcon = document.querySelector(".flag-icon");
+      //   cflagIcon.sr = flagSrc;
+      //   flagIcon.alt = flagAlt;
+      // }
 
       // Initialize the app
       initApp();

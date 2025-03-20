@@ -18,8 +18,23 @@ for i, match in enumerate(sorted_matches):
     new_id_part = match[0] + str(i)
     new_content = new_content.replace(old_id_part, new_id_part, 1)
 
+# Regulärer Ausdruck, um die Bildpfade zu finden
+image_pattern = r'(image:\s*")([^"]+)(\._V1_\.jpg")'
+image_matches = re.findall(image_pattern, new_content)
+
+# Ersetze die Bildpfade durch optimierte Versionen
+for match in image_matches:
+    old_image_url = match[0] + match[1] + match[2]
+    # Erstelle die optimierte URL mit einer Breite von 300px
+    new_image_url = match[0] + match[1] + "._V1_SX300_.jpg\""
+    new_content = new_content.replace(old_image_url, new_image_url)
+
 # Schreibe die aktualisierte Datei
 with open('mediaData.js', 'w', encoding='utf-8') as file:
     file.write(new_content)
 
+# Zähle die Anzahl der optimierten Bilder
+image_count = len(image_matches)
+
 print(f"Die IDs wurden erfolgreich aktualisiert. Es wurden {len(matches)} Einträge bearbeitet.")
+print(f"Die Bildpfade wurden optimiert. Es wurden {image_count} Bilder auf eine Breite von 300px angepasst.")

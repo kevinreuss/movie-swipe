@@ -909,7 +909,7 @@
     <div class="app-container">
       <!-- Add login reminder banner -->
       <div id="loginReminderBanner" class="login-reminder-banner">
-        <span>Login to store your lists permanently</span>
+        <span>Login to load/store your lists permanently</span>
       </div>
 
       <header>
@@ -1736,12 +1736,12 @@
           movieMatch_likedMediaIds.push(mediaId);
           card.style.transform = "translate(100vw, 0) rotate(30deg)";
           showReaction(likeReaction);
-          saveLists(); // Save to localStorage
+          saveUserLists(); // Replace saveLists() with saveUserLists()
         } else if (action === "dislike") {
           movieMatch_dislikedMediaIds.push(mediaId);
           card.style.transform = "translate(-100vw, 0) rotate(-30deg)";
           showReaction(dislikeReaction);
-          saveLists(); // Save to localStorage
+          saveUserLists(); // Replace saveLists() with saveUserLists()
         } else if (action === "maybe") {
           // Move this item to the end of the queue for later
           currentQueue.push(media);
@@ -2006,8 +2006,8 @@
               movieMatch_dislikedMediaIds.splice(index, 1);
             }
 
-            // Save changes to localStorage
-            saveLists();
+            // Save changes using the new function
+            saveUserLists();
 
             // Refresh the queue to include newly removed items
             refreshQueue();
@@ -2076,6 +2076,34 @@
         const loginReminderBanner = document.getElementById("loginReminderBanner");
         loginReminderBanner.style.display = "none";
         document.body.classList.remove("banner-visible");
+      }
+
+      // Add this new function to save lists based on auth state
+      function saveUserLists() {
+        // Check if user is logged in
+        const user = firebase.auth().currentUser;
+        
+        if (user) {
+          // User is logged in, save to Firebase
+          const userData = {
+            likedMediaIds: movieMatch_likedMediaIds,
+            dislikedMediaIds: movieMatch_dislikedMediaIds,
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+          };
+          
+          firebase.firestore().collection('users').doc(user.uid).set(userData)
+            .then(() => {
+              console.log("Lists saved to Firebase successfully");
+            })
+            .catch((error) => {
+              console.error("Error saving lists to Firebase: ", error);
+              // Fallback to localStorage if Firebase save fails
+              saveLists();
+            });
+        } else {
+          // User is not logged in, save to localStorage
+          saveLists();
+        }
       }
 
       // Initialize the app

@@ -138,7 +138,7 @@
         position: absolute;
         width: 90%;
         max-width: 400px;
-        height: 80vh;
+        height: 75vh;
         max-height: 600px;
         background-color: var(--card-background);
         border-radius: 10px;
@@ -260,14 +260,74 @@
         display: none;
       }
 
-      .list-section {
-        margin-bottom: 30px;
+      .list-categories {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: 100%;
+        width: 100%;
       }
 
-      .list-title {
+      .list-category {
+        background-color: var(--card-background);
+        border-radius: 10px;
+        padding: 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+      }
+
+      .category-info {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .category-icon {
+        font-size: 24px;
+      }
+
+      .category-title {
+        font-size: 18px;
+        font-weight: 500;
+      }
+
+      .category-count {
+        background-color: var(--netflix-red);
+        color: white;
+        border-radius: 20px;
+        padding: 5px 12px;
+        font-size: 14px;
+        font-weight: bold;
+      }
+
+      .list-detail {
+        display: none;
+        flex-direction: column;
+        height: 100%;
+      }
+
+      .list-header {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+        gap: 15px;
+      }
+
+      .back-button {
+        background: none;
+        border: none;
+        color: var(--text-color);
         font-size: 20px;
-        margin-bottom: 15px;
-        color: var(--netflix-white);
+        cursor: pointer;
+        padding: 5px;
+      }
+
+      .list-detail-title {
+        font-size: 20px;
+        font-weight: 500;
       }
 
       .list-items {
@@ -300,6 +360,23 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
+      }
+
+      .remove-item {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        font-size: 14px;
       }
 
       .empty-list {
@@ -418,24 +495,65 @@
       </div>
 
       <div class="lists-container" id="listsContainer">
-        <div class="list-section">
-          <h2 class="list-title">Mag ich 👍</h2>
-          <div class="list-items" id="likedList">
-            <div class="empty-list">Noch keine Filme in dieser Liste</div>
+        <div class="list-categories" id="listCategories">
+          <div class="list-category" data-list="liked">
+            <div class="category-info">
+              <div class="category-icon">👍</div>
+              <div class="category-title">Want to watch</div>
+            </div>
+            <div class="category-count" id="likedCount">0</div>
+          </div>
+
+          <div class="list-category" data-list="maybe">
+            <div class="category-info">
+              <div class="category-icon">🤔</div>
+              <div class="category-title">Maybe later</div>
+            </div>
+            <div class="category-count" id="maybeCount">0</div>
+          </div>
+
+          <div class="list-category" data-list="disliked">
+            <div class="category-info">
+              <div class="category-icon">👎</div>
+              <div class="category-title">Don't want to watch</div>
+            </div>
+            <div class="category-count" id="dislikedCount">0</div>
           </div>
         </div>
 
-        <div class="list-section">
-          <h2 class="list-title">Vielleicht später 🤔</h2>
+        <div class="list-detail" id="likedDetail">
+          <div class="list-header">
+            <button class="back-button" data-list="liked">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="list-detail-title">👍 Want to watch</div>
+          </div>
+          <div class="list-items" id="likedList">
+            <div class="empty-list">nothing here yet</div>
+          </div>
+        </div>
+
+        <div class="list-detail" id="maybeDetail">
+          <div class="list-header">
+            <button class="back-button" data-list="maybe">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="list-detail-title">Vielleicht später 🤔</div>
+          </div>
           <div class="list-items" id="maybeList">
             <div class="empty-list">Noch keine Filme in dieser Liste</div>
           </div>
         </div>
 
-        <div class="list-section">
-          <h2 class="list-title">Will ich nicht 👎</h2>
+        <div class="list-detail" id="dislikedDetail">
+          <div class="list-header">
+            <button class="back-button" data-list="disliked">
+              <i class="fas fa-arrow-left"></i>
+            </button>
+            <div class="list-detail-title">👎 Don't want to watch</div>
+          </div>
           <div class="list-items" id="dislikedList">
-            <div class="empty-list">Noch keine Filme in dieser Liste</div>
+            <div class="empty-list">nothing here yet</div>
           </div>
         </div>
       </div>
@@ -548,6 +666,9 @@
         swipeTab.addEventListener("click", showSwipeView);
         listsTab.addEventListener("click", showListsView);
         resetButton.addEventListener("click", resetApp);
+
+        // Initialize list handlers
+        initListHandlers();
       }
 
       // Create cards for swiping
@@ -781,10 +902,16 @@
 
       // Update the lists view
       function updateLists() {
+        // Update counts
+        document.getElementById("likedCount").textContent = likedMedia.length;
+        document.getElementById("maybeCount").textContent = maybeMedia.length;
+        document.getElementById("dislikedCount").textContent =
+          dislikedMedia.length;
+
         // Update liked list
         if (likedMedia.length > 0) {
           likedList.innerHTML = likedMedia
-            .map((media) => createListItem(media))
+            .map((media, index) => createListItem(media, "liked", index))
             .join("");
         } else {
           likedList.innerHTML =
@@ -794,7 +921,7 @@
         // Update maybe list
         if (maybeMedia.length > 0) {
           maybeList.innerHTML = maybeMedia
-            .map((media) => createListItem(media))
+            .map((media, index) => createListItem(media, "maybe", index))
             .join("");
         } else {
           maybeList.innerHTML =
@@ -804,7 +931,7 @@
         // Update disliked list
         if (dislikedMedia.length > 0) {
           dislikedList.innerHTML = dislikedMedia
-            .map((media) => createListItem(media))
+            .map((media, index) => createListItem(media, "disliked", index))
             .join("");
         } else {
           dislikedList.innerHTML =
@@ -813,11 +940,14 @@
       }
 
       // Create a list item for the lists view
-      function createListItem(media) {
+      function createListItem(media, listType, index) {
         return `
           <div class="list-item">
             <div class="list-item-image" style="background-image: url('${media.image}')"></div>
             <div class="list-item-title">${media.title}</div>
+            <button class="remove-item" data-list="${listType}" data-index="${index}">
+              <i class="fas fa-times"></i>
+            </button>
           </div>
         `;
       }
@@ -871,8 +1001,54 @@
       function showListsView() {
         swipeContainer.style.display = "none";
         listsContainer.style.display = "flex";
+        document.getElementById("listCategories").style.display = "flex";
+        document.getElementById("likedDetail").style.display = "none";
+        document.getElementById("maybeDetail").style.display = "none";
+        document.getElementById("dislikedDetail").style.display = "none";
         swipeTab.classList.remove("active");
         listsTab.classList.add("active");
+      }
+
+      // Add these functions to handle list navigation and item removal
+      function initListHandlers() {
+        // Category click handlers
+        document.querySelectorAll(".list-category").forEach((category) => {
+          category.addEventListener("click", function () {
+            const listType = this.dataset.list;
+            document.getElementById("listCategories").style.display = "none";
+            document.getElementById(`${listType}Detail`).style.display = "flex";
+          });
+        });
+
+        // Back button handlers
+        document.querySelectorAll(".back-button").forEach((button) => {
+          button.addEventListener("click", function () {
+            const listType = this.dataset.list;
+            document.getElementById(`${listType}Detail`).style.display = "none";
+            document.getElementById("listCategories").style.display = "flex";
+          });
+        });
+
+        // Set up event delegation for remove buttons
+        listsContainer.addEventListener("click", function (e) {
+          if (e.target.closest(".remove-item")) {
+            const button = e.target.closest(".remove-item");
+            const listType = button.dataset.list;
+            const index = parseInt(button.dataset.index);
+
+            // Remove the item from the appropriate list
+            if (listType === "liked") {
+              likedMedia.splice(index, 1);
+            } else if (listType === "maybe") {
+              maybeMedia.splice(index, 1);
+            } else if (listType === "disliked") {
+              dislikedMedia.splice(index, 1);
+            }
+
+            // Update the lists
+            updateLists();
+          }
+        });
       }
 
       // Initialize the app

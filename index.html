@@ -307,6 +307,7 @@
         display: none;
         flex-direction: column;
         height: 100%;
+        width: 100%;
       }
 
       .list-header {
@@ -504,14 +505,6 @@
             <div class="category-count" id="likedCount">0</div>
           </div>
 
-          <div class="list-category" data-list="maybe">
-            <div class="category-info">
-              <div class="category-icon">🤔</div>
-              <div class="category-title">Maybe later</div>
-            </div>
-            <div class="category-count" id="maybeCount">0</div>
-          </div>
-
           <div class="list-category" data-list="disliked">
             <div class="category-info">
               <div class="category-icon">👎</div>
@@ -530,18 +523,6 @@
           </div>
           <div class="list-items" id="likedList">
             <div class="empty-list">nothing here yet</div>
-          </div>
-        </div>
-
-        <div class="list-detail" id="maybeDetail">
-          <div class="list-header">
-            <button class="back-button" data-list="maybe">
-              <i class="fas fa-arrow-left"></i>
-            </button>
-            <div class="list-detail-title">Vielleicht später 🤔</div>
-          </div>
-          <div class="list-items" id="maybeList">
-            <div class="empty-list">Noch keine Filme in dieser Liste</div>
           </div>
         </div>
 
@@ -573,11 +554,10 @@
     <script src="mediaData.js"></script>
 
     <script>
-      // Lists to store user choices
-      let likedMedia = [];
-      let maybeMedia = [];
-      let dislikedMedia = [];
-      let currentIndex = 0;
+      // Lists to store user choices (now storing IDs instead of full media objects)
+      let likedMediaIds = [];
+      let dislikedMediaIds = [];
+      let currentQueue = []; // Queue of media to show
       let activeCards = [];
 
       // DOM Elements
@@ -586,16 +566,15 @@
       const swipeTab = document.getElementById("swipeTab");
       const listsTab = document.getElementById("listsTab");
       const likedList = document.getElementById("likedList");
-      const maybeList = document.getElementById("maybeList");
       const dislikedList = document.getElementById("dislikedList");
       const resetButton = document.getElementById("resetButton");
       const noMoreCards = document.querySelector(".no-more-cards");
       const themeToggle = document.getElementById("themeToggle");
 
       // Add references to reaction elements
-      const likeReaction = document.getElementById("likeReaction");
-      const dislikeReaction = document.getElementById("dislikeReaction");
-      const maybeReaction = document.getElementById("maybeReaction");
+      let likeReaction = document.getElementById("likeReaction");
+      let dislikeReaction = document.getElementById("dislikeReaction");
+      let maybeReaction = document.getElementById("maybeReaction");
 
       // Theme handling
       function initTheme() {
@@ -659,6 +638,9 @@
         // Initialize theme
         initTheme();
 
+        // Initialize the queue of media to show
+        refreshQueue();
+
         // Create initial cards
         createCards();
 
@@ -671,15 +653,28 @@
         initListHandlers();
       }
 
+      // Refresh the queue of media to show
+      function refreshQueue() {
+        // Filter out media that's already in liked or disliked lists
+        currentQueue = mediaData
+          .filter(
+            (media) =>
+              !likedMediaIds.includes(media.id) &&
+              !dislikedMediaIds.includes(media.id)
+          )
+          // Shuffle the array to randomize order
+          .sort(() => Math.random() - 0.5);
+      }
+
       // Create cards for swiping
       function createCards() {
-        // Create 3 cards (or fewer if we're near the end of the data)
-        const numCards = Math.min(3, mediaData.length - currentIndex);
+        // Create 3 cards (or fewer if we're near the end of the queue)
+        const numCards = Math.min(3, currentQueue.length);
 
         for (let i = 0; i < numCards; i++) {
-          const mediaIndex = currentIndex + i;
-          if (mediaIndex < mediaData.length) {
-            const card = createCard(mediaData[mediaIndex], mediaIndex);
+          if (i < currentQueue.length) {
+            const media = currentQueue[i];
+            const card = createCard(media, i);
             swipeContainer.appendChild(card);
             activeCards.push(card);
 
@@ -690,31 +685,38 @@
           }
         }
 
+        // Show "no more cards" if queue is empty
+        if (currentQueue.length === 0) {
+          noMoreCards.style.display = "flex";
+        } else {
+          noMoreCards.style.display = "none";
+        }
+
         // Position cards in a stack
         positionCards();
       }
 
       // Create a single card element
-      function createCard(media, index) {
+      function createCard(media, queueIndex) {
         const card = document.createElement("div");
         card.className = "card";
-        card.dataset.index = index;
+        card.dataset.id = media.id;
+        card.dataset.queueIndex = queueIndex;
 
-        // Entferne die Plattform-Tags aus dem HTML
         const genresHTML = media.genres
           .map((genre) => `<div class="genre-tag">${genre}</div>`)
           .join("");
 
         card.innerHTML = `
-            <div class="card-image" style="background-image: url('${media.image}')">
-                <div class="card-gradient"></div>
-            </div>
-            <div class="card-content">
-                <div class="card-title">${media.title}</div>
-                <div class="card-year">${media.type} • ${media.year}</div>
-                <div class="card-description">${media.description}</div>
-                <div class="card-genres">${genresHTML}</div>
-            </div>
+          <div class="card-image" style="background-image: url('${media.image}')">
+            <div class="card-gradient"></div>
+          </div>
+          <div class="card-content">
+            <div class="card-title">${media.title}</div>
+            <div class="card-year">${media.type} • ${media.year}</div>
+            <div class="card-description">${media.description}</div>
+            <div class="card-genres">${genresHTML}</div>
+          </div>
         `;
 
         return card;
@@ -835,20 +837,21 @@
         if (activeCards.length === 0) return;
 
         const card = activeCards[0];
-        const mediaIndex = parseInt(card.dataset.index);
-        const media = mediaData[mediaIndex];
+        const mediaId = card.dataset.id;
+        const media = mediaData.find((m) => m.id == mediaId);
 
-        // Show appropriate reaction animation
+        // Handle based on action
         if (action === "like") {
-          likedMedia.push(media);
+          likedMediaIds.push(mediaId);
           card.style.transform = "translate(100vw, 0) rotate(30deg)";
           showReaction(likeReaction);
         } else if (action === "dislike") {
-          dislikedMedia.push(media);
+          dislikedMediaIds.push(mediaId);
           card.style.transform = "translate(-100vw, 0) rotate(-30deg)";
           showReaction(dislikeReaction);
         } else if (action === "maybe") {
-          maybeMedia.push(media);
+          // Move this item to the end of the queue for later
+          currentQueue.push(media);
           card.style.transform = "translate(0, -100vh)";
           showReaction(maybeReaction);
         }
@@ -857,17 +860,16 @@
         setTimeout(() => {
           card.remove();
           activeCards.shift();
-
-          // Move to next card
-          currentIndex++;
+          currentQueue.shift();
 
           // Check if we need to add more cards
           if (
             activeCards.length < 3 &&
-            currentIndex + activeCards.length < mediaData.length
+            activeCards.length < currentQueue.length
           ) {
-            const newCardIndex = currentIndex + activeCards.length;
-            const newCard = createCard(mediaData[newCardIndex], newCardIndex);
+            const newQueueIndex = activeCards.length;
+            const newMedia = currentQueue[newQueueIndex];
+            const newCard = createCard(newMedia, newQueueIndex);
             swipeContainer.appendChild(newCard);
             activeCards.push(newCard);
           }
@@ -881,7 +883,7 @@
           }
 
           // Check if we've reached the end
-          if (currentIndex >= mediaData.length) {
+          if (currentQueue.length === 0) {
             noMoreCards.style.display = "flex";
           }
 
@@ -903,39 +905,35 @@
       // Update the lists view
       function updateLists() {
         // Update counts
-        document.getElementById("likedCount").textContent = likedMedia.length;
-        document.getElementById("maybeCount").textContent = maybeMedia.length;
+        document.getElementById("likedCount").textContent =
+          likedMediaIds.length;
         document.getElementById("dislikedCount").textContent =
-          dislikedMedia.length;
+          dislikedMediaIds.length;
 
         // Update liked list
-        if (likedMedia.length > 0) {
-          likedList.innerHTML = likedMedia
-            .map((media, index) => createListItem(media, "liked", index))
+        if (likedMediaIds.length > 0) {
+          likedList.innerHTML = likedMediaIds
+            .map((id, index) => {
+              const media = mediaData.find((m) => m.id == id);
+              return createListItem(media, "liked", index);
+            })
             .join("");
         } else {
           likedList.innerHTML =
-            '<div class="empty-list">Noch keine Filme in dieser Liste</div>';
-        }
-
-        // Update maybe list
-        if (maybeMedia.length > 0) {
-          maybeList.innerHTML = maybeMedia
-            .map((media, index) => createListItem(media, "maybe", index))
-            .join("");
-        } else {
-          maybeList.innerHTML =
-            '<div class="empty-list">Noch keine Filme in dieser Liste</div>';
+            '<div class="empty-list">Nothing here yet</div>';
         }
 
         // Update disliked list
-        if (dislikedMedia.length > 0) {
-          dislikedList.innerHTML = dislikedMedia
-            .map((media, index) => createListItem(media, "disliked", index))
+        if (dislikedMediaIds.length > 0) {
+          dislikedList.innerHTML = dislikedMediaIds
+            .map((id, index) => {
+              const media = mediaData.find((m) => m.id == id);
+              return createListItem(media, "disliked", index);
+            })
             .join("");
         } else {
           dislikedList.innerHTML =
-            '<div class="empty-list">Noch keine Filme in dieser Liste</div>';
+            '<div class="empty-list">Nothing here yet</div>';
         }
       }
 
@@ -956,22 +954,32 @@
       function resetApp() {
         // Clear all cards
         swipeContainer.innerHTML = `
-                <div class="no-more-cards">
-                    <i class="fas fa-film"></i>
-                    <h2>Keine weiteren Filme</h2>
-                    <p>Du hast alle verfügbaren Filme und Serien bewertet!</p>
-                    <button class="reset-button" id="resetButton">Von vorne beginnen</button>
-                </div>
-            `;
+          <div class="reaction-animation" id="likeReaction">👍</div>
+          <div class="reaction-animation" id="dislikeReaction">👎</div>
+          <div class="reaction-animation" id="maybeReaction">🤔</div>
+          <div class="no-more-cards">
+            <i class="fas fa-film"></i>
+            <h2>Keine weiteren Filme</h2>
+            <p>Du hast alle verfügbaren Filme und Serien bewertet!</p>
+            <button class="reset-button" id="resetButton">Von vorne beginnen</button>
+          </div>
+        `;
+
+        // Update reaction element references after rebuilding DOM
+        likeReaction = document.getElementById("likeReaction");
+        dislikeReaction = document.getElementById("dislikeReaction");
+        maybeReaction = document.getElementById("maybeReaction");
 
         // Reset variables
-        likedMedia = [];
-        maybeMedia = [];
-        dislikedMedia = [];
-        currentIndex = 0;
+        likedMediaIds = [];
+        dislikedMediaIds = [];
         activeCards = [];
 
+        // Refresh the queue
+        refreshQueue();
+
         // Hide no more cards message
+        noMoreCards = document.querySelector(".no-more-cards");
         noMoreCards.style.display = "none";
 
         // Create new cards
@@ -991,10 +999,42 @@
 
       // Show swipe view
       function showSwipeView() {
+        // Refresh the queue when returning to swipe view
+        refreshQueue();
+
+        // Clear existing cards
+        swipeContainer.innerHTML = `
+          <div class="reaction-animation" id="likeReaction">👍</div>
+          <div class="reaction-animation" id="dislikeReaction">👎</div>
+          <div class="reaction-animation" id="maybeReaction">🤔</div>
+          <div class="no-more-cards">
+            <i class="fas fa-film"></i>
+            <h2>Keine weiteren Filme</h2>
+            <p>Du hast alle verfügbaren Filme und Serien bewertet!</p>
+            <button class="reset-button" id="resetButton">Von vorne beginnen</button>
+          </div>
+        `;
+
+        // Update reaction element references after rebuilding DOM
+        likeReaction = document.getElementById("likeReaction");
+        dislikeReaction = document.getElementById("dislikeReaction");
+        maybeReaction = document.getElementById("maybeReaction");
+
+        activeCards = [];
+
+        // Create new cards
+        createCards();
+
+        // Update UI
         swipeContainer.style.display = "flex";
         listsContainer.style.display = "none";
         swipeTab.classList.add("active");
         listsTab.classList.remove("active");
+
+        // Re-add event listener to reset button
+        document
+          .getElementById("resetButton")
+          .addEventListener("click", resetApp);
       }
 
       // Show lists view
@@ -1003,7 +1043,6 @@
         listsContainer.style.display = "flex";
         document.getElementById("listCategories").style.display = "flex";
         document.getElementById("likedDetail").style.display = "none";
-        document.getElementById("maybeDetail").style.display = "none";
         document.getElementById("dislikedDetail").style.display = "none";
         swipeTab.classList.remove("active");
         listsTab.classList.add("active");
@@ -1038,12 +1077,13 @@
 
             // Remove the item from the appropriate list
             if (listType === "liked") {
-              likedMedia.splice(index, 1);
-            } else if (listType === "maybe") {
-              maybeMedia.splice(index, 1);
+              likedMediaIds.splice(index, 1);
             } else if (listType === "disliked") {
-              dislikedMedia.splice(index, 1);
+              dislikedMediaIds.splice(index, 1);
             }
+
+            // Refresh the queue to include newly removed items
+            refreshQueue();
 
             // Update the lists
             updateLists();

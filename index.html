@@ -711,9 +711,137 @@
       .feedback-compact span {
         font-size: 14px;
       }
+
+      /* Account styles */
+      .account-container {
+        flex: 1;
+        padding: 70px 15px 70px 15px;
+        overflow-y: auto;
+        flex-direction: column;
+      }
+
+      .account-tabs {
+        display: flex;
+        border-radius: 8px;
+        overflow: hidden;
+        background-color: var(--card-background);
+        border: 1px solid var(--netflix-dark-gray);
+      }
+
+      .account-tab-btn {
+        flex: 1;
+        background: none;
+        border: none;
+        color: var(--text-color);
+        padding: 15px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: background-color 0.3s, color 0.3s;
+      }
+
+      .account-tab-btn.active {
+        background-color: var(--netflix-red);
+        color: white;
+      }
+
+      .account-form-container {
+        padding: 20px 0;
+      }
+
+      .account-form-container h2 {
+        margin-bottom: 10px;
+        font-size: 24px;
+      }
+
+      .account-subtitle {
+        color: var(--secondary-text-color);
+        margin-bottom: 25px;
+      }
+
+      .form-group {
+        margin-bottom: 20px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: 500;
+      }
+
+      .form-group input {
+        width: 100%;
+        padding: 12px;
+        border-radius: 5px;
+        border: 1px solid var(--netflix-dark-gray);
+        background-color: var(--card-background);
+        color: var(--text-color);
+        font-size: 16px;
+      }
+
+      .account-button {
+        width: 100%;
+        padding: 12px;
+        background-color: var(--netflix-red);
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        font-weight: 500;
+        cursor: pointer;
+        margin-top: 10px;
+      }
+
+      .error-message {
+        color: var(--netflix-red);
+        margin-top: 15px;
+        font-size: 14px;
+      }
+
+      /* User profile section for when logged in */
+      .user-profile {
+        display: none;
+        padding: 20px 0;
+      }
+
+      .user-email {
+        font-size: 18px;
+        margin-bottom: 20px;
+      }
+
+      .logout-button {
+        background-color: transparent;
+        border: 1px solid var(--netflix-red);
+        color: var(--netflix-red);
+        padding: 10px 20px;
+        border-radius: 5px;
+        font-size: 16px;
+        cursor: pointer;
+      }
     </style>
   </head>
   <body>
+    <!-- Firebase SDK -->
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+<script>
+  // Firebase-Konfiguration (ersetze dies mit deinen eigenen Werten aus der Firebase-Konsole)
+  const firebaseConfig = {
+    apiKey: "AIzaSyDaSlnEwu9_J2e4dYX5pfQRKYCJlVIq_tw",
+    authDomain: "moviematch-cec26.firebaseapp.com",
+    projectId: "moviematch-cec26",
+    storageBucket: "moviematch-cec26.firebasestorage.app",
+    messagingSenderId: "796724064530",
+    appId: "1:796724064530:web:d9e333466912a4b42603cb",
+    measurementId: "G-7G3JD147DH"
+  };
+  
+  // Firebase initialisieren
+  firebase.initializeApp(firebaseConfig);
+</script>
+
     <div class="app-container">
       <header>
         <div class="logo">MovieMatch</div>
@@ -783,6 +911,51 @@
         </div>
       </div>
 
+      <div class="account-container" id="accountContainer" style="display: none;">
+        <div class="account-tabs">
+          <button class="account-tab-btn active" id="loginTabBtn">Login</button>
+          <button class="account-tab-btn" id="registerTabBtn">Register</button>
+        </div>
+        
+        <div class="account-form-container" id="loginForm">
+          <h2>Login to your account</h2>
+          <p class="account-subtitle">Sign in to store your movie lists securely</p>
+          
+          <div class="form-group">
+            <label for="loginEmail">Email</label>
+            <input type="email" id="loginEmail" placeholder="your@email.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="loginPassword">Password</label>
+            <input type="password" id="loginPassword" placeholder="Your password" required>
+          </div>
+          
+          <button id="loginButton" class="account-button">Sign In</button>
+          <p id="loginError" class="error-message"></p>
+        </div>
+        
+        <div class="account-form-container" id="registerForm" style="display: none;">
+          <h2>Create an account</h2>
+          <p class="account-subtitle">Register to store your movie lists securely</p>
+          
+          <div class="form-group">
+            <label for="registerEmail">Email</label>
+            <input type="email" id="registerEmail" placeholder="your@email.com" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="registerPassword">Password</label>
+            <input type="password" id="registerPassword" placeholder="Choose a password" required>
+          </div>
+          
+  
+          
+          <button id="registerButton" class="account-button">Create Account</button>
+          <p id="registerError" class="error-message"></p>
+        </div>
+      </div>
+      
       <div class="swipe-container" id="swipeContainer">
         <!-- Add reaction animation elements -->
         <div class="reaction-animation" id="likeReaction">👍</div>
@@ -852,6 +1025,10 @@
       </div>
 
       <nav class="nav-tabs">
+        <a href="#" class="nav-tab" id="accountTab">
+          <i class="fas fa-user"></i>
+          <span>Account</span>
+        </a>
         <a href="#" class="nav-tab active" id="swipeTab">
           <i class="fas fa-film"></i>
           <span>Explore</span>
@@ -862,6 +1039,7 @@
         </a>
       </nav>
     </div>
+
 
     <script src="mediaData.js"></script>
 
@@ -886,6 +1064,12 @@
       const onboardingOkBtn = document.getElementById("onboardingOk");
       const onboardingDontShowBtn =
         document.getElementById("onboardingDontShow");
+      const accountTab = document.getElementById("accountTab");
+      const accountContainer = document.getElementById("accountContainer");
+      const loginTabBtn = document.getElementById("loginTabBtn");
+      const registerTabBtn = document.getElementById("registerTabBtn");
+      const loginForm = document.getElementById("loginForm");
+      const registerForm = document.getElementById("registerForm");
 
       // Add references to reaction elements
       let likeReaction = document.getElementById("likeReaction");
@@ -979,6 +1163,14 @@
 
       // Initialize the app
       function initApp() {
+        // Get DOM elements
+        const accountTab = document.getElementById("accountTab");
+        const accountContainer = document.getElementById("accountContainer");
+        const loginTabBtn = document.getElementById("loginTabBtn");
+        const registerTabBtn = document.getElementById("registerTabBtn");
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+        
         // Load saved lists from localStorage
         loadSavedLists();
 
@@ -994,10 +1186,26 @@
         // Create initial cards
         createCards();
 
-        // Add event listeners
+        // Add event listeners for main navigation
         swipeTab.addEventListener("click", showSwipeView);
         listsTab.addEventListener("click", showListsView);
+        accountTab.addEventListener("click", showAccountView);
         resetButton.addEventListener("click", resetApp);
+
+        // Add event listeners for account tabs
+        loginTabBtn.addEventListener("click", function() {
+          loginTabBtn.classList.add("active");
+          registerTabBtn.classList.remove("active");
+          loginForm.style.display = "block";
+          registerForm.style.display = "none";
+        });
+        
+        registerTabBtn.addEventListener("click", function() {
+          registerTabBtn.classList.add("active");
+          loginTabBtn.classList.remove("active");
+          registerForm.style.display = "block";
+          loginForm.style.display = "none";
+        });
 
         // Initialize list handlers
         initListHandlers();
@@ -1398,8 +1606,10 @@
         // Update UI
         swipeContainer.style.display = "flex";
         listsContainer.style.display = "none";
+        accountContainer.style.display = "none";
         swipeTab.classList.add("active");
         listsTab.classList.remove("active");
+        accountTab.classList.remove("active");
 
         // Re-add event listener to reset button
         document
@@ -1411,11 +1621,25 @@
       function showListsView() {
         swipeContainer.style.display = "none";
         listsContainer.style.display = "flex";
+        accountContainer.style.display = "none";
         document.getElementById("listCategories").style.display = "flex";
         document.getElementById("likedDetail").style.display = "none";
         document.getElementById("dislikedDetail").style.display = "none";
         swipeTab.classList.remove("active");
         listsTab.classList.add("active");
+        accountTab.classList.remove("active");
+      }
+
+      // Add a new function to show account view
+      function showAccountView() {
+        swipeContainer.style.display = "none";
+        listsContainer.style.display = "none";
+        accountContainer.style.display = "flex";
+        
+        // Update active tab
+        swipeTab.classList.remove("active");
+        listsTab.classList.remove("active");
+        accountTab.classList.add("active");
       }
 
       // Add these functions to handle list navigation and item removal

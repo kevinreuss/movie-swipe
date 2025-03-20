@@ -510,6 +510,130 @@
           opacity: 0;
         }
       }
+
+      /* Onboarding overlay styles */
+      .onboarding-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.85);
+        z-index: 1000;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+
+      [data-theme="light"] .onboarding-overlay {
+        background-color: rgba(245, 245, 245, 0.9);
+      }
+
+      .onboarding-content {
+        background-color: var(--card-background);
+        border-radius: 15px;
+        padding: 15px;
+        max-width: 500px;
+        width: 90%;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        text-align: center;
+      }
+
+      .onboarding-content h2 {
+        color: var(--netflix-red);
+        margin-bottom: 15px;
+        font-size: 24px;
+      }
+
+      .onboarding-content h3 {
+        margin: 20px 0 15px;
+        font-size: 18px;
+      }
+
+      .onboarding-intro {
+        margin-bottom: 20px;
+        line-height: 1.5;
+      }
+
+      .swipe-instructions {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        margin: 25px 0;
+      }
+
+      .swipe-instruction {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+      }
+
+      .swipe-arrow {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 18px;
+      }
+
+      .swipe-right {
+        background-color: rgba(38, 222, 129, 0.2);
+        color: #26de81;
+      }
+
+      .swipe-left {
+        background-color: rgba(253, 80, 104, 0.2);
+        color: #fd5068;
+      }
+
+      .swipe-up {
+        background-color: rgba(30, 144, 255, 0.2);
+        color: #1e90ff;
+      }
+
+      .swipe-text {
+        text-align: left;
+        font-size: 16px;
+        flex: 1;
+      }
+
+      .swipe-text i {
+        margin-right: 8px;
+      }
+
+      .beta-notice {
+        font-style: italic;
+        color: var(--secondary-text-color);
+        margin: 20px 0;
+        font-size: 14px;
+      }
+
+      .onboarding-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        margin-top: 25px;
+      }
+
+      .onboarding-button {
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        font-weight: 500;
+        cursor: pointer;
+        font-size: 16px;
+        background-color: var(--card-background);
+        color: var(--text-color);
+        border: 1px solid var(--secondary-text-color);
+      }
+
+      .primary-button {
+        background-color: var(--netflix-red);
+        color: white;
+        border: none;
+      }
     </style>
   </head>
   <body>
@@ -522,6 +646,65 @@
           </button>
         </div>
       </header>
+
+      <!-- Add the onboarding overlay -->
+      <div class="onboarding-overlay" id="onboardingOverlay">
+        <div class="onboarding-content">
+          <h2>Welcome to MovieSwipe!</h2>
+          <p class="onboarding-intro">
+            Find movies and series you'll love:
+            <ul style="text-align: left; margin-top: 10px; margin-left: 20px;">
+              <li>Over 1,000 titles in our collection</li>
+              <li>More being added regularly</li>
+            </ul>
+          </p>
+
+          <h3>How to use MovieSwipe:</h3>
+
+          <div class="swipe-instructions">
+            <div class="swipe-instruction">
+              <div class="swipe-arrow swipe-right">
+                <i class="fas fa-arrow-right"></i>
+              </div>
+              <div class="swipe-text">
+                👍 Swipe right: Want to watch
+              </div>
+            </div>
+
+            <div class="swipe-instruction">
+              <div class="swipe-arrow swipe-left">
+                <i class="fas fa-arrow-left"></i>
+              </div>
+              <div class="swipe-text">
+                👎 Swipe left: Don't want to watch
+              </div>
+            </div>
+
+            <div class="swipe-instruction">
+              <div class="swipe-arrow swipe-up">
+                <i class="fas fa-arrow-up"></i>
+              </div>
+              <div class="swipe-text">
+                🤔 Swipe up: Not sure, ask me later
+              </div>
+            </div>
+          </div>
+
+          <p class="beta-notice">
+            This is an early version. We'd love to hear your feedback and ideas!
+          </p>
+
+          <div class="onboarding-buttons">
+            <button id="onboardingOk" class="onboarding-button">OK</button>
+            <button
+              id="onboardingDontShow"
+              class="onboarding-button primary-button"
+            >
+              OK, Don't Show Again
+            </button>
+          </div>
+        </div>
+      </div>
 
       <div class="swipe-container" id="swipeContainer">
         <!-- Add reaction animation elements -->
@@ -616,6 +799,10 @@
       const resetButton = document.getElementById("resetButton");
       const noMoreCards = document.querySelector(".no-more-cards");
       const themeToggle = document.getElementById("themeToggle");
+      const onboardingOverlay = document.getElementById("onboardingOverlay");
+      const onboardingOkBtn = document.getElementById("onboardingOk");
+      const onboardingDontShowBtn =
+        document.getElementById("onboardingDontShow");
 
       // Add references to reaction elements
       let likeReaction = document.getElementById("likeReaction");
@@ -714,6 +901,9 @@
 
         // Initialize theme
         initTheme();
+
+        // Check if onboarding should be shown
+        checkOnboarding();
 
         // Initialize the queue of media to show
         refreshQueue();
@@ -1189,6 +1379,29 @@
             updateLists();
           }
         });
+      }
+
+      // Check if onboarding should be shown
+      function checkOnboarding() {
+        const onboardingDismissed = localStorage.getItem(
+          "movieSwipe_onboardingDismissed"
+        );
+
+        if (onboardingDismissed === "true") {
+          onboardingOverlay.style.display = "none";
+        } else {
+          onboardingOverlay.style.display = "flex";
+
+          // Add event listeners for onboarding buttons
+          onboardingOkBtn.addEventListener("click", () => {
+            onboardingOverlay.style.display = "none";
+          });
+
+          onboardingDontShowBtn.addEventListener("click", () => {
+            localStorage.setItem("movieSwipe_onboardingDismissed", "true");
+            onboardingOverlay.style.display = "none";
+          });
+        }
       }
 
       // Initialize the app

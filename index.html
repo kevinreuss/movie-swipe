@@ -818,6 +818,28 @@
         font-size: 16px;
         cursor: pointer;
       }
+
+      /* Add these styles for the auth status message */
+      .auth-status {
+        text-align: center;
+        padding: 10px;
+        margin-bottom: 15px;
+        border-radius: 5px;
+        font-weight: 500;
+        display: none;
+      }
+      
+      .auth-status.success {
+        background-color: rgba(38, 222, 129, 0.2);
+        color: #26de81;
+        display: block;
+      }
+      
+      .auth-status.error {
+        background-color: rgba(253, 80, 104, 0.2);
+        color: #fd5068;
+        display: block;
+      }
     </style>
   </head>
   <body>
@@ -832,7 +854,7 @@
     apiKey: "AIzaSyDaSlnEwu9_J2e4dYX5pfQRKYCJlVIq_tw",
     authDomain: "moviematch-cec26.firebaseapp.com",
     projectId: "moviematch-cec26",
-    storageBucket: "moviematch-cec26.firebasestorage.app",
+    storageBucket: "moviematch-cec26.firebaseapp.com",
     messagingSenderId: "796724064530",
     appId: "1:796724064530:web:d9e333466912a4b42603cb",
     measurementId: "G-7G3JD147DH"
@@ -912,9 +934,17 @@
       </div>
 
       <div class="account-container" id="accountContainer" style="display: none;">
+        <div id="authStatus" class="auth-status"></div>
         <div class="account-tabs">
           <button class="account-tab-btn active" id="loginTabBtn">Login</button>
           <button class="account-tab-btn" id="registerTabBtn">Register</button>
+        </div>
+        
+        <div class="user-profile" id="userProfile">
+          <h2>Your Account</h2>
+          <p class="account-subtitle">Manage your MovieMatch account</p>
+          <p class="user-email" id="userEmail"></p>
+          <button id="logoutButton" class="logout-button">Sign Out</button>
         </div>
         
         <div class="account-form-container" id="loginForm">
@@ -948,8 +978,6 @@
             <label for="registerPassword">Password</label>
             <input type="password" id="registerPassword" placeholder="Choose a password" required>
           </div>
-          
-  
           
           <button id="registerButton" class="account-button">Create Account</button>
           <p id="registerError" class="error-message"></p>
@@ -1046,7 +1074,7 @@
     <script>
       // Lists to store user choices (now storing IDs instead of full media objects)
       let movieMatch_likedMediaIds = [];
-      let movieMatch_dismovieMatch_likedMediaIds = [];
+      let movieMatch_dislikedMediaIds = [];
       let currentQueue = []; // Queue of media to show
       let activeCards = [];
 
@@ -1080,7 +1108,7 @@
       function loadSavedLists() {
         const savedLikedIds = localStorage.getItem("movieMatch_likedMediaIds");
         const savedDislikedIds = localStorage.getItem(
-          "movieMatch_dismovieMatch_likedMediaIds"
+          "movieMatch_dislikedMediaIds"
         );
 
         if (savedLikedIds) {
@@ -1088,7 +1116,7 @@
         }
 
         if (savedDislikedIds) {
-          movieMatch_dismovieMatch_likedMediaIds = JSON.parse(savedDislikedIds);
+          movieMatch_dislikedMediaIds = JSON.parse(savedDislikedIds);
         }
       }
 
@@ -1099,8 +1127,8 @@
           JSON.stringify(movieMatch_likedMediaIds)
         );
         localStorage.setItem(
-          "movieMatch_dismovieMatch_likedMediaIds",
-          JSON.stringify(movieMatch_dismovieMatch_likedMediaIds)
+          "movieMatch_dislikedMediaIds",
+          JSON.stringify(movieMatch_dislikedMediaIds)
         );
       }
 
@@ -1161,6 +1189,141 @@
         }
       }
 
+      // Add Firebase auth functionality
+      function initAuth() {
+        const loginButton = document.getElementById("loginButton");
+        const registerButton = document.getElementById("registerButton");
+        const logoutButton = document.getElementById("logoutButton");
+        const loginEmail = document.getElementById("loginEmail");
+        const loginPassword = document.getElementById("loginPassword");
+        const registerEmail = document.getElementById("registerEmail");
+        const registerPassword = document.getElementById("registerPassword");
+        const loginError = document.getElementById("loginError");
+        const registerError = document.getElementById("registerError");
+        const authStatus = document.getElementById("authStatus");
+        const userProfile = document.getElementById("userProfile");
+        const userEmail = document.getElementById("userEmail");
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+        
+        // Check if user is already logged in
+        firebase.auth().onAuthStateChanged(function(user) {
+          if (user) {
+            // User is signed in
+            userEmail.textContent = user.email;
+            userProfile.style.display = "block";
+            loginForm.style.display = "none";
+            registerForm.style.display = "none";
+            document.querySelector(".account-tabs").style.display = "none";
+          } else {
+            // User is signed out
+            userProfile.style.display = "none";
+            loginForm.style.display = "block";
+            document.querySelector(".account-tabs").style.display = "flex";
+          }
+        });
+        
+        // Login functionality
+        loginButton.addEventListener("click", function() {
+          const email = loginEmail.value;
+          const password = loginPassword.value;
+          
+          if (!email || !password) {
+            showAuthMessage("Please enter both email and password", "error");
+            return;
+          }
+          
+          firebase.auth().signInWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+              // Signed in
+              showAuthMessage("Login successful!", "success");
+              loginEmail.value = "";
+              loginPassword.value = "";
+              loginError.textContent = "";
+            })
+            .catch((error) => {
+              loginError.textContent = error.message;
+              showAuthMessage("Login failed: " + error.message, "error");
+            });
+        });
+        
+        // Register functionality
+        registerButton.addEventListener("click", function() {
+          const email = registerEmail.value;
+          const password = registerPassword.value;
+          
+          if (!email || !password) {
+            showAuthMessage("Please enter both email and password", "error");
+            return;
+          }
+          
+          if (password.length < 6) {
+            showAuthMessage("Password should be at least 6 characters", "error");
+            return;
+          }
+          
+          firebase.auth().createUserWithEmailAndPassword(email, password)
+            .then((userCredential) => {
+              // Signed up
+              showAuthMessage("Account created successfully!", "success");
+              registerEmail.value = "";
+              registerPassword.value = "";
+              registerError.textContent = "";
+              
+              // Save local lists to Firebase
+              saveLocalListsToFirebase(userCredential.user.uid);
+            })
+            .catch((error) => {
+              registerError.textContent = error.message;
+              showAuthMessage("Registration failed: " + error.message, "error");
+            });
+        });
+        
+        // Function to save local lists to Firebase
+        function saveLocalListsToFirebase(userId) {
+          // Get lists from localStorage
+          const savedLikedIds = localStorage.getItem("movieMatch_likedMediaIds");
+          const savedDislikedIds = localStorage.getItem("movieMatch_dislikedMediaIds");
+          
+          // Create data object to save
+          const userData = {
+            likedMediaIds: savedLikedIds ? JSON.parse(savedLikedIds) : [],
+            dislikedMediaIds: savedDislikedIds ? JSON.parse(savedDislikedIds) : [],
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+          };
+          
+          // Save to Firestore
+          firebase.firestore().collection('users').doc(userId).set(userData)
+            .then(() => {
+              console.log("Local lists saved to Firebase successfully");
+            })
+            .catch((error) => {
+              console.error("Error saving lists to Firebase: ", error);
+            });
+        }
+        
+        // Logout functionality
+        logoutButton.addEventListener("click", function() {
+          firebase.auth().signOut().then(() => {
+            showAuthMessage("Logged out successfully", "success");
+          }).catch((error) => {
+            showAuthMessage("Error signing out: " + error.message, "error");
+          });
+        });
+        
+        // Function to show auth status messages
+        function showAuthMessage(message, type) {
+          authStatus.textContent = message;
+          authStatus.className = "auth-status";
+          authStatus.classList.add(type);
+          
+          // Hide the message after 5 seconds
+          setTimeout(() => {
+            authStatus.style.display = "none";
+          }, 5000);
+        }
+      }
+
       // Initialize the app
       function initApp() {
         // Get DOM elements
@@ -1212,6 +1375,9 @@
 
         // Update lists view with loaded data
         updateLists();
+
+        // Initialize Firebase authentication
+        initAuth();
       }
 
       // Refresh the queue of media to show
@@ -1221,7 +1387,7 @@
           .filter(
             (media) =>
               !movieMatch_likedMediaIds.includes(media.id) &&
-              !movieMatch_dismovieMatch_likedMediaIds.includes(media.id)
+              !movieMatch_dislikedMediaIds.includes(media.id)
           )
           // Shuffle the array to randomize order
           .sort(() => Math.random() - 0.5);
@@ -1408,7 +1574,7 @@
           showReaction(likeReaction);
           saveLists(); // Save to localStorage
         } else if (action === "dislike") {
-          movieMatch_dismovieMatch_likedMediaIds.push(mediaId);
+          movieMatch_dislikedMediaIds.push(mediaId);
           card.style.transform = "translate(-100vw, 0) rotate(-30deg)";
           showReaction(dislikeReaction);
           saveLists(); // Save to localStorage
@@ -1471,7 +1637,7 @@
         document.getElementById("likedCount").textContent =
           movieMatch_likedMediaIds.length;
         document.getElementById("dislikedCount").textContent =
-          movieMatch_dismovieMatch_likedMediaIds.length;
+          movieMatch_dislikedMediaIds.length;
 
         // Update liked list
         if (movieMatch_likedMediaIds.length > 0) {
@@ -1487,8 +1653,8 @@
         }
 
         // Update disliked list
-        if (movieMatch_dismovieMatch_likedMediaIds.length > 0) {
-          dislikedList.innerHTML = movieMatch_dismovieMatch_likedMediaIds
+        if (movieMatch_dislikedMediaIds.length > 0) {
+          dislikedList.innerHTML = movieMatch_dislikedMediaIds
             .map((id, index) => {
               const media = mediaData.find((m) => m.id == id);
               return createListItem(media, "disliked", index);
@@ -1546,12 +1712,12 @@
 
         // Reset variables
         movieMatch_likedMediaIds = [];
-        movieMatch_dismovieMatch_likedMediaIds = [];
+        movieMatch_dislikedMediaIds = [];
         activeCards = [];
 
         // Clear localStorage for lists
         localStorage.removeItem("movieMatch_likedMediaIds");
-        localStorage.removeItem("movieMatch_dismovieMatch_likedMediaIds");
+        localStorage.removeItem("movieMatch_dislikedMediaIds");
 
         // Refresh the queue
         refreshQueue();
@@ -1673,7 +1839,7 @@
             if (listType === "liked") {
               movieMatch_likedMediaIds.splice(index, 1);
             } else if (listType === "disliked") {
-              movieMatch_dismovieMatch_likedMediaIds.splice(index, 1);
+              movieMatch_dislikedMediaIds.splice(index, 1);
             }
 
             // Save changes to localStorage

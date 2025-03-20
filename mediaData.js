@@ -177,17 +177,6 @@ const mediaData = [
   },
   {
     id: 16,
-    title: "Chernobyl",
-    type: "Miniseries",
-    year: "2019",
-    description:
-      "In April 1986, a reactor exploded at the Chernobyl Nuclear Power Plant in the USSR, leading to one of the worst man-made disasters in history.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZGQ2YmMxZmEtYjI5OS00NzlkLTlkNTEtYWMyMzkyMzc2MDU5XkEyXkFqcGdeQXVyMzQ2MDI5NjU@._V1_.jpg",
-    genres: ["Drama", "History", "Thriller"],
-  },
-  {
-    id: 17,
     title: "Black Mirror",
     type: "Series",
     year: "2011",
@@ -198,7 +187,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Thriller", "Drama"],
   },
   {
-    id: 18,
+    id: 17,
     title: "The Dark Knight",
     type: "Movie",
     year: "2008",
@@ -209,7 +198,7 @@ const mediaData = [
     genres: ["Action", "Crime", "Drama"],
   },
   {
-    id: 19,
+    id: 18,
     title: "Peaky Blinders",
     type: "Series",
     year: "2013",
@@ -220,7 +209,7 @@ const mediaData = [
     genres: ["Crime", "Drama"],
   },
   {
-    id: 20,
+    id: 19,
     title: "Dune",
     type: "Movie",
     year: "2021",
@@ -231,7 +220,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Adventure"],
   },
   {
-    id: 21,
+    id: 20,
     title: "Mindhunter",
     type: "Series",
     year: "2017",
@@ -242,7 +231,7 @@ const mediaData = [
     genres: ["Crime", "Drama", "Thriller"],
   },
   {
-    id: 22,
+    id: 21,
     title: "The Office",
     type: "Series",
     year: "2005",
@@ -253,7 +242,7 @@ const mediaData = [
     genres: ["Comedy"],
   },
   {
-    id: 23,
+    id: 22,
     title: "Blade Runner 2049",
     type: "Movie",
     year: "2017",
@@ -264,18 +253,7 @@ const mediaData = [
     genres: ["Sci-Fi", "Thriller", "Drama"],
   },
   {
-    id: 24,
-    title: "Westworld",
-    type: "Series",
-    year: "2016",
-    description:
-      "In a futuristic Western-themed park, wealthy visitors can indulge their darkest fantasies without fear of retribution through the robot-hosts, until the hosts begin to rebel.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZDg1OWRiMTktZDdiNy00NTZlLTg2Y2EtNWRiMTcxMGE5YTUxXkEyXkFqcGdeQXVyMTM2MDY0MjYz._V1_.jpg",
-    genres: ["Sci-Fi", "Western", "Drama"],
-  },
-  {
-    id: 25,
+    id: 23,
     title: "Oppenheimer",
     type: "Movie",
     year: "2023",
@@ -286,18 +264,7 @@ const mediaData = [
     genres: ["Biography", "Drama", "History"],
   },
   {
-    id: 26,
-    title: "Succession",
-    type: "Series",
-    year: "2018",
-    description:
-      "The story of the dysfunctional Roy family, which controls a global media empire and fights for power while the patriarch retreats.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZTY0YjU0NTUtMGRmNS00NDMyLWI2MzYtNjM2MmM2Y2VmODliXkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
-    genres: ["Drama", "Comedy"],
-  },
-  {
-    id: 27,
+    id: 24,
     title: "Better Call Saul",
     type: "Series",
     year: "2015",
@@ -308,29 +275,7 @@ const mediaData = [
     genres: ["Crime", "Drama"],
   },
   {
-    id: 28,
-    title: "The Bear",
-    type: "Series",
-    year: "2022",
-    description:
-      "A young chef from the fine dining world returns to Chicago to run his family's sandwich shop after the suicide of his brother.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BYmY1MjQ4ZDEtYzg4MC00NTI5LTkzMDEtZGJhZjE5MWUzNmM2XkEyXkFqcGdeQXVyMjkwOTAyMDU@._V1_.jpg",
-    genres: ["Drama", "Comedy"],
-  },
-  {
-    id: 29,
-    title: "Severance",
-    type: "Series",
-    year: "2022",
-    description:
-      "Mark leads a team of office workers whose memories have been surgically divided between their work and personal lives, but a mysterious colleague causes him to question the company.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BMjE1MDAxNjAzOF5BMl5BanBnXkFtZTgwODY5NTk5NDM@._V1_.jpg",
-    genres: ["Sci-Fi", "Thriller", "Mystery"],
-  },
-  {
-    id: 30,
+    id: 25,
     title: "Barbie",
     type: "Movie",
     year: "2023",
@@ -341,7 +286,7 @@ const mediaData = [
     genres: ["Comedy", "Adventure", "Fantasy"],
   },
   {
-    id: 31,
+    id: 26,
     title: "The Boys",
     type: "Series",
     year: "2019",
@@ -352,7 +297,7 @@ const mediaData = [
     genres: ["Action", "Comedy", "Crime"],
   },
   {
-    id: 32,
+    id: 27,
     title: "Killers of the Flower Moon",
     type: "Movie",
     year: "2023",
@@ -363,7 +308,7 @@ const mediaData = [
     genres: ["Crime", "Drama", "History"],
   },
   {
-    id: 33,
+    id: 28,
     title: "Ted Lasso",
     type: "Series",
     year: "2020",
@@ -374,7 +319,7 @@ const mediaData = [
     genres: ["Comedy", "Drama", "Sport"],
   },
   {
-    id: 34,
+    id: 29,
     title: "Poor Things",
     type: "Movie",
     year: "2023",
@@ -385,18 +330,7 @@ const mediaData = [
     genres: ["Comedy", "Drama", "Romance"],
   },
   {
-    id: 35,
-    title: "Beef",
-    type: "Miniseries",
-    year: "2023",
-    description:
-      "Two strangers' lives collide in a moment of road rage that escalates into a feud, drawing them and their loved ones into an increasingly dangerous conflict.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BYzZkOTY4MDgtODI5Mi00ZTFkLWI0ZTktYzU1MWJiODRkODQ3XkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Comedy", "Drama", "Thriller"],
-  },
-  {
-    id: 36,
+    id: 30,
     title: "The Whale",
     type: "Movie",
     year: "2022",
@@ -407,7 +341,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 37,
+    id: 31,
     title: "Andor",
     type: "Series",
     year: "2022",
@@ -418,7 +352,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Drama"],
   },
   {
-    id: 38,
+    id: 32,
     title: "The Banshees of Inisherin",
     type: "Movie",
     year: "2022",
@@ -429,40 +363,7 @@ const mediaData = [
     genres: ["Comedy", "Drama"],
   },
   {
-    id: 39,
-    title: "Shogun",
-    type: "Series",
-    year: "2024",
-    description:
-      "Set in Japan in the year 1600, Lord Yoshii Toranaga is fighting for his life as his enemies on the Council of Regents unite against him, when a mysterious European ship is found marooned in a nearby fishing village.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BYzkyYzc4YzMtZmE5Yy00NzZhLWJiMzktMGRkZTc5MzE5YjU0XkEyXkFqcGdeQXVyNjc0NTIyNg@@._V1_.jpg",
-    genres: ["Drama", "History", "War"],
-  },
-  {
-    id: 40,
-    title: "The Fallout",
-    type: "Movie",
-    year: "2021",
-    description:
-      "High schooler Vada navigates the emotional fallout she experiences in the wake of a school tragedy. Relationships with her family, friends and view of the world are forever altered.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BOTgzMzE4MGItZDgxYS00ZGEwLWE3YTctZWY3ZDAyMTk0ZGU4XkEyXkFqcGdeQXVyNjY1MTg4Mzc@._V1_.jpg",
-    genres: ["Drama"],
-  },
-  {
-    id: 41,
-    title: "Pachinko",
-    type: "Series",
-    year: "2022",
-    description:
-      "Based on the New York Times bestseller, this sweeping saga chronicles the hopes and dreams of a Korean immigrant family across four generations as they leave their homeland in an indomitable quest to survive and thrive.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BNDU1MjIyMjctMTY4OS00OGJhLTk1N2QtNDIyZDJiYjBkZjYxXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg",
-    genres: ["Drama", "History"],
-  },
-  {
-    id: 42,
+    id: 33,
     title: "Saltburn",
     type: "Movie",
     year: "2023",
@@ -473,7 +374,7 @@ const mediaData = [
     genres: ["Comedy", "Drama", "Thriller"],
   },
   {
-    id: 43,
+    id: 34,
     title: "The White Lotus",
     type: "Series",
     year: "2021",
@@ -484,18 +385,7 @@ const mediaData = [
     genres: ["Comedy", "Drama"],
   },
   {
-    id: 44,
-    title: "Dune: Part Two",
-    type: "Movie",
-    year: "2024",
-    description:
-      "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family. Facing a choice between the love of his life and the fate of the universe, he must prevent a terrible future only he can foresee.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BODI0YjNhNjUtYjM0My00MTUwLWFlYTMtMWI2NGUzYjhkZWY5XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-    genres: ["Sci-Fi", "Adventure", "Action"],
-  },
-  {
-    id: 45,
+    id: 35,
     title: "Fleabag",
     type: "Series",
     year: "2016",
@@ -506,7 +396,7 @@ const mediaData = [
     genres: ["Comedy", "Drama"],
   },
   {
-    id: 46,
+    id: 36,
     title: "Euphoria",
     type: "Series",
     year: "2019",
@@ -517,7 +407,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 47,
+    id: 37,
     title: "The Green Knight",
     type: "Movie",
     year: "2021",
@@ -528,7 +418,7 @@ const mediaData = [
     genres: ["Adventure", "Drama", "Fantasy"],
   },
   {
-    id: 48,
+    id: 38,
     title: "Nomadland",
     type: "Movie",
     year: "2020",
@@ -539,40 +429,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 49,
-    title: "Yellowjackets",
-    type: "Series",
-    year: "2021",
-    description:
-      "A team of wildly talented high school girls soccer players who become the survivors of a plane crash deep in the Ontario wilderness.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZDM5ZGIxNjAtYTgzZC00NjFiLTlkMDAtODI4YTBmMmM4ZDQ1XkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Drama", "Horror", "Mystery"],
-  },
-  {
-    id: 50,
-    title: "The Power of the Dog",
-    type: "Movie",
-    year: "2021",
-    description:
-      "Charismatic rancher Phil Burbank inspires fear and awe in those around him. When his brother brings home a new wife and her son, Phil torments them until he finds himself exposed to the possibility of love.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZGRhYjE2NWUtN2FkNy00NGI3LTkxYWMtMDk4Yjg5ZjI3MWI2XkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg",
-    genres: ["Drama", "Romance", "Western"],
-  },
-  {
-    id: 51,
-    title: "Reservation Dogs",
-    type: "Series",
-    year: "2021",
-    description:
-      "Comedy series about four Native American teenagers growing up on a reservation in eastern Oklahoma who spend their days committing crime and fighting it.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BODljZjc0ZDktOGMwNS00NDI0LWFlNGYtMGY1YjQyZTZiNjhhXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg",
-    genres: ["Comedy", "Crime", "Drama"],
-  },
-  {
-    id: 52,
+    id: 39,
     title: "Midsommar",
     type: "Movie",
     year: "2019",
@@ -583,18 +440,7 @@ const mediaData = [
     genres: ["Horror", "Drama", "Mystery"],
   },
   {
-    id: 53,
-    title: "Industry",
-    type: "Series",
-    year: "2020",
-    description:
-      "Young bankers and traders make their way in the financial world in the aftermath of the 2008 collapse.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BOTY3ZTNiYTAtMzg0ZS00YzcyLWE1ZDUtZWY1YzI1YTA2ZTJkXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-    genres: ["Drama"],
-  },
-  {
-    id: 54,
+    id: 40,
     title: "The Northman",
     type: "Movie",
     year: "2022",
@@ -605,18 +451,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Drama"],
   },
   {
-    id: 55,
-    title: "Station Eleven",
-    type: "Miniseries",
-    year: "2021",
-    description:
-      "A post-apocalyptic saga spanning multiple timelines, telling the stories of survivors of a devastating flu as they attempt to rebuild and reimagine the world anew while holding on to the best of what's been lost.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BNDM4MTA2NTY3Nl5BMl5BanBnXkFtZTgwNTc3NTcxOTE@._V1_.jpg",
-    genres: ["Drama", "Sci-Fi"],
-  },
-  {
-    id: 56,
+    id: 41,
     title: "Nope",
     type: "Movie",
     year: "2022",
@@ -627,18 +462,7 @@ const mediaData = [
     genres: ["Horror", "Mystery", "Sci-Fi"],
   },
   {
-    id: 57,
-    title: "The Rehearsal",
-    type: "Series",
-    year: "2022",
-    description:
-      "Nathan Fielder gives people a chance to rehearse for their own real-life situations, ahead of time.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BYmI1NGIwNzYtOTZiNS00OGU5LWI2NDgtNDMzODYzYjgyNjRiXkEyXkFqcGdeQXVyMTEyMjM2NDc2._V1_.jpg",
-    genres: ["Comedy", "Reality-TV"],
-  },
-  {
-    id: 58,
+    id: 42,
     title: "Top Gun: Maverick",
     type: "Movie",
     year: "2022",
@@ -649,7 +473,7 @@ const mediaData = [
     genres: ["Action", "Drama"],
   },
   {
-    id: 59,
+    id: 43,
     title: "Babylon",
     type: "Movie",
     year: "2022",
@@ -660,18 +484,7 @@ const mediaData = [
     genres: ["Comedy", "Drama", "History"],
   },
   {
-    id: 60,
-    title: "Heartstopper",
-    type: "Series",
-    year: "2022",
-    description:
-      "Teens Charlie and Nick discover their unlikely friendship might be something more as they navigate school and young love in this coming-of-age series.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BMTU1NmYwMTAtNzNjOS00NDNkLTg1N2UtNDMwMmYwZDQxNzJiXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Drama", "Romance"],
-  },
-  {
-    id: 61,
+    id: 44,
     title: "The Menu",
     type: "Movie",
     year: "2022",
@@ -682,18 +495,7 @@ const mediaData = [
     genres: ["Comedy", "Horror", "Thriller"],
   },
   {
-    id: 62,
-    title: "Slow Horses",
-    type: "Series",
-    year: "2022",
-    description:
-      "Follows a team of British intelligence agents who serve as a dumping ground department of MI5 due to their career-ending mistakes.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZjRlZDIyNDMtZjIwYi00YmJiLTg4NjMtODk0ZWYxNzk3MzhlXkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-    genres: ["Drama", "Thriller"],
-  },
-  {
-    id: 63,
+    id: 45,
     title: "Triangle of Sadness",
     type: "Movie",
     year: "2022",
@@ -704,7 +506,7 @@ const mediaData = [
     genres: ["Comedy", "Drama"],
   },
   {
-    id: 64,
+    id: 46,
     title: "Aftersun",
     type: "Movie",
     year: "2022",
@@ -715,95 +517,7 @@ const mediaData = [
     genres: ["Drama"],
   },
   {
-    id: 65,
-    title: "Hijack",
-    type: "Series",
-    year: "2023",
-    description:
-      "Sam Nelson, a corporate negotiator, uses his professional skills when his flight to London is hijacked by terrorists.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BNGVkZjVhZmYtYzkyYS00ZWQ1LTk1ZjctMWUxYzY4NWRkZjY0XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-    genres: ["Drama", "Thriller"],
-  },
-  {
-    id: 66,
-    title: "Lessons in Chemistry",
-    type: "Series",
-    year: "2023",
-    description:
-      "Set in the 1950s, a woman's dream of being a scientist is put on hold when she finds herself pregnant, alone and fired from her lab job. She accepts a job as a host on a TV cooking show and sets out to teach a nation of overlooked housewives about more than recipes.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BYjNkZGI1ODUtNDczZi00YzRiLThmZTItZjIyZDM3MTRmNGU5XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-    genres: ["Drama"],
-  },
-  {
-    id: 67,
-    title: "The Diplomat",
-    type: "Series",
-    year: "2023",
-    description:
-      "A career diplomat lands a high-profile job as the ambassador to the UK, but her position comes with high stakes and she must diffuse international crises while navigating her turbulent marriage.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZmY0MDU0OTMtYTQ4Yi00OWQwLWJiNzMtZmM2MzcyM2FjN2NkXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Drama", "Thriller"],
-  },
-  {
-    id: 68,
-    title: "Challengers",
-    type: "Movie",
-    year: "2024",
-    description:
-      "Follows three tennis players who knew each other when they were teenagers. Decades later, they compete in a tennis tournament against each other, reigniting old rivalries on and off the court.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BN2Y0ZDQxYjQtMzc1ZS00YjU3LTk0ZDUtZjFkM2FkYjU2ZTlmXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Drama", "Romance", "Sport"],
-  },
-  {
-    id: 69,
-    title: "Ripley",
-    type: "Series",
-    year: "2024",
-    description:
-      "Set in the 1960s, Tom Ripley, a grifter scraping by in New York, is hired by a wealthy man to travel to Italy to try to convince his vagabond son to return home. Tom's acceptance of the job is the first step into a complex life of deceit, fraud, and murder.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZjlkMDZlZDktOWE4NS00ZjMyLWE1ZmUtMDRkZGZiMmZiYTMwXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Crime", "Drama", "Thriller"],
-  },
-  {
-    id: 70,
-    title: "Civil War",
-    type: "Movie",
-    year: "2024",
-    description:
-      "In a near-future America ravaged by political and social divisions, a team of journalists travels across the country during a rapidly escalating civil war that has engulfed the entire nation.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BMmI5NDdlNGYtZmRmMy00MDU4LWI2ZGQtMDEwNGY2ZDY4ZGVlXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Action", "Drama", "Thriller"],
-  },
-  {
-    id: 71,
-    title: "Fallout",
-    type: "Series",
-    year: "2024",
-    description:
-      "Based on the popular video game franchise, the series is set in a post-apocalyptic world devastated by nuclear war, following the adventures of survivors from underground bunkers as they emerge to explore the wasteland.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZDg5ZDg2MWQtM2ExYS00ZWRhLTk4NWUtZTZiMDM3OThlYzY4XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-    genres: ["Adventure", "Drama", "Sci-Fi"],
-  },
-  {
-    id: 72,
-    title: "The Fall Guy",
-    type: "Movie",
-    year: "2024",
-    description:
-      "A stuntman is drawn back to a movie set to win back the love of his life, only to find himself embroiled in a criminal conspiracy when the film's star goes missing.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BNGVlZTBmZTctZTBlZS00NWM1LTk5ZjgtZGNlZjRiZWVmYzVjXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Action", "Comedy"],
-  },
-  {
-    id: 73,
+    id: 47,
     title: "Bridgerton",
     type: "Series",
     year: "2020",
@@ -814,29 +528,7 @@ const mediaData = [
     genres: ["Drama", "Romance"],
   },
   {
-    id: 74,
-    title: "The Gentlemen",
-    type: "Series",
-    year: "2024",
-    description:
-      "When aristocratic Eddie inherits his father's sizeable estate, he discovers that it's home to one of the biggest weed farms in Europe, leading him into the dangerous world of organized crime.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BYzM0YjcwM2QtN2FmMC00ZmE0LWFmMDgtMDgwY2QyZTkzMzQ1XkEyXkFqcGdeQXVyMDM2NDM2MQ@@._V1_.jpg",
-    genres: ["Action", "Comedy", "Crime"],
-  },
-  {
-    id: 75,
-    title: "Anatomy of a Fall",
-    type: "Movie",
-    year: "2023",
-    description:
-      "A woman is suspected of her husband's murder, and their blind son faces a moral dilemma as the sole witness in a complex trial that puts their family under scrutiny.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BMDBiYmRkNjUtYzc4My00Y2FjLTkzYTUtOTEwNDQ4OGI5ODI1XkEyXkFqcGdeQXVyMTAyMjQ3NzQ1._V1_.jpg",
-    genres: ["Crime", "Drama", "Mystery"],
-  },
-  {
-    id: 76,
+    id: 48,
     title: "Past Lives",
     type: "Movie",
     year: "2023",
@@ -847,29 +539,7 @@ const mediaData = [
     genres: ["Drama", "Romance"],
   },
   {
-    id: 77,
-    title: "Silo",
-    type: "Series",
-    year: "2023",
-    description:
-      "In a ruined and toxic future, thousands live in a giant silo deep underground. After its sheriff breaks a cardinal rule and residents die mysteriously, engineer Juliette starts to uncover shocking secrets and the truth about the silo.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BNTk3MGJkZGItNzRjYy00MDhiLWExMjUtMmY4MzNkMGJiNGM4XkEyXkFqcGdeQXVyMjkwOTAyMDU@._V1_.jpg",
-    genres: ["Drama", "Sci-Fi"],
-  },
-  {
-    id: 78,
-    title: "The Zone of Interest",
-    type: "Movie",
-    year: "2023",
-    description:
-      "The commandant of Auschwitz, Rudolf Höss, and his wife Hedwig, strive to build a dream life for their family in a house and garden next to the camp.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BNDkxYTFjN2EtZTMxYy00OTFlLWE0ZmMtNWYwOTQ5ZTJlMGVjXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Drama", "History", "War"],
-  },
-  {
-    id: 79,
+    id: 49,
     title: "Fargo",
     type: "Series",
     year: "2014",
@@ -880,84 +550,7 @@ const mediaData = [
     genres: ["Crime", "Drama", "Thriller"],
   },
   {
-    id: 80,
-    title: "The Killer",
-    type: "Movie",
-    year: "2023",
-    description:
-      "After a fateful near-miss, an assassin battles his employers and himself on an international manhunt he insists isn't personal.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BYjA0MGU4MzYtYTYxMy00MjRhLTlmMDYtZTVhZDc1Y2QwNzI3XkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Action", "Crime", "Drama"],
-  },
-  {
-    id: 81,
-    title: "Priscilla",
-    type: "Movie",
-    year: "2023",
-    description:
-      "When teenage Priscilla Beaulieu meets Elvis Presley, the man who is already a meteoric rock-and-roll superstar becomes someone entirely unexpected in private moments: a thrilling crush, an ally in loneliness, a vulnerable best friend.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BOTQyZTBiMjAtZTNjZi00ZjU0LWI1NDQtNDkxMTM3ZTRiYWJiXkEyXkFqcGdeQXVyMTM1NjM2ODg1._V1_.jpg",
-    genres: ["Biography", "Drama", "Music"],
-  },
-  {
-    id: 82,
-    title: "Maestro",
-    type: "Movie",
-    year: "2023",
-    description:
-      "The complex love story of Leonard Bernstein and Felicia Montealegre Cohn Bernstein, a story that spans over 30 years, from their first meeting in 1946 to their two on-off marriages.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BYTM4ZDhiYTktNzJkZi00MzYzLTljNmMtMDM2MzM2ZGNlMDM4XkEyXkFqcGdeQXVyMTkxNjUyNQ@@._V1_.jpg",
-    genres: ["Biography", "Drama", "Music"],
-  },
-  {
-    id: 83,
-    title: "Reacher",
-    type: "Series",
-    year: "2022",
-    description:
-      "Jack Reacher, a veteran military police investigator, has recently entered civilian life when he is falsely accused of murder.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BNzQ4MGYzYzAtNjJlOC00NTdkLTlmNTAtMmZjMzZmZTg3YWNmXkEyXkFqcGdeQXVyMjkwOTAyMDU@._V1_.jpg",
-    genres: ["Action", "Crime", "Thriller"],
-  },
-  {
-    id: 84,
-    title: "Furiosa: A Mad Max Saga",
-    type: "Movie",
-    year: "2024",
-    description:
-      "The origin story of renegade warrior Furiosa before her encounter with Mad Max. As a child, she is snatched from the Green Place of Many Mothers and falls into the hands of a great Biker Horde led by the Warlord Dementus.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BNmQyZTBiMjUtZDVmNi00OTRjLWJhNTktMzJlZTZlYzc3NzdkXkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Action", "Adventure", "Sci-Fi"],
-  },
-  {
-    id: 85,
-    title: "The Penguin",
-    type: "Series",
-    year: "2024",
-    description:
-      "The story of Oswald Cobblepot's rise through Gotham's criminal underworld following the events of 'The Batman' film.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BZDIyYjM3N2EtOTU0MC00MjI1LThiOTQtNGUyY2MyOTMxOGI4XkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Crime", "Drama"],
-  },
-  {
-    id: 86,
-    title: "The Sympathizer",
-    type: "Series",
-    year: "2024",
-    description:
-      "A half-French, half-Vietnamese communist spy during the final days of the Vietnam War and his new life as a refugee in Los Angeles, where he learns that his spying days aren't over.",
-    image:
-      "https://m.media-amazon.com/images/M/MV5BYzZkOTY4MDgtODI5Mi00ZTFkLWI0ZTktYzU1MWJiODRkODQ3XkEyXkFqcGdeQXVyMTUzMTg2ODkz._V1_.jpg",
-    genres: ["Drama", "History", "War"],
-  },
-  {
-    id: 87,
+    id: 50,
     title: "The Last of Us",
     type: "Series",
     year: "2023",
@@ -968,7 +561,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Drama"],
   },
   {
-    id: 88,
+    id: 51,
     title: "House of the Dragon",
     type: "Series",
     year: "2022",
@@ -979,7 +572,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Drama"],
   },
   {
-    id: 89,
+    id: 52,
     title: "Everything Everywhere All at Once",
     type: "Movie",
     year: "2022",
@@ -990,7 +583,7 @@ const mediaData = [
     genres: ["Action", "Adventure", "Comedy"],
   },
   {
-    id: 90,
+    id: 53,
     title: "The Batman",
     type: "Movie",
     year: "2022",
@@ -1001,7 +594,7 @@ const mediaData = [
     genres: ["Action", "Crime", "Drama"],
   },
   {
-    id: 91,
+    id: 54,
     title: "Joker",
     type: "Movie",
     year: "2019",
@@ -1012,7 +605,7 @@ const mediaData = [
     genres: ["Crime", "Drama", "Thriller"],
   },
   {
-    id: 92,
+    id: 55,
     title: "1917",
     type: "Movie",
     year: "2019",
@@ -1023,7 +616,7 @@ const mediaData = [
     genres: ["Action", "Drama", "War"],
   },
   {
-    id: 93,
+    id: 56,
     title: "Knives Out",
     type: "Movie",
     year: "2019",
@@ -1034,7 +627,7 @@ const mediaData = [
     genres: ["Comedy", "Crime", "Drama"],
   },
   {
-    id: 94,
+    id: 57,
     title: "The Irishman",
     type: "Movie",
     year: "2019",

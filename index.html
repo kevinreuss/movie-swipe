@@ -643,20 +643,20 @@
         padding: 20px;
         box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
       }
-      
+
       .feedback-section h3 {
         font-size: 18px;
         margin-bottom: 15px;
         color: var(--text-color);
         text-align: center;
       }
-      
+
       .feedback-links {
         display: flex;
         justify-content: space-around;
         gap: 10px;
       }
-      
+
       .feedback-link {
         display: flex;
         flex-direction: column;
@@ -668,17 +668,17 @@
         transition: background-color 0.2s;
         flex: 1;
       }
-      
+
       .feedback-link:hover {
         background-color: rgba(255, 77, 77, 0.1);
       }
-      
+
       .feedback-link i {
         font-size: 24px;
         margin-bottom: 8px;
         color: var(--netflix-red);
       }
-      
+
       .feedback-link span {
         font-size: 14px;
       }
@@ -697,16 +697,16 @@
         color: var(--text-color);
         transition: background-color 0.2s;
       }
-      
+
       .feedback-compact:hover {
         background-color: rgba(255, 77, 77, 0.1);
       }
-      
+
       .feedback-compact i {
         font-size: 20px;
         color: var(--netflix-red);
       }
-      
+
       .feedback-compact span {
         font-size: 14px;
       }
@@ -826,13 +826,13 @@
         font-weight: 500;
         display: none;
       }
-      
+
       .auth-status.success {
         background-color: rgba(38, 222, 129, 0.2);
         color: #26de81;
         display: block;
       }
-      
+
       .auth-status.error {
         background-color: rgba(253, 80, 104, 0.2);
         color: #fd5068;
@@ -857,7 +857,7 @@
         display: none; /* Hidden by default, will be shown via JS */
         justify-content: center;
       }
-      
+
       .login-reminder-banner .close-banner {
         background: none;
         border: none;
@@ -866,17 +866,17 @@
         cursor: pointer;
         padding: 0 5px;
       }
-      
+
       /* Adjust header position when banner is visible */
       .banner-visible header {
         top: 38px;
       }
-      
+
       /* Adjust swipe container padding when banner is visible */
       .banner-visible .swipe-container {
         padding-top: 63px;
       }
-      
+
       /* Adjust lists container padding when banner is visible */
       .banner-visible .lists-container,
       .banner-visible .account-container {
@@ -926,7 +926,8 @@
         font-size: 18px;
       }
 
-      .legal-section p, .legal-section ul {
+      .legal-section p,
+      .legal-section ul {
         font-size: 14px;
         line-height: 1.5;
         color: var(--text-color);
@@ -949,25 +950,25 @@
   </head>
   <body>
     <!-- Firebase SDK -->
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
 
-<script>
-  // Firebase-Konfiguration (ersetze dies mit deinen eigenen Werten aus der Firebase-Konsole)
-  const firebaseConfig = {
-    apiKey: "AIzaSyDaSlnEwu9_J2e4dYX5pfQRKYCJlVIq_tw",
-    authDomain: "moviematch-cec26.firebaseapp.com",
-    projectId: "moviematch-cec26",
-    storageBucket: "moviematch-cec26.firebaseapp.com",
-    messagingSenderId: "796724064530",
-    appId: "1:796724064530:web:d9e333466912a4b42603cb",
-    measurementId: "G-7G3JD147DH"
-  };
-  
-  // Firebase initialisieren
-  firebase.initializeApp(firebaseConfig);
-</script>
+    <script>
+      // Firebase-Konfiguration (ersetze dies mit deinen eigenen Werten aus der Firebase-Konsole)
+      const firebaseConfig = {
+        apiKey: "AIzaSyDaSlnEwu9_J2e4dYX5pfQRKYCJlVIq_tw",
+        authDomain: "moviematch-cec26.firebaseapp.com",
+        projectId: "moviematch-cec26",
+        storageBucket: "moviematch-cec26.firebaseapp.com",
+        messagingSenderId: "796724064530",
+        appId: "1:796724064530:web:d9e333466912a4b42603cb",
+        measurementId: "G-7G3JD147DH",
+      };
+
+      // Firebase initialisieren
+      firebase.initializeApp(firebaseConfig);
+    </script>
 
     <div class="app-container">
       <!-- Add login reminder banner -->
@@ -990,10 +991,10 @@
           <h2>Welcome to MovieMatch!</h2>
           <p class="onboarding-intro">
             Find movies and series you'll love:
-            <ul style="text-align: left; margin-top: 10px; margin-left: 20px;">
+            <!-- <ul style="text-align: left; margin-top: 10px; margin-left: 20px;">
               <li>Over 1,000 titles in our collection</li>
               <li>More being added regularly</li>
-            </ul>
+            </ul> -->
           </p>
 
           <h3>How to use MovieMatch:</h3>
@@ -1003,9 +1004,7 @@
               <div class="swipe-arrow swipe-right">
                 <i class="fas fa-arrow-right"></i>
               </div>
-              <div class="swipe-text">
-                👍 Swipe right: Want to watch
-              </div>
+              <div class="swipe-text">Swipe right: <b>Want to watch</b></div>
             </div>
 
             <div class="swipe-instruction">
@@ -1013,7 +1012,7 @@
                 <i class="fas fa-arrow-left"></i>
               </div>
               <div class="swipe-text">
-                👎 Swipe left: Don't want to watch
+                Swipe left: <b>Don't want to watch / already watched</b>
               </div>
             </div>
 
@@ -1022,13 +1021,14 @@
                 <i class="fas fa-arrow-up"></i>
               </div>
               <div class="swipe-text">
-                🤔 Swipe up: Not sure, ask me later
+                Swipe up: <b>Not sure, ask me later</b>
               </div>
             </div>
           </div>
 
           <p class="beta-notice">
-            This is a VERY early version. We'd love to hear your feedback and ideas!
+            This is a VERY early version. We'd love to hear your feedback and
+            ideas!
           </p>
 
           <div class="onboarding-buttons">
@@ -1043,57 +1043,91 @@
         </div>
       </div>
 
-      <div class="account-container" id="accountContainer" style="display: none;">
+      <div
+        class="account-container"
+        id="accountContainer"
+        style="display: none"
+      >
         <div id="authStatus" class="auth-status"></div>
         <div class="account-tabs">
           <button class="account-tab-btn active" id="loginTabBtn">Login</button>
           <button class="account-tab-btn" id="registerTabBtn">Register</button>
         </div>
-        
+
         <div class="user-profile" id="userProfile">
           <h2>Your Account</h2>
           <p class="account-subtitle">Manage your MovieMatch account</p>
           <p class="user-email" id="userEmail"></p>
           <button id="logoutButton" class="logout-button">Sign Out</button>
         </div>
-        
+
         <div class="account-form-container" id="loginForm">
           <h2>Login to your account</h2>
-          <p class="account-subtitle">Sign in to store your movie lists securely</p>
-          
+          <p class="account-subtitle">
+            Sign in to store your movie lists securely
+          </p>
+
           <div class="form-group">
             <label for="loginEmail">Email</label>
-            <input type="email" id="loginEmail" placeholder="your@email.com" required>
+            <input
+              type="email"
+              id="loginEmail"
+              placeholder="your@email.com"
+              required
+            />
           </div>
-          
+
           <div class="form-group">
             <label for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" placeholder="Your password" required>
+            <input
+              type="password"
+              id="loginPassword"
+              placeholder="Your password"
+              required
+            />
           </div>
-          
+
           <button id="loginButton" class="account-button">Sign In</button>
           <p id="loginError" class="error-message"></p>
         </div>
-        
-        <div class="account-form-container" id="registerForm" style="display: none;">
+
+        <div
+          class="account-form-container"
+          id="registerForm"
+          style="display: none"
+        >
           <h2>Create an account</h2>
-          <p class="account-subtitle">Register to store your movie lists securely</p>
-          
+          <p class="account-subtitle">
+            Register to store your movie lists securely
+          </p>
+
           <div class="form-group">
             <label for="registerEmail">Email</label>
-            <input type="email" id="registerEmail" placeholder="your@email.com" required>
+            <input
+              type="email"
+              id="registerEmail"
+              placeholder="your@email.com"
+              required
+            />
           </div>
-          
+
           <div class="form-group">
             <label for="registerPassword">Password</label>
-            <input type="password" id="registerPassword" placeholder="Choose a password" required>
+            <input
+              type="password"
+              id="registerPassword"
+              placeholder="Choose a password"
+              required
+            />
           </div>
-          
-          <button id="registerButton" class="account-button">Create Account</button>
+
+          <button id="registerButton" class="account-button">
+            Create Account
+          </button>
           <p id="registerError" class="error-message"></p>
         </div>
       </div>
-      
+
       <div class="swipe-container" id="swipeContainer">
         <!-- Add reaction animation elements -->
         <div class="reaction-animation" id="likeReaction">👍</div>
@@ -1129,9 +1163,13 @@
             </div>
             <div class="category-count" id="dislikedCount">0</div>
           </div>
-          
+
           <!-- Add compact feedback section -->
-          <a href="https://docs.google.com/forms/d/e/1FAIpQLSd0r3n39BChksWl3TOT2Ingzz1Xns0hNZwuLBA0jPVOEJhXNw/viewform" target="_blank" class="feedback-compact">
+          <a
+            href="https://docs.google.com/forms/d/e/1FAIpQLSd0r3n39BChksWl3TOT2Ingzz1Xns0hNZwuLBA0jPVOEJhXNw/viewform"
+            target="_blank"
+            class="feedback-compact"
+          >
             <i class="fas fa-comment-dots"></i>
             <span>Send feedback or report bugs</span>
           </a>
@@ -1183,7 +1221,7 @@
       <div class="legal-modal-content">
         <span class="close-legal-modal">&times;</span>
         <h2>Legal Information</h2>
-        
+
         <div class="legal-section">
           <h3>Information according to § 5 TMG</h3>
           <p>
@@ -1205,12 +1243,17 @@
             <li>Email address (for registered users)</li>
             <li>Movie preferences (liked/disliked movies)</li>
           </ul>
-          <p>This data is stored using Firebase services. You can request deletion of your data by contacting us.</p>
+          <p>
+            This data is stored using Firebase services. You can request
+            deletion of your data by contacting us.
+          </p>
         </div>
-        
+
         <div class="legal-section">
           <h3>Third-Party Services</h3>
-          <p>This app uses Google Firebase for authentication and data storage.</p>
+          <p>
+            This app uses Google Firebase for authentication and data storage.
+          </p>
         </div>
       </div>
     </div>
@@ -1344,8 +1387,10 @@
         const registerTabBtn = document.getElementById("registerTabBtn");
         const loginForm = document.getElementById("loginForm");
         const registerForm = document.getElementById("registerForm");
-        const loginReminderBanner = document.getElementById("loginReminderBanner");
-        
+        const loginReminderBanner = document.getElementById(
+          "loginReminderBanner"
+        );
+
         // Initialize theme
         initTheme();
 
@@ -1355,7 +1400,7 @@
         // Initialize Firebase authentication first
         // This will trigger the auth state change listener which will load the appropriate data
         initAuth();
-        
+
         // Setup login reminder banner
         setupLoginReminderBanner();
 
@@ -1366,14 +1411,14 @@
         resetButton.addEventListener("click", resetApp);
 
         // Add event listeners for account tabs
-        loginTabBtn.addEventListener("click", function() {
+        loginTabBtn.addEventListener("click", function () {
           loginTabBtn.classList.add("active");
           registerTabBtn.classList.remove("active");
           loginForm.style.display = "block";
           registerForm.style.display = "none";
         });
-        
-        registerTabBtn.addEventListener("click", function() {
+
+        registerTabBtn.addEventListener("click", function () {
           registerTabBtn.classList.add("active");
           loginTabBtn.classList.remove("active");
           registerForm.style.display = "block";
@@ -1401,9 +1446,9 @@
         const userEmail = document.getElementById("userEmail");
         const loginForm = document.getElementById("loginForm");
         const registerForm = document.getElementById("registerForm");
-        
+
         // Check if user is already logged in
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged(function (user) {
           if (user) {
             // User is signed in
             userEmail.textContent = user.email;
@@ -1411,10 +1456,10 @@
             loginForm.style.display = "none";
             registerForm.style.display = "none";
             document.querySelector(".account-tabs").style.display = "none";
-            
+
             // Hide login reminder banner
             hideBanner();
-            
+
             // Load user's lists from Firebase
             loadUserListsFromFirebase(user.uid);
           } else {
@@ -1422,36 +1467,38 @@
             userProfile.style.display = "none";
             loginForm.style.display = "block";
             document.querySelector(".account-tabs").style.display = "flex";
-            
+
             showBanner();
-            
+
             // Load saved lists from localStorage
             loadSavedLists();
-            
+
             // Initialize the queue and create cards
             refreshQueue();
-            
+
             // Create initial cards with a slight delay to ensure DOM is ready
             setTimeout(() => {
               createCards();
             }, 100);
-            
+
             // Update lists view with loaded data
             updateLists();
           }
         });
-        
+
         // Login functionality
-        loginButton.addEventListener("click", function() {
+        loginButton.addEventListener("click", function () {
           const email = loginEmail.value;
           const password = loginPassword.value;
-          
+
           if (!email || !password) {
             showAuthMessage("Please enter both email and password", "error");
             return;
           }
-          
-          firebase.auth().signInWithEmailAndPassword(email, password)
+
+          firebase
+            .auth()
+            .signInWithEmailAndPassword(email, password)
             .then((userCredential) => {
               // Signed in
               showAuthMessage("Login successful!", "success");
@@ -1464,30 +1511,35 @@
               showAuthMessage("Login failed: " + error.message, "error");
             });
         });
-        
+
         // Register functionality
-        registerButton.addEventListener("click", function() {
+        registerButton.addEventListener("click", function () {
           const email = registerEmail.value;
           const password = registerPassword.value;
-          
+
           if (!email || !password) {
             showAuthMessage("Please enter both email and password", "error");
             return;
           }
-          
+
           if (password.length < 6) {
-            showAuthMessage("Password should be at least 6 characters", "error");
+            showAuthMessage(
+              "Password should be at least 6 characters",
+              "error"
+            );
             return;
           }
-          
-          firebase.auth().createUserWithEmailAndPassword(email, password)
+
+          firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
               // Signed up
               showAuthMessage("Account created successfully!", "success");
               registerEmail.value = "";
               registerPassword.value = "";
               registerError.textContent = "";
-              
+
               // Save local lists to Firebase
               saveLocalListsToFirebase(userCredential.user.uid);
             })
@@ -1496,25 +1548,35 @@
               showAuthMessage("Registration failed: " + error.message, "error");
             });
         });
-        
+
         // Function to save local lists to Firebase
         function saveLocalListsToFirebase(userId) {
           // Get lists from localStorage
-          const savedLikedIds = localStorage.getItem("movieMatch_likedMediaIds");
-          const savedDislikedIds = localStorage.getItem("movieMatch_dislikedMediaIds");
-          
+          const savedLikedIds = localStorage.getItem(
+            "movieMatch_likedMediaIds"
+          );
+          const savedDislikedIds = localStorage.getItem(
+            "movieMatch_dislikedMediaIds"
+          );
+
           // Create data object to save
           const userData = {
             likedMediaIds: savedLikedIds ? JSON.parse(savedLikedIds) : [],
-            dislikedMediaIds: savedDislikedIds ? JSON.parse(savedDislikedIds) : [],
-            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            dislikedMediaIds: savedDislikedIds
+              ? JSON.parse(savedDislikedIds)
+              : [],
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
           };
-          
+
           // Save to Firestore
-          firebase.firestore().collection('users').doc(userId).set(userData)
+          firebase
+            .firestore()
+            .collection("users")
+            .doc(userId)
+            .set(userData)
             .then(() => {
               console.log("Local lists saved to Firebase successfully");
-              
+
               // Clear local storage after successful save to Firebase
               localStorage.removeItem("movieMatch_likedMediaIds");
               localStorage.removeItem("movieMatch_dislikedMediaIds");
@@ -1523,26 +1585,29 @@
               console.error("Error saving lists to Firebase: ", error);
             });
         }
-        
+
         // Logout functionality
-        logoutButton.addEventListener("click", function() {
-          firebase.auth().signOut().then(() => {
-            // Clear localStorage
-            localStorage.removeItem("movieMatch_likedMediaIds");
-            localStorage.removeItem("movieMatch_dislikedMediaIds");
-            
-            // Reset in-memory lists
-            movieMatch_likedMediaIds = [];
-            movieMatch_dislikedMediaIds = [];
-            
-            // Refresh UI
-            refreshQueue();
-            updateLists();
-            
-            // If in swipe view, recreate cards
-            if (swipeContainer.style.display !== 'none') {
-              // Clear existing cards and recreate
-              swipeContainer.innerHTML = `
+        logoutButton.addEventListener("click", function () {
+          firebase
+            .auth()
+            .signOut()
+            .then(() => {
+              // Clear localStorage
+              localStorage.removeItem("movieMatch_likedMediaIds");
+              localStorage.removeItem("movieMatch_dislikedMediaIds");
+
+              // Reset in-memory lists
+              movieMatch_likedMediaIds = [];
+              movieMatch_dislikedMediaIds = [];
+
+              // Refresh UI
+              refreshQueue();
+              updateLists();
+
+              // If in swipe view, recreate cards
+              if (swipeContainer.style.display !== "none") {
+                // Clear existing cards and recreate
+                swipeContainer.innerHTML = `
                 <div class="reaction-animation" id="likeReaction">👍</div>
                 <div class="reaction-animation" id="dislikeReaction">👎</div>
                 <div class="reaction-animation" id="maybeReaction">🤔</div>
@@ -1553,32 +1618,35 @@
                   <button class="reset-button" id="resetButton">Von vorne beginnen</button>
                 </div>
               `;
-              
-              // Update reaction element references
-              likeReaction = document.getElementById("likeReaction");
-              dislikeReaction = document.getElementById("dislikeReaction");
-              maybeReaction = document.getElementById("maybeReaction");
-              noMoreCards = document.querySelector(".no-more-cards");
-              
-              activeCards = [];
-              createCards();
-              
-              // Re-add event listener to reset button
-              document.getElementById("resetButton").addEventListener("click", resetApp);
-            }
-            
-            showAuthMessage("Logged out successfully", "success");
-          }).catch((error) => {
-            showAuthMessage("Error signing out: " + error.message, "error");
-          });
+
+                // Update reaction element references
+                likeReaction = document.getElementById("likeReaction");
+                dislikeReaction = document.getElementById("dislikeReaction");
+                maybeReaction = document.getElementById("maybeReaction");
+                noMoreCards = document.querySelector(".no-more-cards");
+
+                activeCards = [];
+                createCards();
+
+                // Re-add event listener to reset button
+                document
+                  .getElementById("resetButton")
+                  .addEventListener("click", resetApp);
+              }
+
+              showAuthMessage("Logged out successfully", "success");
+            })
+            .catch((error) => {
+              showAuthMessage("Error signing out: " + error.message, "error");
+            });
         });
-        
+
         // Function to show auth status messages
         function showAuthMessage(message, type) {
           authStatus.textContent = message;
           authStatus.className = "auth-status";
           authStatus.classList.add(type);
-          
+
           // Hide the message after 5 seconds
           setTimeout(() => {
             authStatus.style.display = "none";
@@ -1588,27 +1656,31 @@
 
       // Function to load user's lists from Firebase
       function loadUserListsFromFirebase(userId) {
-        firebase.firestore().collection('users').doc(userId).get()
+        firebase
+          .firestore()
+          .collection("users")
+          .doc(userId)
+          .get()
           .then((doc) => {
             if (doc.exists) {
               const userData = doc.data();
-              
+
               // Update local lists with Firebase data
               if (userData.likedMediaIds) {
                 movieMatch_likedMediaIds = userData.likedMediaIds;
               }
-              
+
               if (userData.dislikedMediaIds) {
                 movieMatch_dislikedMediaIds = userData.dislikedMediaIds;
               }
-              
+
               // Clear localStorage since we're now using Firebase data
               localStorage.removeItem("movieMatch_likedMediaIds");
               localStorage.removeItem("movieMatch_dislikedMediaIds");
-              
+
               // Refresh the queue and update UI
               refreshQueue();
-              
+
               // Create initial cards with a slight delay to ensure DOM is ready
               setTimeout(() => {
                 // Clear existing cards
@@ -1623,39 +1695,41 @@
                     <button class="reset-button" id="resetButton">Von vorne beginnen</button>
                   </div>
                 `;
-                
+
                 // Update reaction element references
                 likeReaction = document.getElementById("likeReaction");
                 dislikeReaction = document.getElementById("dislikeReaction");
                 maybeReaction = document.getElementById("maybeReaction");
                 noMoreCards = document.querySelector(".no-more-cards");
-                
+
                 activeCards = [];
                 createCards();
-                
+
                 // Re-add event listener to reset button
-                document.getElementById("resetButton").addEventListener("click", resetApp);
+                document
+                  .getElementById("resetButton")
+                  .addEventListener("click", resetApp);
               }, 100);
-              
+
               // Update lists view
               updateLists();
-              
+
               showAuthMessage("Lists loaded from your account", "success");
             } else {
               console.log("No user data found in Firestore");
-              
+
               // If no data in Firebase, initialize with empty lists
               movieMatch_likedMediaIds = [];
               movieMatch_dislikedMediaIds = [];
-              
+
               // Refresh the queue and update UI
               refreshQueue();
-              
+
               // Create initial cards
               setTimeout(() => {
                 createCards();
               }, 100);
-              
+
               // Update lists view
               updateLists();
             }
@@ -1663,7 +1737,7 @@
           .catch((error) => {
             console.error("Error loading user data:", error);
             showAuthMessage("Error loading your lists", "error");
-            
+
             // Fallback to localStorage on error
             loadSavedLists();
             refreshQueue();
@@ -1686,10 +1760,10 @@
           // Shuffle the array to randomize order
           .sort(() => Math.random() - 0.5);
 
-          console.log(currentQueue)
-          console.log(movieMatch_likedMediaIds)
-          console.log(movieMatch_dislikedMediaIds)
-          console.log('---')
+        console.log(currentQueue);
+        console.log(movieMatch_likedMediaIds);
+        console.log(movieMatch_dislikedMediaIds);
+        console.log("---");
       }
 
       // Create cards for swiping
@@ -2100,7 +2174,7 @@
         swipeContainer.style.display = "none";
         listsContainer.style.display = "none";
         accountContainer.style.display = "flex";
-        
+
         // Update active tab
         swipeTab.classList.remove("active");
         listsTab.classList.remove("active");
@@ -2178,19 +2252,21 @@
 
       // Function to setup login reminder banner
       function setupLoginReminderBanner() {
-        const loginReminderBanner = document.getElementById("loginReminderBanner");
+        const loginReminderBanner = document.getElementById(
+          "loginReminderBanner"
+        );
         const closeBannerBtn = document.querySelector(".close-banner");
-  
+
         // Add click event to the banner to navigate to account tab
-        loginReminderBanner.addEventListener("click", function(e) {
+        loginReminderBanner.addEventListener("click", function (e) {
           // Don't trigger if clicking the close button
           if (!e.target.closest(".close-banner")) {
             showAccountView();
           }
         });
-        
+
         // Check auth state to show/hide banner
-        firebase.auth().onAuthStateChanged(function(user) {
+        firebase.auth().onAuthStateChanged(function (user) {
           if (!user) {
             showBanner();
           } else {
@@ -2198,17 +2274,21 @@
           }
         });
       }
-      
+
       // Function to show the login reminder banner
       function showBanner() {
-        const loginReminderBanner = document.getElementById("loginReminderBanner");
+        const loginReminderBanner = document.getElementById(
+          "loginReminderBanner"
+        );
         loginReminderBanner.style.display = "flex";
         document.body.classList.add("banner-visible");
       }
-      
+
       // Function to hide the login reminder banner
       function hideBanner() {
-        const loginReminderBanner = document.getElementById("loginReminderBanner");
+        const loginReminderBanner = document.getElementById(
+          "loginReminderBanner"
+        );
         loginReminderBanner.style.display = "none";
         document.body.classList.remove("banner-visible");
       }
@@ -2217,16 +2297,20 @@
       function saveUserLists() {
         // Check if user is logged in
         const user = firebase.auth().currentUser;
-        
+
         if (user) {
           // User is logged in, save to Firebase
           const userData = {
             likedMediaIds: movieMatch_likedMediaIds,
             dislikedMediaIds: movieMatch_dislikedMediaIds,
-            lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+            lastUpdated: firebase.firestore.FieldValue.serverTimestamp(),
           };
-          
-          firebase.firestore().collection('users').doc(user.uid).set(userData)
+
+          firebase
+            .firestore()
+            .collection("users")
+            .doc(user.uid)
+            .set(userData)
             .then(() => {
               console.log("Lists saved to Firebase successfully");
             })
@@ -2244,46 +2328,47 @@
       // Function to setup the legal modal
       function setupLegalModal() {
         // Add legal link to login and register forms
-        const loginForm = document.getElementById('loginForm');
-        const registerForm = document.getElementById('registerForm');
-        
+        const loginForm = document.getElementById("loginForm");
+        const registerForm = document.getElementById("registerForm");
+
         // Add legal link to login form
-        const loginLegalLink = document.createElement('a');
-        loginLegalLink.className = 'legal-link';
-        loginLegalLink.textContent = 'Legal Information';
+        const loginLegalLink = document.createElement("a");
+        loginLegalLink.className = "legal-link";
+        loginLegalLink.textContent = "Legal Information";
         loginLegalLink.onclick = openLegalModal;
         loginForm.appendChild(loginLegalLink);
-        
+
         // Add legal link to register form
-        const registerLegalLink = document.createElement('a');
-        registerLegalLink.className = 'legal-link';
-        registerLegalLink.textContent = 'Legal Information';
+        const registerLegalLink = document.createElement("a");
+        registerLegalLink.className = "legal-link";
+        registerLegalLink.textContent = "Legal Information";
         registerLegalLink.onclick = openLegalModal;
         registerForm.appendChild(registerLegalLink);
-        
+
         // Get the modal
-        const legalModal = document.getElementById('legalModal');
-        
+        const legalModal = document.getElementById("legalModal");
+
         // Get the <span> element that closes the modal
-        const closeBtn = document.getElementsByClassName('close-legal-modal')[0];
-        
+        const closeBtn =
+          document.getElementsByClassName("close-legal-modal")[0];
+
         // When the user clicks on <span> (x), close the modal
-        closeBtn.onclick = function() {
-          legalModal.style.display = 'none';
-        }
-        
+        closeBtn.onclick = function () {
+          legalModal.style.display = "none";
+        };
+
         // When the user clicks anywhere outside of the modal, close it
-        window.onclick = function(event) {
+        window.onclick = function (event) {
           if (event.target == legalModal) {
-            legalModal.style.display = 'none';
+            legalModal.style.display = "none";
           }
-        }
+        };
       }
-      
+
       // Function to open the legal modal
       function openLegalModal() {
-        const legalModal = document.getElementById('legalModal');
-        legalModal.style.display = 'block';
+        const legalModal = document.getElementById("legalModal");
+        legalModal.style.display = "block";
       }
 
       // Initialize the app

@@ -1215,6 +1215,9 @@
             loginForm.style.display = "none";
             registerForm.style.display = "none";
             document.querySelector(".account-tabs").style.display = "none";
+            
+            // Load user's lists from Firebase
+            loadUserListsFromFirebase(user.uid);
           } else {
             // User is signed out
             userProfile.style.display = "none";
@@ -1322,6 +1325,68 @@
             authStatus.style.display = "none";
           }, 5000);
         }
+      }
+
+      // Function to load user's lists from Firebase
+      function loadUserListsFromFirebase(userId) {
+        firebase.firestore().collection('users').doc(userId).get()
+          .then((doc) => {
+            if (doc.exists) {
+              const userData = doc.data();
+              
+              // Update local lists with Firebase data
+              if (userData.likedMediaIds) {
+                movieMatch_likedMediaIds = userData.likedMediaIds;
+              }
+              
+              if (userData.dislikedMediaIds) {
+                movieMatch_dislikedMediaIds = userData.dislikedMediaIds;
+              }
+              
+              // Save to localStorage
+              saveLists();
+              
+              // Refresh the queue and update UI
+              refreshQueue();
+              updateLists();
+              
+              // If in swipe view, recreate cards
+              if (swipeContainer.style.display !== 'none') {
+                // Clear existing cards
+                swipeContainer.innerHTML = `
+                  <div class="reaction-animation" id="likeReaction">👍</div>
+                  <div class="reaction-animation" id="dislikeReaction">👎</div>
+                  <div class="reaction-animation" id="maybeReaction">🤔</div>
+                  <div class="no-more-cards">
+                    <i class="fas fa-film"></i>
+                    <h2>Keine weiteren Filme</h2>
+                    <p>Du hast alle verfügbaren Filme und Serien bewertet!</p>
+                    <button class="reset-button" id="resetButton">Von vorne beginnen</button>
+                  </div>
+                `;
+                
+                // Update reaction element references
+                likeReaction = document.getElementById("likeReaction");
+                dislikeReaction = document.getElementById("dislikeReaction");
+                maybeReaction = document.getElementById("maybeReaction");
+                noMoreCards = document.querySelector(".no-more-cards");
+                
+                activeCards = [];
+                createCards();
+                
+                // Re-add event listener to reset button
+                document.getElementById("resetButton").addEventListener("click", resetApp);
+              }
+              
+              showAuthMessage("Lists loaded from your account", "success");
+            } else {
+              console.log("No user data found in Firestore");
+            }
+          })
+          .catch((error) => {
+            console.error("Error loading user data:", error);
+            showAuthMessage("Error loading your lists", "error");
+          });
       }
 
       // Initialize the app

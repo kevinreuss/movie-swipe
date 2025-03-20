@@ -1,4 +1,4 @@
-const mediaData = [
+const mediaData_de = [
   {
     id: "0",
     title: "Die Verurteilten",

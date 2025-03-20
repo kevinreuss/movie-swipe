@@ -882,6 +882,69 @@
       .banner-visible .account-container {
         padding-top: 108px;
       }
+
+      /* Legal Modal Styles */
+      .legal-modal {
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0, 0, 0, 0.8);
+      }
+
+      .legal-modal-content {
+        background-color: var(--card-background);
+        margin: 15% auto;
+        padding: 20px;
+        border-radius: 10px;
+        width: 90%;
+        max-width: 600px;
+        max-height: 80vh;
+        overflow-y: auto;
+        position: relative;
+      }
+
+      .close-legal-modal {
+        color: var(--secondary-text-color);
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+      }
+
+      .legal-section {
+        margin-bottom: 20px;
+      }
+
+      .legal-section h3 {
+        color: var(--netflix-red);
+        margin-bottom: 10px;
+        font-size: 18px;
+      }
+
+      .legal-section p, .legal-section ul {
+        font-size: 14px;
+        line-height: 1.5;
+        color: var(--text-color);
+      }
+
+      .legal-section ul {
+        margin-left: 20px;
+        margin-bottom: 10px;
+      }
+
+      .legal-link {
+        color: var(--netflix-red);
+        text-decoration: underline;
+        cursor: pointer;
+        font-size: 14px;
+        display: inline-block;
+        margin-top: 15px;
+      }
     </style>
   </head>
   <body>
@@ -1115,6 +1178,42 @@
       </nav>
     </div>
 
+    <!-- Add this to your HTML, just before the closing </body> tag -->
+    <div id="legalModal" class="legal-modal">
+      <div class="legal-modal-content">
+        <span class="close-legal-modal">&times;</span>
+        <h2>Legal Information</h2>
+        
+        <div class="legal-section">
+          <h3>Information according to § 5 TMG</h3>
+          <p>
+            Kevin Reuß<br />
+            08485 Lengenfeld<br />
+            Germany
+          </p>
+        </div>
+
+        <div class="legal-section">
+          <h3>Contact</h3>
+          <p>Email: kevreuss@gmail.com</p>
+        </div>
+
+        <div class="legal-section">
+          <h3>Data Privacy</h3>
+          <p>MovieMatch stores the following data:</p>
+          <ul>
+            <li>Email address (for registered users)</li>
+            <li>Movie preferences (liked/disliked movies)</li>
+          </ul>
+          <p>This data is stored using Firebase services. You can request deletion of your data by contacting us.</p>
+        </div>
+        
+        <div class="legal-section">
+          <h3>Third-Party Services</h3>
+          <p>This app uses Google Firebase for authentication and data storage.</p>
+        </div>
+      </div>
+    </div>
 
     <script src="mediaData.js"></script>
 
@@ -1544,6 +1643,9 @@
         
         // Setup login reminder banner
         setupLoginReminderBanner();
+
+        // Setup legal modal
+        setupLegalModal();
       }
 
       // Refresh the queue of media to show
@@ -2106,6 +2208,51 @@
           // User is not logged in, save to localStorage
           saveLists();
         }
+      }
+
+      // Function to setup the legal modal
+      function setupLegalModal() {
+        // Add legal link to login and register forms
+        const loginForm = document.getElementById('loginForm');
+        const registerForm = document.getElementById('registerForm');
+        
+        // Add legal link to login form
+        const loginLegalLink = document.createElement('a');
+        loginLegalLink.className = 'legal-link';
+        loginLegalLink.textContent = 'Legal Information';
+        loginLegalLink.onclick = openLegalModal;
+        loginForm.appendChild(loginLegalLink);
+        
+        // Add legal link to register form
+        const registerLegalLink = document.createElement('a');
+        registerLegalLink.className = 'legal-link';
+        registerLegalLink.textContent = 'Legal Information';
+        registerLegalLink.onclick = openLegalModal;
+        registerForm.appendChild(registerLegalLink);
+        
+        // Get the modal
+        const legalModal = document.getElementById('legalModal');
+        
+        // Get the <span> element that closes the modal
+        const closeBtn = document.getElementsByClassName('close-legal-modal')[0];
+        
+        // When the user clicks on <span> (x), close the modal
+        closeBtn.onclick = function() {
+          legalModal.style.display = 'none';
+        }
+        
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+          if (event.target == legalModal) {
+            legalModal.style.display = 'none';
+          }
+        }
+      }
+      
+      // Function to open the legal modal
+      function openLegalModal() {
+        const legalModal = document.getElementById('legalModal');
+        legalModal.style.display = 'block';
       }
 
       // Initialize the app

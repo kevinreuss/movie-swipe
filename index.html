@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>MovieSwipe</title>
+    <title>MovieMatch</title>
     <link
       href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap"
       rel="stylesheet"
@@ -716,7 +716,7 @@
   <body>
     <div class="app-container">
       <header>
-        <div class="logo">MovieSwipe</div>
+        <div class="logo">MovieMatch</div>
         <div class="header-controls">
           <button id="themeToggle" class="theme-toggle">
             <i class="fas fa-moon"></i>
@@ -727,7 +727,7 @@
       <!-- Add the onboarding overlay -->
       <div class="onboarding-overlay" id="onboardingOverlay">
         <div class="onboarding-content">
-          <h2>Welcome to MovieSwipe!</h2>
+          <h2>Welcome to MovieMatch!</h2>
           <p class="onboarding-intro">
             Find movies and series you'll love:
             <ul style="text-align: left; margin-top: 10px; margin-left: 20px;">
@@ -736,7 +736,7 @@
             </ul>
           </p>
 
-          <h3>How to use MovieSwipe:</h3>
+          <h3>How to use MovieMatch:</h3>
 
           <div class="swipe-instructions">
             <div class="swipe-instruction">
@@ -867,8 +867,8 @@
 
     <script>
       // Lists to store user choices (now storing IDs instead of full media objects)
-      let movieSwipe_likedMediaIds = [];
-      let movieSwipe_dismovieSwipe_likedMediaIds = [];
+      let movieMatch_likedMediaIds = [];
+      let movieMatch_dismovieMatch_likedMediaIds = [];
       let currentQueue = []; // Queue of media to show
       let activeCards = [];
 
@@ -894,36 +894,36 @@
 
       // Load saved lists from localStorage
       function loadSavedLists() {
-        const savedLikedIds = localStorage.getItem("movieSwipe_likedMediaIds");
+        const savedLikedIds = localStorage.getItem("movieMatch_likedMediaIds");
         const savedDislikedIds = localStorage.getItem(
-          "movieSwipe_dismovieSwipe_likedMediaIds"
+          "movieMatch_dismovieMatch_likedMediaIds"
         );
 
         if (savedLikedIds) {
-          movieSwipe_likedMediaIds = JSON.parse(savedLikedIds);
+          movieMatch_likedMediaIds = JSON.parse(savedLikedIds);
         }
 
         if (savedDislikedIds) {
-          movieSwipe_dismovieSwipe_likedMediaIds = JSON.parse(savedDislikedIds);
+          movieMatch_dismovieMatch_likedMediaIds = JSON.parse(savedDislikedIds);
         }
       }
 
       // Save lists to localStorage
       function saveLists() {
         localStorage.setItem(
-          "movieSwipe_likedMediaIds",
-          JSON.stringify(movieSwipe_likedMediaIds)
+          "movieMatch_likedMediaIds",
+          JSON.stringify(movieMatch_likedMediaIds)
         );
         localStorage.setItem(
-          "movieSwipe_dismovieSwipe_likedMediaIds",
-          JSON.stringify(movieSwipe_dismovieSwipe_likedMediaIds)
+          "movieMatch_dismovieMatch_likedMediaIds",
+          JSON.stringify(movieMatch_dismovieMatch_likedMediaIds)
         );
       }
 
       // Theme handling
       function initTheme() {
         // Check if user has previously set a theme preference
-        const savedTheme = localStorage.getItem("movieSwipe_theme");
+        const savedTheme = localStorage.getItem("movieMatch_theme");
 
         if (savedTheme) {
           // Apply saved theme
@@ -951,7 +951,7 @@
           .matchMedia("(prefers-color-scheme: light)")
           .addEventListener("change", (e) => {
             // Only apply system changes if user hasn't set a preference
-            if (!localStorage.getItem("movieSwipe_theme")) {
+            if (!localStorage.getItem("movieMatch_theme")) {
               const newTheme = e.matches ? "light" : "dark";
               document.documentElement.setAttribute("data-theme", newTheme);
               updateThemeIcon(newTheme);
@@ -965,7 +965,7 @@
         const newTheme = currentTheme === "dark" ? "light" : "dark";
 
         document.documentElement.setAttribute("data-theme", newTheme);
-        localStorage.setItem("movieSwipe_theme", newTheme);
+        localStorage.setItem("movieMatch_theme", newTheme);
         updateThemeIcon(newTheme);
       }
 
@@ -1012,8 +1012,8 @@
         currentQueue = mediaData
           .filter(
             (media) =>
-              !movieSwipe_likedMediaIds.includes(media.id) &&
-              !movieSwipe_dismovieSwipe_likedMediaIds.includes(media.id)
+              !movieMatch_likedMediaIds.includes(media.id) &&
+              !movieMatch_dismovieMatch_likedMediaIds.includes(media.id)
           )
           // Shuffle the array to randomize order
           .sort(() => Math.random() - 0.5);
@@ -1195,12 +1195,12 @@
 
         // Handle based on action
         if (action === "like") {
-          movieSwipe_likedMediaIds.push(mediaId);
+          movieMatch_likedMediaIds.push(mediaId);
           card.style.transform = "translate(100vw, 0) rotate(30deg)";
           showReaction(likeReaction);
           saveLists(); // Save to localStorage
         } else if (action === "dislike") {
-          movieSwipe_dismovieSwipe_likedMediaIds.push(mediaId);
+          movieMatch_dismovieMatch_likedMediaIds.push(mediaId);
           card.style.transform = "translate(-100vw, 0) rotate(-30deg)";
           showReaction(dislikeReaction);
           saveLists(); // Save to localStorage
@@ -1261,13 +1261,13 @@
       function updateLists() {
         // Update counts
         document.getElementById("likedCount").textContent =
-          movieSwipe_likedMediaIds.length;
+          movieMatch_likedMediaIds.length;
         document.getElementById("dislikedCount").textContent =
-          movieSwipe_dismovieSwipe_likedMediaIds.length;
+          movieMatch_dismovieMatch_likedMediaIds.length;
 
         // Update liked list
-        if (movieSwipe_likedMediaIds.length > 0) {
-          likedList.innerHTML = movieSwipe_likedMediaIds
+        if (movieMatch_likedMediaIds.length > 0) {
+          likedList.innerHTML = movieMatch_likedMediaIds
             .map((id, index) => {
               const media = mediaData.find((m) => m.id == id);
               return createListItem(media, "liked", index);
@@ -1279,8 +1279,8 @@
         }
 
         // Update disliked list
-        if (movieSwipe_dismovieSwipe_likedMediaIds.length > 0) {
-          dislikedList.innerHTML = movieSwipe_dismovieSwipe_likedMediaIds
+        if (movieMatch_dismovieMatch_likedMediaIds.length > 0) {
+          dislikedList.innerHTML = movieMatch_dismovieMatch_likedMediaIds
             .map((id, index) => {
               const media = mediaData.find((m) => m.id == id);
               return createListItem(media, "disliked", index);
@@ -1337,13 +1337,13 @@
         maybeReaction = document.getElementById("maybeReaction");
 
         // Reset variables
-        movieSwipe_likedMediaIds = [];
-        movieSwipe_dismovieSwipe_likedMediaIds = [];
+        movieMatch_likedMediaIds = [];
+        movieMatch_dismovieMatch_likedMediaIds = [];
         activeCards = [];
 
         // Clear localStorage for lists
-        localStorage.removeItem("movieSwipe_likedMediaIds");
-        localStorage.removeItem("movieSwipe_dismovieSwipe_likedMediaIds");
+        localStorage.removeItem("movieMatch_likedMediaIds");
+        localStorage.removeItem("movieMatch_dismovieMatch_likedMediaIds");
 
         // Refresh the queue
         refreshQueue();
@@ -1447,9 +1447,9 @@
 
             // Remove the item from the appropriate list
             if (listType === "liked") {
-              movieSwipe_likedMediaIds.splice(index, 1);
+              movieMatch_likedMediaIds.splice(index, 1);
             } else if (listType === "disliked") {
-              movieSwipe_dismovieSwipe_likedMediaIds.splice(index, 1);
+              movieMatch_dismovieMatch_likedMediaIds.splice(index, 1);
             }
 
             // Save changes to localStorage
@@ -1467,7 +1467,7 @@
       // Check if onboarding should be shown
       function checkOnboarding() {
         const onboardingDismissed = localStorage.getItem(
-          "movieSwipe_onboardingDismissed"
+          "movieMatch_onboardingDismissed"
         );
 
         if (onboardingDismissed === "true") {
@@ -1481,7 +1481,7 @@
           });
 
           onboardingDontShowBtn.addEventListener("click", () => {
-            localStorage.setItem("movieSwipe_onboardingDismissed", "true");
+            localStorage.setItem("movieMatch_onboardingDismissed", "true");
             onboardingOverlay.style.display = "none";
           });
         }

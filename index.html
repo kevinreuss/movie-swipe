@@ -1002,7 +1002,7 @@
     <div class="app-container">
       <!-- Add login reminder banner -->
       <div id="loginReminderBanner" class="login-reminder-banner">
-        <span><b>!!! Anmelden, um deine Filmlisten dauerhaft zu speichern !!!</b></span>
+        <span><b>!!! Anmelden, um deine Listen dauerhaft zu speichern !!!</b></span>
       </div>
 
       <header>
@@ -1104,7 +1104,7 @@
         <div class="account-form-container" id="loginForm">
           <h2>Anmelden bei deinem Konto</h2>
           <p class="account-subtitle">
-            Melde dich an, um deine Filmlisten sicher zu speichern
+            Melde dich an, um deine Listen sicher zu speichern
           </p>
 
           <div class="form-group">
@@ -1138,7 +1138,7 @@
         >
           <h2>Neues Konto erstellen</h2>
           <p class="account-subtitle">
-            Registriere dich, um deine Filmlisten sicher zu speichern
+            Registriere dich, um deine Listen sicher zu speichern
           </p>
 
           <div class="form-group">
@@ -1673,17 +1673,11 @@
           const password = registerPassword.value;
 
           if (!email || !password) {
-            showAuthMessage("Please enter both email and password", "error");
+            showAuthMessage("Bitte gebe E-Mail und Passwort ein", "error");
             return;
           }
 
-          if (password.length < 6) {
-            showAuthMessage(
-              "Password should be at least 6 characters",
-              "error"
-            );
-            return;
-          }
+
 
           firebase
             .auth()

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="de">
   <head>
     <!-- Hotjar Tracking Code for MovieMatch -->
 <script>
@@ -1002,7 +1002,7 @@
     <div class="app-container">
       <!-- Add login reminder banner -->
       <div id="loginReminderBanner" class="login-reminder-banner">
-        <span><b>!!! Login to load/store your lists permanently !!!</b></span>
+        <span><b>!!! Anmelden, um deine Filmlisten dauerhaft zu speichern !!!</b></span>
       </div>
 
       <header>
@@ -1024,23 +1024,23 @@
       <!-- Add the onboarding overlay -->
       <div class="onboarding-overlay" id="onboardingOverlay">
         <div class="onboarding-content">
-          <h2>Welcome to MovieMatch!</h2>
+          <h2>Willkommen bei MovieMatch!</h2>
           <p class="onboarding-intro">
-            Find movies and series you'll love:
+            Finde Filme und Serien, die du liebst:
             <ul style="text-align: left; margin-top: 10px; margin-left: 20px; display: flex;flex-direction: column;align-items: center;">
-              <li>More than <b>2,000 titles</b> in our collection</li>
-              <li>More being added regularly</li>
+              <li>Mehr als <b>2,000 Titel</b> in unserer Sammlung</li>
+              <li>Mehr werden regelmäßig hinzugefügt</li>
             </ul>
           </p>
 
-          <h3>How to use MovieMatch:</h3>
+          <h3>Wie du MovieMatch benutzt:</h3>
 
           <div class="swipe-instructions">
             <div class="swipe-instruction">
               <div class="swipe-arrow swipe-right">
                 <i class="fas fa-arrow-right"></i>
               </div>
-              <div class="swipe-text">Swipe right: <b>Want to watch</b></div>
+              <div class="swipe-text">Swipe rechts: <b>Mag ich</b></div>
             </div>
 
             <div class="swipe-instruction">
@@ -1048,7 +1048,7 @@
                 <i class="fas fa-arrow-left"></i>
               </div>
               <div class="swipe-text">
-                Swipe left: <b>Don't want to watch / already watched</b>
+                Swipe links: <b>Mag ich nicht</b>
               </div>
             </div>
 
@@ -1057,14 +1057,14 @@
                 <i class="fas fa-arrow-up"></i>
               </div>
               <div class="swipe-text">
-                Swipe up: <b>Not sure, ask me later</b>
+                Swipe oben: <b>Nicht sicher, später nochmal fragen</b>
               </div>
             </div>
           </div>
 
           <p class="beta-notice">
-            This is a VERY early version. We'd love to hear your feedback and
-            ideas!
+            Dies ist eine sehr frühe Version. Wir würden gerne deine Rückmeldung
+            und Ideen hören!
           </p>
 
           <div class="onboarding-buttons">
@@ -1073,7 +1073,7 @@
               id="onboardingDontShow"
               class="onboarding-button primary-button"
             >
-              OK, Don't Show Again
+              OK, Nicht nochmal anzeigen
             </button>
           </div>
         </div>
@@ -1086,21 +1086,25 @@
       >
         <div id="authStatus" class="auth-status"></div>
         <div class="account-tabs">
-          <button class="account-tab-btn active" id="loginTabBtn">Login</button>
-          <button class="account-tab-btn" id="registerTabBtn">Register</button>
+          <button class="account-tab-btn active" id="loginTabBtn">
+            Anmelden
+          </button>
+          <button class="account-tab-btn" id="registerTabBtn">
+            Neues Konto erstellen
+          </button>
         </div>
 
         <div class="user-profile" id="userProfile">
-          <h2>Your Account</h2>
-          <p class="account-subtitle">Manage your MovieMatch account</p>
+          <h2>Konto</h2>
+          <p class="account-subtitle">Verwalte dein MovieMatch Konto</p>
           <p class="user-email" id="userEmail"></p>
-          <button id="logoutButton" class="logout-button">Sign Out</button>
+          <button id="logoutButton" class="logout-button">Abmelden</button>
         </div>
 
         <div class="account-form-container" id="loginForm">
-          <h2>Login to your account</h2>
+          <h2>Anmelden bei deinem Konto</h2>
           <p class="account-subtitle">
-            Sign in to store your movie lists securely
+            Melde dich an, um deine Filmlisten sicher zu speichern
           </p>
 
           <div class="form-group">
@@ -1108,22 +1112,22 @@
             <input
               type="email"
               id="loginEmail"
-              placeholder="your@email.com"
+              placeholder="deine@email.com"
               required
             />
           </div>
 
           <div class="form-group">
-            <label for="loginPassword">Password</label>
+            <label for="loginPassword">Passwort</label>
             <input
               type="password"
               id="loginPassword"
-              placeholder="Your password"
+              placeholder="Passwort"
               required
             />
           </div>
 
-          <button id="loginButton" class="account-button">Sign In</button>
+          <button id="loginButton" class="account-button">Anmelden</button>
           <p id="loginError" class="error-message"></p>
         </div>
 
@@ -1132,9 +1136,9 @@
           id="registerForm"
           style="display: none"
         >
-          <h2>Create an account</h2>
+          <h2>Neues Konto erstellen</h2>
           <p class="account-subtitle">
-            Register to store your movie lists securely
+            Registriere dich, um deine Filmlisten sicher zu speichern
           </p>
 
           <div class="form-group">
@@ -1142,23 +1146,23 @@
             <input
               type="email"
               id="registerEmail"
-              placeholder="your@email.com"
+              placeholder="deine@email.com"
               required
             />
           </div>
 
           <div class="form-group">
-            <label for="registerPassword">Password</label>
+            <label for="registerPassword">Passwort</label>
             <input
               type="password"
               id="registerPassword"
-              placeholder="Choose a password"
+              placeholder="Passwort wählen"
               required
             />
           </div>
 
           <button id="registerButton" class="account-button">
-            Create Account
+            Neues Konto erstellen
           </button>
           <p id="registerError" class="error-message"></p>
         </div>
@@ -1172,8 +1176,8 @@
 
         <div class="no-more-cards">
           <i class="fas fa-film"></i>
-          <h2>No more movies</h2>
-          <p>You've rated all available movies and series!</p>
+          <h2>Keine weiteren Filme</h2>
+          <p>Du hast alle verfügbaren Filme und Serien sortiert!</p>
         </div>
 
         <!-- Cards will be added here dynamically -->
@@ -1184,7 +1188,7 @@
           <div class="list-category" data-list="liked">
             <div class="category-info">
               <div class="category-icon">👍</div>
-              <div class="category-title">Want to watch</div>
+              <div class="category-title">Mag ich</div>
             </div>
             <div class="category-count" id="likedCount">0</div>
           </div>
@@ -1192,9 +1196,7 @@
           <div class="list-category" data-list="disliked">
             <div class="category-info">
               <div class="category-icon">👎</div>
-              <div class="category-title">
-                Don't want to watch / already watched
-              </div>
+              <div class="category-title">Mag ich nicht</div>
             </div>
             <div class="category-count" id="dislikedCount">0</div>
           </div>
@@ -1206,7 +1208,7 @@
             class="feedback-compact"
           >
             <i class="fas fa-comment-dots"></i>
-            <span>Send feedback or report bugs</span>
+            <span>Feedback geben!</span>
           </a>
         </div>
 
@@ -1215,10 +1217,10 @@
             <button class="back-button" data-list="liked">
               <i class="fas fa-arrow-left"></i>
             </button>
-            <div class="list-detail-title">👍 Want to watch</div>
+            <div class="list-detail-title">👍 Mag ich</div>
           </div>
           <div class="list-items" id="likedList">
-            <div class="empty-list">nothing here yet</div>
+            <div class="empty-list">noch nichts hier</div>
           </div>
         </div>
 
@@ -1227,12 +1229,10 @@
             <button class="back-button" data-list="disliked">
               <i class="fas fa-arrow-left"></i>
             </button>
-            <div class="list-detail-title">
-              👎 Don't want to watch / already watched
-            </div>
+            <div class="list-detail-title">👎 Mag ich nicht</div>
           </div>
           <div class="list-items" id="dislikedList">
-            <div class="empty-list">nothing here yet</div>
+            <div class="empty-list">noch nichts hier</div>
           </div>
         </div>
       </div>
@@ -1240,15 +1240,15 @@
       <nav class="nav-tabs">
         <a href="#" class="nav-tab" id="accountTab">
           <i class="fas fa-user"></i>
-          <span>Account</span>
+          <span>Konto</span>
         </a>
         <a href="#" class="nav-tab active" id="swipeTab">
           <i class="fas fa-film"></i>
-          <span>Explore</span>
+          <span>Entdecken</span>
         </a>
         <a href="#" class="nav-tab" id="listsTab">
           <i class="fas fa-list"></i>
-          <span>My Lists</span>
+          <span>Meine Listen</span>
         </a>
       </nav>
     </div>
@@ -1307,7 +1307,7 @@
 
       // Global variable for media data
       let mediaData = [];
-      let currentLanguage = "en";
+      let currentLanguage = "de";
 
       // DOM Elements
       const swipeContainer = document.getElementById("swipeContainer");
@@ -1483,14 +1483,14 @@
       // Initialize language
       function initLanguage() {
         // Check if user has previously set a language preference
-        const savedLanguage = "en"; //localStorage.getItem("movieMatch_language");
+        const savedLanguage = "de"; //localStorage.getItem("movieMatch_language");
 
         if (savedLanguage) {
           // Apply saved language
           currentLanguage = savedLanguage;
         } else {
           // Default to English
-          currentLanguage = "en";
+          currentLanguage = "de";
         }
 
         // Set the initial media data based on language
@@ -1690,7 +1690,7 @@
             .createUserWithEmailAndPassword(email, password)
             .then((userCredential) => {
               // Signed up
-              showAuthMessage("Account created successfully!", "success");
+              showAuthMessage("Konto erstellt!", "success");
               registerEmail.value = "";
               registerPassword.value = "";
               registerError.textContent = "";
